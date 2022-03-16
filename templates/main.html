@@ -1,0 +1,262 @@
+<!-- {% extends 'base.html' %}
+;
+{% block title %}Find your next destination{% endblock %}
+
+{% block body %}
+<div>
+  <p>Pick from 100 of the top destinations of the world: 
+    each destination can be linked to google maps for now, 
+    then users can click on the city, then search for local 
+    restaurants and attractions. 
+  </p>
+  <p>
+    <a>Create an itinerary:</a>
+  </p>
+  <ul>
+    <li><a href='https://www.google.com/maps/place/Paris,+France/@48.8588335,2.2768237,12z/data=!3m1!4b1!4m5!3m4!1s0x47e66e1f06e2b70f:0x40b82c3688c9460!8m2!3d48.856614!4d2.3522219'>Paris, France</a></li>
+    <li>New York, USA</li>
+    <li>Rome, Italy</li>
+    <li>London, UK</li>
+    <li>Tokyo, Japan</li>
+    <li>Lisbon, Portugal</li>
+    <li>Barcelona, Spain</li>
+    <li>Honolulu, Hawaii</li>
+    <li>Istanbul, Turkey</li>
+    <li>Bangkok, Thailand</li>
+    <li>Agra, India</li>
+    <li>Cairo, Egypt</li>
+    <li>Helsinki, Finland</li>
+    <li>Ubud, Bali, Indonesia</li>
+    <li>Berlin, Germany</li>
+    <li>Shanghai, China</li>
+    <li>Las Vegas, USA</li>
+    <li>Jerusalem, Israel</li>
+    <li>Venice, Italy</li>
+    <li>Cape Town, South Africa</li>
+    <li>Rio de Janeiro, Brazil</li>
+    <li>Singapore, Singapore</li>
+    <li>Toronto, Canada</li>
+    <li>Seoul, South Korea</li>
+    <li>Casablanca, Morocco</li>
+    <li>Mosco, Russia</li>
+    <li>Sydney, Australia</li>
+    <li>Lima, Peru</li>
+    <li>Beijing, China</li>
+    <li>Buenos Aires, Argentina</li>
+    <li>Edinburgh, Scotland</li>
+    <li>Los Angeles, USA</li>
+    <li>Copenhagen, Denmark</li>
+    <li>Osaka, Japan</li>
+    <li>Auckland, New Zealand</li>
+    <li>Mumbai, India</li>
+    <li>Dubai, United Arab Emirates</li>
+    <li>Munich, Germany</li>
+    <li>Hong Kong, China</li>
+    <li>Qatar, State of Qatar</li>
+    <li>Seattle, USA</li>
+    <li>Oslo, Norway</li>
+    <li>Bath, UK</li>
+    <li>Athens, Greece</li>
+    <li>Vienna, Austria</li>
+    <li>Madrid, Spain</li>
+    <li>Dublin, Republic of Ireland</li>
+    <li>Florence, Italy</li>
+    <li>Bruges, Belgium</li>
+    <li>Krakow, Poland</li>
+    <li>Amsterdam, Holland</li>
+    <li>Stockholm, Sweden</li>
+    <li>Ljubljana, Slovenia</li>
+    <li>Hanoi, Vietnam</li>
+    <li>Wellington, New Zealand</li>
+    <li>Nice, France</li>
+    <li>Vancouver, Canada</li>
+    <li>Kiev, Ukraine</li>
+    <li>Hallstatt, Austria</li>
+    <li>Havana, Cuba</li>
+    <li>Mexico City</li>
+    <li>Beirut, Lebanon</li>
+    <li>Salzburg, Austria</li>
+    <li>Sao Paolo, Brazil</li>
+    <li>Kyoto, Japan</li>
+    <li>Marrakech, Morocco</li>
+    <li>St Petersburg, Russia</li>
+    <li>San Francisco, USA</li>
+    <li>Oxford, UK</li>
+    <li>Melbourne, Australia</li>
+    <li>Kingston, Jamaica</li>
+    <li>Amman, Jordan</li>
+    <li>Lagos, Nigeria</li>
+    <li>New Orleans, USA</li>
+    <li>San Jose, Costa Rica</li>
+    <li>Tallinn, Estonia</li>
+    <li>Suva Fiji</li>
+    <li>Jarkarta, Indonesia</li>
+    <li>New Delhi, India</li>
+    <li>Adelaide, Australia</li>
+    <li>Tripoli, Libya</li>
+    <li>Male, Maldives</li>
+    <li>Luxembourg, Luxembourg</li>
+    <li>Kuala Lumpur, Malaysia</li>
+    <li>Glasgow, Scotland</li>
+    <li>Valletta, Malta</li>
+    <li>Kathmandu, Nepal</li>
+    <li>Brussels, Belgium</li>
+    <li>Panama City, Panama</li>
+    <li>Bucharest, Romania</li>
+    <li>Cardiff, Wales</li>
+    <li>Manila, Philippines</li>
+    <li>Castries, Saint Lucia</li>
+    <li>Apia, Samoa</li>
+    <li>Bern, Switzerland</li>
+    <li>Taipei, Taiwan</li>
+    <li>Hobart, Australia</li>
+    <li>Budapest, Hungary</li>
+    <li>Reykjavik, Iceland</li>
+    <li>Prague, Czech Republic</li>
+  </ul>
+</div>
+
+{% endblock %} -->
+
+
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Interactive globe</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.22/"></script>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        background-color: aliceblue;
+      }
+      .esri-legend {
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+    </style>
+
+
+    <script>
+      require([
+        "esri/config",
+        "esri/Map",
+        "esri/layers/CSVLayer",
+        "esri/views/SceneView",
+        "esri/layers/TileLayer",
+        "esri/Basemap"
+      ], function (esriConfig,Map, CSVLayer, SceneView, TileLayer, Basemap) {
+        // If CSV files are not on the same domain as your website, a CORS enabled server
+        // or a proxy is required.
+        esriConfig.apiKey = "AAPKdd8f779062f94c55963b952ceccafe35B8vpAe5Gjw3wD6ylKsvWZUpaAuB09RbsCmXgcFmqwuq63wpZkklpwoWQQGLxapO6";
+        const url =
+          // "https://developers.arcgis.com/javascript/latest/sample-code/layers-csv/live/earthquakes.csv";
+          "/data/data.csv";
+
+        // Paste the url into a browser's address bar to download and view the attributes
+        // in the CSV file. These attributes include:
+        // * mag - magnitude
+        // * type - earthquake or other event such as nuclear test
+        // * place - location of the event
+        // * time - the time of the event
+
+        const template = {
+          title: "Earthquake Info --- NEED TO CHANGE TO DESTINATION",
+          content: " NEED TO CHANGE FOR DEST DETAILS Magnitude {mag} {type} hit {place} on {time}."
+        };
+
+        const csvLayer = new CSVLayer({
+          url: url,
+          copyright: "USGS Earthquakes",
+          popupTemplate: template
+        });
+
+        csvLayer.renderer = {
+          type: "simple", // autocasts as new SimpleRenderer()
+          symbol: {
+            type: "point-3d", // autocasts as new PointSymbol3D()
+            // for this symbol we use 2 symbol layers, one for the outer circle
+            // and one for the inner circle
+            symbolLayers: [
+              {
+                type: "icon", // autocasts as new IconSymbol3DLayer()
+                resource: { primitive: "circle" },
+                material: { color: [255, 84, 54, 0.6] },
+                size: 5
+              },
+              {
+                type: "icon", // autocasts as new IconSymbol3DLayer()
+                resource: { primitive: "circle" },
+                material: { color: [255, 84, 54, 0] },
+                outline: { color: [255, 84, 54, 0.6], size: 1 },
+                size: 10
+              }
+            ]
+          }
+        };
+
+
+        const map = new Map({
+          basemap: new Basemap({
+            baseLayers: [
+            new TileLayer({
+              url:
+                "https://tiles.arcgis.com/tiles/nGt4QxSblgDfeJn9/arcgis/rest/services/terrain_with_heavy_bathymetry/MapServer",
+              copyright:
+                'Bathymetry, topography and satellite imagery from <a href="https://visibleearth.nasa.gov/view_cat.php?categoryID=1484" target="_blank">NASA Visible Earth</a> | <a href="http://www.aag.org/global_ecosystems" target="_blank">World Ecological Land Units, AAG</a> | Oceans, glaciers and water bodies from <a href="https://www.naturalearthdata.com/" target="_blank">Natural Earth</a>'
+            })
+            ]
+          }),
+          layers: [csvLayer]
+        });
+
+        const view = new SceneView({
+          container: "viewDiv",
+          map: map,
+          // Indicates to create a global scene
+          viewingMode: "global",
+          camera: {
+            position: [
+              -63.77153412,
+              20.75790715,
+              25512548.00000
+            ],
+            heading: 0.00,
+            tilt: 0.10
+          },
+
+          constraints: {
+            altitude: {
+              min: 700000
+            }
+          },
+          qualityProfile: "high",
+          alphaCompositingEnabled: true,
+          highlightOptions: {
+            fillOpacity: 0,
+            color: "#ffffff"
+          },
+          environment: {
+            background: {
+              type: "color",
+              color: [0, 0, 0, 0]
+            },
+            atmosphere: null,
+            starsEnabled: false
+          }
+        });
+
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html> -->

@@ -5,6 +5,15 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+# # https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html#many-to-many
+destinations = db.Table('destinations', 
+db.Column('itin_id', db.Integer, db.ForeignKey('itineraries.id'), primary_key =True),
+db.Column('city_id', db.Integer, db.ForeignKey('cities.id'), primary_key =True))
+
+# how do you get the destinations table to link to city and itinerary tables in the database? 
+
+
+
 class User(db.Model):
     """A user"""
 
@@ -17,36 +26,40 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False)
 
     #relationships:
-
-    #free attribute '.itins' = a list of Itinerary objects
+    
+    #free attribute: 'itins' = a list of itinerary objects
    
 
     def __repr__(self):
         return f"<User user_id={self.user_id} first_name ={self.first_name} email={self.email}>"
 
+# test_user = User(first_name='V', last_name='lo', email='hi@hi.com', password='hello')
 
-class Destination(db.Model):
-    """A destination"""
 
-    __tablename__ = "destinations"
+class City(db.Model):
+    """A city"""
+
+    __tablename__ = "cities"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     city = db.Column(db.String, nullable=False)
     country = db.Column(db.String, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
-    itin_id = db.Column(db.Integer, db.ForeignKey("itineraries.id"), nullable=False)
+
+
 
     #relationships:
 
-    #free attribute '.itin' = a single Itinerary object
-    #free attribute '.restaurants' = a list of Restaurant objects
-    #free attribute '.attractions' = a list of Attraction objects
-    #free attribute '.depart_flight' = a single depart_flight object
-    #free attribute '.arrival_flight' = a single arrival_flight object
+    #free attribute: 'itins' = a list of itinerary objects
+
+
+
 
     def __repr__(self):
-        return f"<Destination id={self.id} city={self.city} country={self.country}>"
+        return f"<City id={self.id} city={self.city} country={self.country}>"
+
+# test_city = City(city="sf", country="USA", latitude=1.00, longitude=-1.00)
 
 
 
@@ -58,97 +71,104 @@ class Itinerary(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     title = db.Column(db.String, nullable=False)
-    start_date = db.Column(db.DateTime)
-    end_date = db.Column(db.DateTime)
+    start_date = db.Column(db.Date) 
+    end_date = db.Column(db.Date)
     notes = db.Column(db.Text)
 
     #relationships:
 
-    user = db.relationship("User", backref="itins")
-    dests = db.relationship("Destination", backref="itin") #many-to-one itinerary
-    attrs = db.relationship("Attraction", backref="itin") #many-to-one itinerary
-    rests = db.relationship("Restaurant", backref="itin") #many-to-one itinerary
-    flights = db.relationship("Flight", backref="itin") #many-to-one itinerary
+    user = db.relationship("User", backref="itins") # one-to-many itineraries
+    activities = db.relationship("Activity", secondary="sched_acts", backref='itins') #many-to-many itinerary
+    cities = db.relationship("City", secondary=destinations, backref=db.backref('itins', lazy=True)) # many-to-many? 
+    # flights = db.relationship("Flight", backref="itin") #many-to-one itinerary
+
 
     def __repr__(self):
         return f"<Itinerary id={self.id} user_id={self.user_id} title={self.title}>"
 
+# test_itin = Itinerary(user_id=1, title='tokyo', notes="vacation forever")
 
 
-class Restaurant(db.Model):
-    """A restaurant"""
+class Activity(db.Model):
+    """An activity"""
 
-    __tablename__ = "restaurants"
-
-    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    rest_name = db.Column(db.String, nullable=False)
-    rest_date = db.Column(db.DateTime)
-    dest_id = db.Column(db.Integer, db.ForeignKey("destinations.id"))
-    itin_id = db.Column(db.Integer, db.ForeignKey("itineraries.id"))
-
-    #relationships:
-    dest = db.relationship("Destination", backref="restaurants")
-
-    #free attribute '.itin' = a single Itinerary object
-
-    def __repr__(self):
-        return f"<Restaurant id={self.id} rest_name={self.rest_name}>"
-
-
-
-class Attraction(db.Model):
-    """An attraction"""
-
-    __tablename__ = "attractions"
+    __tablename__ = "activities"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    attr_name = db.Column(db.String, nullable=False)
-    attr_date = db.Column(db.DateTime)
-    dest_id = db.Column(db.Integer, db.ForeignKey("destinations.id"))
-    itin_id = db.Column(db.Integer,db.ForeignKey("itineraries.id"))
+    name = db.Column(db.String, nullable=False)
+    type = db.Column(db.String, nullable=False)
+    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))
 
-    # relationships:
-    dest = db.relationship("Destination", backref="attractions")
-
-    #free attribute '.itin' = a single Itinerary object
-
-    def __repr__(self):
-        return f"<Attraction id={self.id} attr_name={self.attr_name} itin_id={self.itin_id}>"
-
-
-
-class Flight(db.Model):
-    """A flight"""
-
-    __tablename__ = "flights"
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    depart_airport = db.Column(db.String)
-    arrival_airport = db.Column(db.String)
-    depart_time = db.Column(db.DateTime)
-    arrival_time = db.Column(db.DateTime)
-    itin_id = db.Column(db.Integer, db.ForeignKey("itineraries.id"))
-    depart_dest_id = db.Column(db.Integer, db.ForeignKey("destinations.id")) #one-to-one 
-    arrival_dest_id = db.Column(db.Integer, db.ForeignKey("destinations.id")) #one-to-one 
-    
     #relationships:
-    #free attibute '.itin' = = a list of Itinerary objects
-    depart_dest = db.relationship(
-                "Destination",
-                uselist=False, # means one-to-one
-                backref="depart_flight",
-                foreign_keys="Flight.depart_dest_id")
+
+    #free attribute: 'itins' = a list of itinerary objects
     
-    arrival_dest = db.relationship(
-                "Destination",
-                uselist=False,
-                backref="arrival_flight",
-                foreign_keys="Flight.arrival_dest_id")
+
+
+    def __repr__(self):
+        return f"<Activity id={self.id} name={self.name} type={self.type}>"
+
+# test_act = Activity(name="warped tour", type="festival", city_id="1")
+
+
+
+class ScheduledActivity(db.Model):
+    """A middle table for itinerary and activity"""
+
+    __tablename__ = "sched_acts"
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    act_id = db.Column(db.Integer, db.ForeignKey("activities.id"))
+    itin_id = db.Column(db.Integer, db.ForeignKey("itineraries.id"))
+    datetime = db.Column(db.DateTime)
+
+    #relationships:
 
 
 
     def __repr__(self):
-        return f"<Flight id={self.id} itin_id={self.itin_id} depart_dest={self.depart_dest} arrival_dest={self.arrival_dest}>"
+        return f"<ScheduledActivity id={self.id} act_id={self.act_id} itin_id={self.itin_id}>"
+
+#test_sched = ScheduledActivity(act_id=1, itin_id=1)
+
+
+
+# class Flight(db.Model):
+#     """A flight"""
+
+#     __tablename__ = "flights"
+
+#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     depart_airport = db.Column(db.String)
+#     arrival_airport = db.Column(db.String)
+#     depart_time = db.Column(db.DateTime)
+#     arrival_time = db.Column(db.DateTime)
+#     itin_id = db.Column(db.Integer, db.ForeignKey("itineraries.id")) 
+#     depart_city_id = db.Column(db.Integer, db.ForeignKey("cities.id")) #one-to-one 
+#     arrival_city_id = db.Column(db.Integer, db.ForeignKey("cities.id")) #one-to-one 
+    
+#     #relationships:
+
+#     #free attribute '.itin' = = a list of Itinerary objects
+
+#     depart_city_id = db.relationship(
+#                 "Destination",
+#                 uselist=False, # means one-to-one
+#                 backref="depart_flight",
+#                 foreign_keys="Flight.depart_city_id")
+    
+#     arrival_city_id = db.relationship(
+#                 "Destination",
+#                 uselist=False,
+#                 backref="arrival_flight",
+#                 foreign_keys="Flight.arrival_city_id")
+
+
+
+#     def __repr__(self):
+#         return f"<Flight id={self.id} itin_id={self.itin_id} depart_city_id={self.depart_city_id} arrival_city_id={self.arrival_city_id}>"
+
+#test_flight = Flight(depart_airport="sfo", arrival_airport="cdg", itin_id=2, depart_city_id=2, arrival_city_id=1)
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///trips", echo=True):
