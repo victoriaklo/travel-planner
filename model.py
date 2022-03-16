@@ -34,7 +34,7 @@ class User(db.Model):
         return f"<User user_id={self.user_id} first_name ={self.first_name} email={self.email}>"
 
 # test_user = User(first_name='V', last_name='lo', email='hi@hi.com', password='hello')
-
+# db.session.add(test_user)
 
 class City(db.Model):
     """A city"""
@@ -60,7 +60,8 @@ class City(db.Model):
         return f"<City id={self.id} city={self.city} country={self.country}>"
 
 # test_city = City(city="sf", country="USA", latitude=1.00, longitude=-1.00)
-
+# db.session.add(test_city)
+# db.session.commit()
 
 
 class Itinerary(db.Model):
@@ -87,6 +88,7 @@ class Itinerary(db.Model):
         return f"<Itinerary id={self.id} user_id={self.user_id} title={self.title}>"
 
 # test_itin = Itinerary(user_id=1, title='tokyo', notes="vacation forever")
+# db.session.add(test_itin)
 
 
 class Activity(db.Model):
@@ -109,7 +111,8 @@ class Activity(db.Model):
         return f"<Activity id={self.id} name={self.name} type={self.type}>"
 
 # test_act = Activity(name="warped tour", type="festival", city_id="1")
-
+# db.session.add(test_act)
+# db.session.commit()
 
 
 class ScheduledActivity(db.Model):
@@ -120,8 +123,7 @@ class ScheduledActivity(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     act_id = db.Column(db.Integer, db.ForeignKey("activities.id"))
     itin_id = db.Column(db.Integer, db.ForeignKey("itineraries.id"))
-    datetime = db.Column(db.DateTime)
-
+    datetime = db.Column(db.DateTime) # format -> datetime(YYYY, MM, DD, HH, MM, SS, MS)
     #relationships:
 
 
@@ -129,7 +131,9 @@ class ScheduledActivity(db.Model):
     def __repr__(self):
         return f"<ScheduledActivity id={self.id} act_id={self.act_id} itin_id={self.itin_id}>"
 
-#test_sched = ScheduledActivity(act_id=1, itin_id=1)
+#test_sched = ScheduledActivity(act_id=1, itin_id=1, datetime=datetime(2015, 6, 5, 8, 10, 10, 10))
+# db.session.add(test_sched)
+# db.session.commit()
 
 
 
@@ -168,7 +172,7 @@ class ScheduledActivity(db.Model):
 #     def __repr__(self):
 #         return f"<Flight id={self.id} itin_id={self.itin_id} depart_city_id={self.depart_city_id} arrival_city_id={self.arrival_city_id}>"
 
-#test_flight = Flight(depart_airport="sfo", arrival_airport="cdg", itin_id=2, depart_city_id=2, arrival_city_id=1)
+#test_flight = Flight(depart_airport="sfo", arrival_airport="cdg", itin_id=1, depart_city_id=1, arrival_city_id=1)
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///trips", echo=True):

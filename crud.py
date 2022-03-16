@@ -27,18 +27,25 @@ def get_user_by_email(email):
 
 ### ---------------- CRUD FUNCTIONS FOR DESTINATION --------------- ###
 
+
 ### ---------------- CRUD FUNCTIONS FOR CITY --------------- ###
 # def get_city(from the static list in the database)
-### ---------------- CRUD FUNCTIONS FOR ITINERARY --------------- ###
-# def create_itinerary() <-- links itin to city, itin to dest, activities
 
-# update_itin()
+
+### ---------------- CRUD FUNCTIONS FOR ITINERARY --------------- ###
+# def create_itinerary() <-- links itin to city, dest, activities
+
+# update_itin() <-- can update city, dest, activities, and flights
 
 
 
 ### ---------------- CRUD FUNCTIONS FOR ACTIVITY --------------- ###
 #create_activity
+
+
 ### ---------------- CRUD FUNCTIONS FOR FLIGHTS --------------- ###
+#create_flight
+
 
 
 if __name__ == "__main__":

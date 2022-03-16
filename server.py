@@ -16,6 +16,10 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     """View homepage."""
 
+    user_id = session.get('user_email')
+    if user_id:
+        return redirect('/login')
+
     return render_template("homepage.html")
 
 
@@ -51,11 +55,18 @@ def process_login():
     user = crud.get_user_by_email(email)
     if not user or user.password != password:
         flash("The email or password you entered was incorrect.")
+        return redirect("/")
     else:
         # Log in user by storing the user's email in session
         session["user_email"] = user.email
+        return redirect("/homepage")
 
+
+@app.route("/homepage")
+def render_mainpage():
     return render_template("main.html")
+
+
 
 ### ---------------- ROUTES FOR MAIN PAGE --------------- ###
 
