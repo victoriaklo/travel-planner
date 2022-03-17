@@ -15,42 +15,53 @@ os.system("createdb trips")
 model.connect_to_db(server.app)
 model.db.create_all()
 
-# # Load movie data from JSON file
-# with open("data/movies.json") as f:
-#     movie_data = json.loads(f.read())
+# Load city data from JSON file
+with open("data/cities_data.json") as f:
+    cities_data = json.loads(f.read())
 
-# # Create movies, store them in list so we can use them
-# # to create fake ratings
-# movies_in_db = []
-# for movie in movie_data:
-#     title, overview, poster_path = (
-#         movie["title"],
-#         movie["overview"],
-#         movie["poster_path"],
-#     )
-#     release_date = datetime.strptime(movie["release_date"], "%Y-%m-%d")
+# Create cities, store them in list to create fake itineraries
+cities_in_db = []
+for city in cities_data:
+    city, country, latitude, longitude = (
+        city["city"],
+        city["country"],
+        city["latitude"],
+        city["longitude"],
+    )
 
-#     db_movie = crud.create_movie(title, overview, release_date, poster_path)
-#     movies_in_db.append(db_movie)
+    db_city = crud.create_city(city, country, latitude, longitude)
+    cities_in_db.append(db_city)
 
-# model.db.session.add_all(movies_in_db)
-# model.db.session.commit()
+model.db.session.add_all(cities_in_db)
+model.db.session.commit()
 
-# Create 10 users; each user will make 10 ratings
-# for n in range(5):
-#     first_name = "fname{n}"
-#     last_name = "lname{n}"
-#     email = f"user{n}@test.com"  # Voila! A unique email!
-#     password = "test"
+# Create 5 users; each user will make 5 ratings
+for n in range(5):
+    first_name = f"fname{n}"
+    last_name = f"lname{n}"
+    email = f"user{n}@test.com"  
+    password = "test"
 
-#     user = crud.create_user(first_name, last_name, email, password)
-#     model.db.session.add(user)
+    user = crud.create_user(first_name, last_name, email, password)
+    model.db.session.add(user)
 
-#     for _ in range(10):
-#         random_movie = choice(movies_in_db)
-#         score = randint(1, 5)
+    # create 5 itineraries per user
+    for _ in range(5):
+        random_city = choice(cities_in_db)
+        title = f"test_title"{n}
 
-#         rating = crud.create_rating(user, random_movie, score)
-#         model.db.session.add(rating)
+        itinerary = crud.create_itinerary(user, title)
+        model.db.session.add(itinerary)
 
-# model.db.session.commit()
+model.db.session.commit()
+
+# Create 5 Activities;
+for n in range(5):
+    name = f"activity{n}"
+    type = f"type{n}"
+    city_id = randint(1, 10)
+
+    activity = crud.create_activity(name, type, city_id)
+    model.db.session.add(activity)
+
+model.db.session.commit()

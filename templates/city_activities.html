@@ -1,15 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}City and Activities{% endblock %}
+
 <!-- after the use clicks on the destination, render this page and display the city name.
 then have a button that says 'check out local restaurants'
 and a button for 'local attractions' -->
 
-<h1>[Destination City Name here]</h1>
+{% block body %}
 
 
-  <button id="restaurants-btn" class="restaurants" 
-  onclick="getRestData()">check out restaurants</button>
-  <div id="restaurants-data" class="restaurants"></div>
+  <h1>[Destination City Name here] {{city}}</h1>
+  
+<div>
+    <button id="restaurants-btn" class="restaurants" 
+    onclick="getRestData()">check out restaurants</button>
+    <div id="restaurants-data" class="restaurants"></div>
+</div>
+<br>
+<br>
+<div>
+    <button id="attractions-btn" class="attractions" 
+    onclick="getAttrData()">check out attractions</button>
+    <div id="attractions-data" class="attractions"></div>
+</div>
 
-  <button id="attractions-btn" class="attractions" 
-  onclick="getAttrData()">check out attractions</button>
-  <div id="attractions-data" class="attractions"></div>
 
+
+{% endblock %}

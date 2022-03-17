@@ -30,19 +30,45 @@ def get_user_by_email(email):
 
 
 ### ---------------- CRUD FUNCTIONS FOR CITY --------------- ###
-# def get_city(from the static list in the database)
 
+# def get_city(from the static list in the database)
+def create_city(city, country, latitude, longitude):
+    """Create a city for the database"""
+
+    city = City(
+        city=city,
+        country=country,
+        latitude=latitude,
+        longitude=longitude
+    )
+
+    return city
+
+def get_cities():
+    """Return all cities."""
+
+    return City.query.all()
+
+
+def get_city_by_id(city_id):
+    """Return a city by primary key."""
+
+    return City.query.get(city_id)
 
 ### ---------------- CRUD FUNCTIONS FOR ITINERARY --------------- ###
 # def create_itinerary() <-- links itin to city, dest, activities
 
-def create_itinerary(user, cities, sched_acts):
+def create_itinerary(user, title ):
     """Create and return a new itinerary."""
 
-    itin = Itinerary(user=user, cities=cities, sched_acts=sched_acts)
+    itinerary = Itinerary(
+        user=user,
+        title=title
+        )
     
 
-    return itin
+    return itinerary
+
 
 
 def get_itins_by_user(user_id):
@@ -54,10 +80,18 @@ def get_itins_by_user(user_id):
 # update_itin() <-- can update city, dest, activities, and flights
 
 
-
+ 
 ### ---------------- CRUD FUNCTIONS FOR ACTIVITY --------------- ###
-#create_activity
+def create_activity(name, type, city_id):
+    """Create an activity"""
 
+    activity = Activity(
+        name=name,
+        type=type,
+        city_id=city_id
+    )
+
+    return activity
 
 ### ---------------- CRUD FUNCTIONS FOR FLIGHTS --------------- ###
 #create_flight

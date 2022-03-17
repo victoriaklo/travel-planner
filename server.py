@@ -60,11 +60,11 @@ def process_login():
     else:
         # Log in user by storing the user's email in session
         session["user_email"] = user.email
-        return redirect("/homepage")
+        return redirect("/main")
 
 
-@app.route("/homepage")
-def render_mainpage():
+@app.route("/main")
+def render_main_page():
     """Renders main page"""
     return render_template("main.html")
 
@@ -72,30 +72,23 @@ def render_mainpage():
 
 ### ---------------- ROUTES FOR MAIN/GLOBE PAGE --------------- ###
 
+
 ### ---------------- ROUTES FOR USER PROFILE PAGE --------------- ###
 @app.route("/user_profile")
 def display_profile():
     """Displays the user profile"""
+    user = crud.get_user_by_email(email)
 
-    return render_template("user_profile.html")
+    return render_template("user_profile.html", user=user)
 
-### ---------------- ROUTES FOR ACTIVITY PAGE --------------- ###
-# @app.route("/api/tuition")
-# def get_tuition():
-#   """Return information about tuition as JSON."""
+### ---------------- ROUTES FOR CITY/ACTIVITY PAGE --------------- ###
+@app.route("/city_activities")
+def display_city_activities():
+    """Displays the city with options to view
+    restaurants and local attractions"""
+    city = request.args.get("city")
 
-#   return jsonify({"tuition": 1000})
-
-
-
-### ---------------- ROUTES FOR ITINERARY PAGE --------------- ###
-# @app.route("/itineraries")
-# def display_itineraries():
-#     """Displays all itineraries created by the user"""
-#     itins = get_itins_by_user()
-
-#     return render_template("itineraries.html", itins=itins)
-
+    return render_template("city_activities.html", city=city)
 
 @app.route("/api/restaurants")
 def get_restaurants():
@@ -112,20 +105,28 @@ def get_restaurants():
     return jsonify(response.text)
 
 
-# @app.route("/api/attractions")
-# def get_attractions():
-#     """displays local attractions"""
+@app.route("/api/attractions")
+def get_attractions():
+    """displays local attractions"""
 
-#     url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=attraction&keyword=cruise&key=AIzaSyCTDuA7WxlJXqgH98H7FHP5e8jMeSD1ZtQ"
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=attraction&keyword=cruise&key=AIzaSyCTDuA7WxlJXqgH98H7FHP5e8jMeSD1ZtQ"
 
-#     payload={}
-#     headers = {}
+    payload={}
+    headers = {}
 
-#     response = requests.request("GET", url, headers=headers, data=payload)
+    response = requests.request("GET", url, headers=headers, data=payload)
 
-#     print(response.text)
-#     return jsonify(response.text)
+    print(response.text)
+    return jsonify(response.text)
+    
 
+### ---------------- ROUTES FOR ITINERARY PAGE --------------- ###
+# @app.route("/itineraries")
+# def display_itineraries():
+#     """Displays all itineraries created by the user"""
+#     itins = get_itins_by_user()
+
+#     return render_template("itineraries.html", itins=itins)
 
 
 if __name__ == "__main__":
