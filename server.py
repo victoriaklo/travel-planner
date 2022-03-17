@@ -112,6 +112,21 @@ def get_restaurants():
     return jsonify(response.text)
 
 
+# @app.route("/api/attractions")
+# def get_attractions():
+#     """displays local attractions"""
+
+#     url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=attraction&keyword=cruise&key=AIzaSyCTDuA7WxlJXqgH98H7FHP5e8jMeSD1ZtQ"
+
+#     payload={}
+#     headers = {}
+
+#     response = requests.request("GET", url, headers=headers, data=payload)
+
+#     print(response.text)
+#     return jsonify(response.text)
+
+
 
 if __name__ == "__main__":
     connect_to_db(app)
