@@ -5,12 +5,12 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-# # https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html#many-to-many
-destinations = db.Table('destinations', 
-db.Column('itin_id', db.Integer, db.ForeignKey('itineraries.id'), primary_key =True),
-db.Column('city_id', db.Integer, db.ForeignKey('cities.id'), primary_key =True))
+# # # https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html#many-to-many
+# destinations = db.Table('destinations', 
+# db.Column('itin_id', db.Integer, db.ForeignKey('itineraries.id'), primary_key =True),
+# db.Column('city_id', db.Integer, db.ForeignKey('cities.id'), primary_key =True))
 
-# how do you get the destinations table to link to city and itinerary tables in the database? 
+# # how do you get the destinations table to link to city and itinerary tables in the database? 
 
 
 
@@ -36,6 +36,7 @@ class User(db.Model):
 # test_user = User(first_name='V', last_name='lo', email='hi@hi.com', password='hello')
 # db.session.add(test_user)
 
+
 class City(db.Model):
     """A city"""
 
@@ -52,8 +53,7 @@ class City(db.Model):
     #relationships:
 
     #free attribute: 'itins' = a list of itinerary objects
-
-
+    activity = db.relationship("Activity", uselist=False, back_populates="city")
 
 
     def __repr__(self):
@@ -79,9 +79,10 @@ class Itinerary(db.Model):
     #relationships:
 
     user = db.relationship("User", backref="itins") # one-to-many itineraries
-    activities = db.relationship("Activity", secondary="sched_acts", backref='itins') #many-to-many itinerary
-    cities = db.relationship("City", secondary=destinations, backref=db.backref('itins', lazy=True)) # many-to-many? 
+    cities = db.relationship("City", secondary="destinations", backref="itins") #many-to-many
     # flights = db.relationship("Flight", backref="itin") #many-to-one itinerary
+
+    #free attribute: 'sched_acts' = a list of scheduled activity objects
 
 
     def __repr__(self):
@@ -89,7 +90,26 @@ class Itinerary(db.Model):
 
 # test_itin = Itinerary(user_id=1, title='tokyo', notes="vacation forever")
 # db.session.add(test_itin)
+# db.session.commit()
 
+
+class Destination(db.Model):
+    """A destination - association table to city and itinerary"""
+
+    __tablename__ = "destinations"
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"), nullable=False)
+    itin_id = db.Column(db.Integer, db.ForeignKey("itineraries.id"),nullable=False)
+
+
+
+
+    def __repr__(self):
+        return f"<Destination id={self.id} city_id={self.city} itin_id={self.itin_id}>"
+
+# test_dest = Destination(city_id =1, itin_id=1)
+# db.session.add(test_dest)
 
 class Activity(db.Model):
     """An activity"""
@@ -99,11 +119,12 @@ class Activity(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String, nullable=False)
     type = db.Column(db.String, nullable=False)
-    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))
+    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"), nullable=False)
 
     #relationships:
 
-    #free attribute: 'itins' = a list of itinerary objects
+    #free attribute: 'sched_acts' = a list of scheduled activity objects
+    city = db.relationship("City", uselist = False, back_populates="activity")
     
 
 
@@ -121,17 +142,20 @@ class ScheduledActivity(db.Model):
     __tablename__ = "sched_acts"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    act_id = db.Column(db.Integer, db.ForeignKey("activities.id"))
-    itin_id = db.Column(db.Integer, db.ForeignKey("itineraries.id"))
+    act_id = db.Column(db.Integer, db.ForeignKey("activities.id"), nullable=False)
+    itin_id = db.Column(db.Integer, db.ForeignKey("itineraries.id"), nullable=False)
     datetime = db.Column(db.DateTime) # format -> datetime(YYYY, MM, DD, HH, MM, SS, MS)
-    #relationships:
+    # https://docs.python.org/3/library/datetime.html#datetime-objects
 
+    #relationships:
+    act = db.relationship("Activity", backref="sched_acts")
+    itin = db.relationship("Itinerary", backref="sched_acts")
 
 
     def __repr__(self):
         return f"<ScheduledActivity id={self.id} act_id={self.act_id} itin_id={self.itin_id}>"
 
-#test_sched = ScheduledActivity(act_id=1, itin_id=1, datetime=datetime(2015, 6, 5, 8, 10, 10, 10))
+#test_sched = ScheduledActivity(act_id=1, itin_id=1, datetime=datetime(2019, 6, 5, 8, 10, 10, 10))
 # db.session.add(test_sched)
 # db.session.commit()
 

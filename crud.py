@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, User, City, Itinerary, Activity, connect_to_db
+from model import db, User, City, Itinerary, Destination, Activity, connect_to_db
 
 ### ---------------- CRUD FUNCTIONS FOR USER --------------- ###
 
@@ -28,12 +28,28 @@ def get_user_by_email(email):
 ### ---------------- CRUD FUNCTIONS FOR DESTINATION --------------- ###
 
 
+
 ### ---------------- CRUD FUNCTIONS FOR CITY --------------- ###
 # def get_city(from the static list in the database)
 
 
 ### ---------------- CRUD FUNCTIONS FOR ITINERARY --------------- ###
 # def create_itinerary() <-- links itin to city, dest, activities
+
+def create_itinerary(user, cities, sched_acts):
+    """Create and return a new itinerary."""
+
+    itin = Itinerary(user=user, cities=cities, sched_acts=sched_acts)
+    
+
+    return itin
+
+
+def get_itins_by_user(user_id):
+    """Get itineraries given a user_id."""
+
+    return Itinerary.query.filter_by(user_id=user_id).all()
+
 
 # update_itin() <-- can update city, dest, activities, and flights
 

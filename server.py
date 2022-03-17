@@ -1,8 +1,9 @@
 """Server for travel and planning app."""
 
-from flask import Flask, render_template, request, flash, session, redirect
+from flask import Flask, render_template, request, flash, session, redirect, jsonify
 from model import connect_to_db, db
 import crud
+import requests
 
 from jinja2 import StrictUndefined
 
@@ -20,7 +21,7 @@ def homepage():
     if user_id:
         return redirect('/login')
 
-    return render_template("homepage.html")
+    return render_template("login.html")
 
 
 @app.route("/register", methods=["POST"])
@@ -64,14 +65,51 @@ def process_login():
 
 @app.route("/homepage")
 def render_mainpage():
+    """Renders main page"""
     return render_template("main.html")
 
 
 
-### ---------------- ROUTES FOR MAIN PAGE --------------- ###
+### ---------------- ROUTES FOR MAIN/GLOBE PAGE --------------- ###
+
+### ---------------- ROUTES FOR USER PROFILE PAGE --------------- ###
+@app.route("/user_profile")
+def display_profile():
+    """Displays the user profile"""
+
+    return render_template("user_profile.html")
+
+### ---------------- ROUTES FOR ACTIVITY PAGE --------------- ###
+# @app.route("/api/tuition")
+# def get_tuition():
+#   """Return information about tuition as JSON."""
+
+#   return jsonify({"tuition": 1000})
 
 
-    
+
+### ---------------- ROUTES FOR ITINERARY PAGE --------------- ###
+# @app.route("/itineraries")
+# def display_itineraries():
+#     """Displays all itineraries created by the user"""
+#     itins = get_itins_by_user()
+
+#     return render_template("itineraries.html", itins=itins)
+
+
+@app.route("/api/restaurants")
+def get_restaurants():
+    """displays local restaurants"""
+
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyCTDuA7WxlJXqgH98H7FHP5e8jMeSD1ZtQ"
+
+    payload={}
+    headers = {}
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    print(response.text)
+    return jsonify(response.text)
 
 
 
