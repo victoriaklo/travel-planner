@@ -1,10 +1,35 @@
 {% extends 'base.html' %}
 {% block title %}User Profile{% endblock %}
 
+{% block navbar %}
+<div id="navbar" name="navbar">
+  <div>
+    <a href="/main">Go back to globe</a>
+  </div>
+  <div>
+    <a href="/itineraries">Go to Itinerary Page</a>
+  </div>
+  <div>
+    <a href="/login">Log Out</a>
+  </div>
+</div>
+{% endblock %}
+
+
 {% block body %}
-  <h1>Welcome, {{user.first_name}}</h1>
+  <h1>Welcome, [put user's name here]</h1>
 
   <h2>My Profile</h2>
+
+  <p>upload a pic of user here</p>
+
+  <p>view saved items<p>
+
+  <p>view all itineraries</p>
+
+  <p>build a new itinerary<p>
+
+
 
 
 {% endblock %}

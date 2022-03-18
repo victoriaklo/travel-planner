@@ -55,8 +55,12 @@ def get_city_by_id(city_id):
 
     return City.query.get(city_id)
 
+# get city by name, to get the lat long for api requests
+def get_city_by_name(city):
+    """Return a city by name"""
+    return City.query.filter(City.city==city).first()
+
 ### ---------------- CRUD FUNCTIONS FOR ITINERARY --------------- ###
-# def create_itinerary() <-- links itin to city, dest, activities
 
 def create_itinerary(user, title ):
     """Create and return a new itinerary."""
@@ -66,7 +70,6 @@ def create_itinerary(user, title ):
         title=title
         )
     
-
     return itinerary
 
 
@@ -92,6 +95,8 @@ def create_activity(name, type, city_id):
     )
 
     return activity
+
+ 
 
 ### ---------------- CRUD FUNCTIONS FOR FLIGHTS --------------- ###
 #create_flight

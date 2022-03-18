@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, flash, session, redirect, jso
 from model import connect_to_db, db
 import crud
 import requests
+import os
 
 from jinja2 import StrictUndefined
 
@@ -11,7 +12,15 @@ app = Flask(__name__)
 app.secret_key = "key"
 app.jinja_env.undefined = StrictUndefined
 
+# This configuration option makes the Flask interactive debugger
+# more useful (you should remove this line in production)
+app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
+
+
+API_KEY = os.environ['GOOGLEMAPS_KEY']
+
 ### ---------------- ROUTES FOR HOME/LOGIN --------------- ###
+
 
 @app.route("/")
 def homepage():
@@ -74,59 +83,83 @@ def render_main_page():
 
 
 ### ---------------- ROUTES FOR USER PROFILE PAGE --------------- ###
+# @app.route("/user_profile")
+# def display_profile():
+#     """Displays the user profile"""
+#     user = crud.get_user_by_email(email) # this is broken, not pulling the user 
+
+#     return render_template("user_profile.html", user=user)
+
 @app.route("/user_profile")
 def display_profile():
     """Displays the user profile"""
-    user = crud.get_user_by_email(email)
 
-    return render_template("user_profile.html", user=user)
+    return render_template("user_profile.html")
 
 ### ---------------- ROUTES FOR CITY/ACTIVITY PAGE --------------- ###
-@app.route("/city_activities")
-def display_city_activities():
+@app.route("/city_activities/<int:city_id>")
+def display_city_activities(city_id):
     """Displays the city with options to view
     restaurants and local attractions"""
-    city = request.args.get("city")
+
+    # gets the city object by id. when you get the object you can call city.city in jinja template
+    city = crud.get_city_by_id(city_id)
 
     return render_template("city_activities.html", city=city)
+
 
 @app.route("/api/restaurants")
 def get_restaurants():
     """displays local restaurants"""
 
-    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyCTDuA7WxlJXqgH98H7FHP5e8jMeSD1ZtQ"
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 
-    payload={}
+    payload = {
+        'location' : "-33.8670522,151.1957362",
+        'radius':1500,
+        'type':"restaurant",
+        "key": API_KEY
+        }
     headers = {}
 
-    response = requests.request("GET", url, headers=headers, data=payload)
+    response = requests.get(url, params=payload)
 
     print(response.text)
     return jsonify(response.text)
+
 
 
 @app.route("/api/attractions")
 def get_attractions():
     """displays local attractions"""
 
-    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522%2C151.1957362&radius=1500&type=attraction&keyword=cruise&key=AIzaSyCTDuA7WxlJXqgH98H7FHP5e8jMeSD1ZtQ"
+    # city = crud.get_city_by_name()
+    # location = f"{city.latitude},{city.longitude}"
 
-    payload={}
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
+
+    payload = {
+        'location': "-33.8670522,151.1957362",
+        'radius': 1500,
+        'type': "attraction",
+        'key': API_KEY
+        }
     headers = {}
 
-    response = requests.request("GET", url, headers=headers, data=payload)
+    response = requests.get(url, params=payload)
+    
 
     print(response.text)
     return jsonify(response.text)
     
 
 ### ---------------- ROUTES FOR ITINERARY PAGE --------------- ###
-# @app.route("/itineraries")
-# def display_itineraries():
-#     """Displays all itineraries created by the user"""
-#     itins = get_itins_by_user()
+@app.route("/itineraries")
+def display_itineraries():
+    """Displays all itineraries created by the user"""
+    # itins = get_itins_by_user()
 
-#     return render_template("itineraries.html", itins=itins)
+    return render_template("itineraries.html")
 
 
 if __name__ == "__main__":

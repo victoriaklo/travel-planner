@@ -4,9 +4,6 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <script src="/static/js/index.js"></script>
-    <script src="/static/js/get-attractions.js"></script>
-    <script src="/static/js/get-restaurants.js"></script>
     
     <title>
       {% block title %}{% endblock %}
@@ -15,13 +12,34 @@
     {% block head %}{% endblock %}
   </head>
   <body>
+
+    {% block navbar %}
+    <div id="navbar" name="navbar">
+      <div>
+        <a href="/main">Go back to globe</a>
+      </div>
+      <div>
+        <a href="/itineraries">Go to Itinerary Page</a>
+      </div>
+      <div>
+        <a href="/user_profile">Go to my profile</a>
+      </div>
+      <div>
+        <a href="/login">Log Out</a>
+      </div>
+    
+    </div>
+    {% endblock %}
+
     {% for msg in get_flashed_messages() %}
       <p class="flash-msg">
         {{ msg }}
       </p>
     {% endfor %}  
 
-    {% block body %}{% endblock %}
+    {% block body %}
+
+    {% endblock %}
 
     {% block after_body %}{% endblock %}
   </body>

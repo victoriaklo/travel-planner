@@ -1,18 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}City and Activities{% endblock %}
 
-<!-- after the use clicks on the destination, render this page and display the city name.
-then have a button that says 'check out local restaurants'
-and a button for 'local attractions' -->
-
 {% block body %}
 
-
-  <h1>[Destination City Name here] {{city}}</h1>
+<h1 id="city_header">{{city.city}}</h1>
   
 <div>
-    <button id="restaurants-btn" class="restaurants" 
-    onclick="getRestData()">check out restaurants</button>
+    <button id="restaurants-btn" class="restaurants" > check out restaurants</button>
     <div id="restaurants-data" class="restaurants"></div>
 </div>
 <br>
@@ -24,5 +18,8 @@ and a button for 'local attractions' -->
 </div>
 
 
+ <!-- when you write your own js file, you need to add them at the bottom of html  -->
+<script src="/static/js/get-attractions.js"></script>
+<script src="/static/js/get-restaurants.js"></script>
 
 {% endblock %}

@@ -2,6 +2,19 @@
 ;
 {% block title %}Interactive Globe{% endblock %}
 
+{% block navbar %}
+<div id="navbar" name="navbar">
+    <a href="/itineraries">Go to Itinerary Page</a>
+  </div>
+  <div>
+    <a href="/user_profile">Go to my profile</a>
+  </div>
+  <div>
+    <a href="/login">Log Out</a>
+  </div>
+</div>
+{% endblock %}
+
 {% block body %}
 <div>
   <div>
@@ -11,18 +24,17 @@
       restaurants and attractions. 
     </p>
   </div>
-
   
   <div>
     <p>
       <strong>Select a destination:</strong>
     </p>
     <ul>
-      <li id="paris" name="city"><a href="/city_activities">Paris, France</a></li>
-      <li>New York, USA</li>
-      <li>Rome, Italy</li>
-      <li>London, UK</li>
-      <li>Tokyo, Japan</li>
+      <li id="paris" name="city"><a href="/city_activities/1">Paris, France</a></li>
+      <li id="new-york" name="city"><a href="/city_activities/2">New York, USA</a></li>
+      <li id="rome" name="city"><a href="/city_activities/3">Rome, Italy</a></li>
+      <li id="london" name="city"><a href="/city_activities/4">London, UK</a></li>
+      <li id="tokyo" name="city"><a href="/city_activities/5">Tokyo, Japan</a></li>
       <li>Lisbon, Portugal</li>
       <li>Barcelona, Spain</li>
       <li>Honolulu, Hawaii</li>
