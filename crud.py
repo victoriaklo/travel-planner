@@ -58,7 +58,7 @@ def get_city_by_id(city_id):
 # get city by name, to get the lat long for api requests
 def get_city_by_name(city):
     """Return a city by name"""
-    return City.query.filter(City.city==city).first()
+    return City.query.filter(City.city == city).first()
 
 ### ---------------- CRUD FUNCTIONS FOR ITINERARY --------------- ###
 

@@ -1,32 +1,25 @@
 'use strict';
 
-// const button = document.querySelector('#update-status');
+const attr_button = document.querySelector('#attractions-btn');
 
-// button.addEventListener('click', () => {
-//   const queryString = new URLSearchParams({order: 123}).toString();
-//   // you could also hard code url to '/status?order=123'
-//   const url = `/status?${queryString}`;
+attr_button.addEventListener('click', () => {
 
-//   fetch(url)
-//     .then(response => response.text())
-//     .then(status => {
-//       document.querySelector('#order-status').innerHTML = status;
-//     });
-// });
-
-function getAttrData() {
   fetch("/api/attractions")
-      .then(response => response.json())
-      .then(data => { // take this data and iterate over it and take what's important and add to html
-        // name, rating, photos
-        let attr_lists = []
-        const results = JSON.parse(data)
-        for (const result of results.results) {
-          attr_lists.push(`<li>${result.name}</li>`)
-        }
-        console.log(JSON.parse(data))
+  .then(response => response.json())
+  .then(data => { // take this data and iterate over it and take what's important and add to html
+    // name, rating, photos
+    let attr_list = []
+    const results = JSON.parse(data)
+    for (const result of results.results) {
+      attr_list.push(`${result.name}`)
+    }
 
-          document.querySelector('#attractions-data').innerHTML = `<ul>${attr_lists.join("")}</ul>`;
-      })
+    for (let attr_item of attr_list) {
 
-}
+      document.querySelector('#attractions-data').innerHTML += `<div>
+      <input type="checkbox" id="${attr_item}" name="rest-choice" value="${attr_item}">
+      <label for="${attr_item}">${attr_item}</label>
+      </div>`
+    };
+  })
+});

@@ -1,20 +1,43 @@
 {% extends 'base.html' %}
 {% block title %}City and Activities{% endblock %}
 
+{% block head %}
+<script type="text/javascript">
+  const city_id = {{city.id}};
+</script>
+
+{% endblock %}
+
 {% block body %}
 
 <h1 id="city_header">{{city.city}}</h1>
   
 <div>
-    <button id="restaurants-btn" class="restaurants" > check out restaurants</button>
-    <div id="restaurants-data" class="restaurants"></div>
+    <button id="restaurants-btn" class="restaurants"> check out restaurants: </button>
+    <form id="restaurant-form">
+        <div id="restaurants-data" class="restaurants"></div>
+        <br>
+        <br>
+        <br>
+        <div>
+          <button type="submit">Add noms to Itinerary</button>
+        </div>
+      </form>
 </div>
 <br>
 <br>
+
 <div>
-    <button id="attractions-btn" class="attractions" 
-    onclick="getAttrData()">check out attractions</button>
-    <div id="attractions-data" class="attractions"></div>
+    <button id="attractions-btn" class="attractions"> check out attractions: </button>
+    <form id="attractions-form">
+        <div id="attractions-data" class="attractions"></div>
+        <br>
+        <br>
+        <br>
+        <div>
+          <button type="submit">Add places to Itinerary</button>
+        </div>
+      </form>
 </div>
 
 

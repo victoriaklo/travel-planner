@@ -75,7 +75,20 @@ def process_login():
 @app.route("/main")
 def render_main_page():
     """Renders main page"""
+
+    if not session.get('user_email'):
+        return redirect("/")
+
     return render_template("main.html")
+
+
+@app.route("/logout", methods=["GET", "POST"])
+def logout_user():
+    """Logout user from session."""
+
+    session.pop('user_email', None)
+
+    return redirect('/')
 
 
 
@@ -94,13 +107,24 @@ def render_main_page():
 def display_profile():
     """Displays the user profile"""
 
-    return render_template("user_profile.html")
+    if not session.get('user_email'):
+        return redirect("/")
+    
+    email = session.get('user_email')
+    
+    user = crud.get_user_by_email(email)
+    
+
+    return render_template("user_profile.html", user=user)
 
 ### ---------------- ROUTES FOR CITY/ACTIVITY PAGE --------------- ###
 @app.route("/city_activities/<int:city_id>")
 def display_city_activities(city_id):
     """Displays the city with options to view
     restaurants and local attractions"""
+
+    if not session.get('user_email'):
+        return redirect("/")
 
     # gets the city object by id. when you get the object you can call city.city in jinja template
     city = crud.get_city_by_id(city_id)
@@ -112,10 +136,21 @@ def display_city_activities(city_id):
 def get_restaurants():
     """displays local restaurants"""
 
+    city_id = request.args.get('city_id')
+    print(city_id)
+
+    if not session.get('user_email'):
+        return redirect("/")
+    
+
+    city = crud.get_city_by_id(city_id)
+    print(city)
+
     url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 
     payload = {
-        'location' : "-33.8670522,151.1957362",
+        # 'location' : "-33.8670522,151.1957362",
+        'location' : f"{city.latitude},{city.longitude}",
         'radius':1500,
         'type':"restaurant",
         "key": API_KEY
@@ -129,19 +164,23 @@ def get_restaurants():
 
 
 
-@app.route("/api/attractions")
+@app.route("/api/attractions/")
 def get_attractions():
     """displays local attractions"""
 
-    # city = crud.get_city_by_name()
-    # location = f"{city.latitude},{city.longitude}"
+    if not session.get('user_email'):
+        return redirect("/")
+
+    city = crud.get_city_by_name("New York")
+    # city = crud.get_city_by_id(city_id)
+    location = f"{city.latitude},{city.longitude}"
 
     url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 
     payload = {
-        'location': "-33.8670522,151.1957362",
-        'radius': 1500,
-        'type': "attraction",
+        'location': f"{city.latitude},{city.longitude}",
+        'radius': 2500, # distance in meters
+        'type': ["tourist_attraction", "night_club", "shopping_mall"],
         'key': API_KEY
         }
     headers = {}
@@ -157,7 +196,14 @@ def get_attractions():
 @app.route("/itineraries")
 def display_itineraries():
     """Displays all itineraries created by the user"""
-    # itins = get_itins_by_user()
+
+    # if the user is in session, display only the user's itineraries
+
+    if session.get('user_email'):
+        email = session['user_email']
+        user = crud.get_user_by_email(email)
+    else:
+        return redirect("/")
 
     return render_template("itineraries.html")
 

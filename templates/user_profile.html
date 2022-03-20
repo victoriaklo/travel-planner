@@ -10,16 +10,18 @@
     <a href="/itineraries">Go to Itinerary Page</a>
   </div>
   <div>
-    <a href="/login">Log Out</a>
+    <a href="/logout">Log Out</a>
   </div>
 </div>
 {% endblock %}
 
 
 {% block body %}
-  <h1>Welcome, [put user's name here]</h1>
+  <h1>Welcome, {{user.first_name}}</h1>
 
   <h2>My Profile</h2>
+
+  <p>{{user.email}}</p>
 
   <p>upload a pic of user here</p>
 
