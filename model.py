@@ -88,9 +88,6 @@ class Itinerary(db.Model):
     def __repr__(self):
         return f"<Itinerary id={self.id} user_id={self.user_id} title={self.title}>"
 
-# test_itin = Itinerary(user_id=1, title='tokyo', notes="vacation forever")
-# db.session.add(test_itin)
-# db.session.commit()
 
 
 class Destination(db.Model):
@@ -108,8 +105,6 @@ class Destination(db.Model):
     def __repr__(self):
         return f"<Destination id={self.id} city_id={self.city} itin_id={self.itin_id}>"
 
-# test_dest = Destination(city_id =1, itin_id=1)
-# db.session.add(test_dest)
 
 class Activity(db.Model):
     """An activity"""
@@ -130,10 +125,6 @@ class Activity(db.Model):
 
     def __repr__(self):
         return f"<Activity id={self.id} name={self.name} type={self.type}>"
-
-# test_act = Activity(name="warped tour", type="festival", city_id="1")
-# db.session.add(test_act)
-# db.session.commit()
 
 
 class ScheduledActivity(db.Model):

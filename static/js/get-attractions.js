@@ -1,24 +1,32 @@
 'use strict';
 
-const attr_button = document.querySelector('#attractions-btn');
+const attractionBtn = document.querySelector('#attractions-btn');
 
-attr_button.addEventListener('click', () => {
+attractionBtn.addEventListener('click', () => {
+  const queryString = new URLSearchParams({city_id:city_id}).toString();
+  const url = `/api/attractions?${queryString}`;
 
-  fetch("/api/attractions")
-  .then(response => response.json())
+  fetch(url)
+  .then(response => response.json()) // takes the response from api and converts to JS object,
+  // creating another promise (then) to do something else with that data
   .then(data => { // take this data and iterate over it and take what's important and add to html
     // name, rating, photos
-    let attr_list = []
+    let attrList = []
     const results = JSON.parse(data)
     for (const result of results.results) {
-      attr_list.push(`${result.name}`)
-    }
+      attrList.push(`${result.name}`)
+    };
 
-    for (let attr_item of attr_list) {
+    // clears anything in the HTML and prevents user from seeing duplicate request data
+    document.querySelector('#attractions-data').innerHTML = ""
+
+    // iterate through the list of restaurants and display in an input form
+    // for of will return the value, not the index
+    for (let attrItem of attrList) {
 
       document.querySelector('#attractions-data').innerHTML += `<div>
-      <input type="checkbox" id="${attr_item}" name="rest-choice" value="${attr_item}">
-      <label for="${attr_item}">${attr_item}</label>
+      <input type="checkbox" id="${attrItem}" name="attr-choice" value="${attrItem}">
+      <label for="${attrItem}">${attrItem}</label>
       </div>`
     };
   })

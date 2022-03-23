@@ -11,38 +11,65 @@
 {% block body %}
 
 <h1 id="city_header">{{city.city}}</h1>
-  
-<div>
-    <button id="restaurants-btn" class="restaurants"> check out restaurants: </button>
-    <form id="restaurant-form">
-        <div id="restaurants-data" class="restaurants"></div>
-        <br>
-        <br>
-        <br>
-        <div>
-          <button type="submit">Add noms to Itinerary</button>
-        </div>
-      </form>
-</div>
-<br>
-<br>
 
 <div>
-    <button id="attractions-btn" class="attractions"> check out attractions: </button>
-    <form id="attractions-form">
-        <div id="attractions-data" class="attractions"></div>
-        <br>
-        <br>
-        <br>
-        <div>
-          <button type="submit">Add places to Itinerary</button>
-        </div>
-      </form>
+  <button id="restaurants-btn" class="restaurants"> check out restaurants: </button>
+  <br>
+  <br>
+  <button id="attractions-btn" class="attractions"> check out attractions: </button>
+
+  <form action="/new_itinerary" id="activities-form" method="post">
+      <input type="hidden" name="city_id" value="{{city.id}}">
+      <h3>Resturants:</h3>
+      <div id="restaurants-data" class="restaurants"></div>
+      <br>
+      <h3>Attractions:</h3>
+      <div id="attractions-data" class="attractions"></div>
+      <br>
+      <br>
+
+      <h2>Add items to your Itinerary...</h2>
+      <p>Are you creating a new itinerary or adding to an existing one?:</p>
+      <div>
+        <input type="radio" id="new-itinerary"
+         name="select-itinerary" value="new">
+        <label for="new">New Itinerary</label>
+    
+        <input type="radio" id="update-itinerary"
+         name="select-itinerary" value="update">
+        <label for="update">Update existing Itinerary</label>
+      </div>
+
+      <div class="submit-new-itinerary">
+        <label for="name">Enter the title of your Itinerary: </label>
+        <input type="text" name="title" id="itinerary-title" required>
+        <button id="form-submit" type="submit">Create New Itinerary</button>
+      </div>
+      
+      <br>
+      <br>
+      <div class="submit-update">
+        <label for="itinerary-select">Choose an itinerary:</label>
+
+        <select name="update-itinerary" id="itinerary-select">
+          
+            <option value="title">--Choose an itinerary you want to update--</option>
+            {% for itinerary in itinerary_list %}
+            <option value="{{itinerary.id}}">{{itinerary.title}}</option>
+            {% endfor%}
+        </select>
+      <button id="update-itinerary-btn" type="submit" formaction="/update_itinerary">Add to Existing Itinerary</button>
+      </div>
+  </form>
 </div>
+<br><br>
+
+
 
 
  <!-- when you write your own js file, you need to add them at the bottom of html  -->
 <script src="/static/js/get-attractions.js"></script>
 <script src="/static/js/get-restaurants.js"></script>
+<script src="/static/js/update-itinerary.js"></script>
 
 {% endblock %}

@@ -17,11 +17,33 @@
 {% block body %}
   <h1>Itineraries</h1>
 
-  <p>create a new itinerary</p>
 
-  <p>current itineraries made:</p>
+  <p>[title], [start_date], [end_date], [city], [restaurants],[activities], [notes].
 
-  <p>[title], [start_date], [end_date], [city],  [activities], etc.</p>
+    create an html table with columns assigned to itinerary model.py columns, then use jinja tp iterate through the list of restaurants and attractions and add it to the list.
+  </p>
+  <h6>all_itineraries:</h6>
+  <p>{{all_itineraries}}</p>
+  <br>
+  <br>
+  <br>
+  <h6>sched_activities_list</h6>
+  <p>{{sched_activities_list}}</p>
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for itinerary in all_itineraries %}
+  <div class="card" style="width: 18rem;">
+    <!-- <img src="..." class="card-img-top" alt="..."> -->
+    <div class="card-body">
+      <h5 class="card-title">{{itinerary.title}}</h5>
+      <p class="card-text">{{itinerary.notes}}</p>
+      <a href="/itinerary/{{itinerary.id}}" class="btn btn-primary">View Itinerary</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
 
 
 {% endblock %}

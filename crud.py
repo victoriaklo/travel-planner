@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, User, City, Itinerary, Destination, Activity, connect_to_db
+from model import db, User, City, Itinerary, Destination, Activity, ScheduledActivity, connect_to_db
 
 ### ---------------- CRUD FUNCTIONS FOR USER --------------- ###
 
@@ -24,9 +24,6 @@ def get_user_by_email(email):
     """
 
     return User.query.filter(User.email == email).first()
-
-### ---------------- CRUD FUNCTIONS FOR DESTINATION --------------- ###
-
 
 
 ### ---------------- CRUD FUNCTIONS FOR CITY --------------- ###
@@ -55,29 +52,48 @@ def get_city_by_id(city_id):
 
     return City.query.get(city_id)
 
-# get city by name, to get the lat long for api requests
+
 def get_city_by_name(city):
     """Return a city by name"""
     return City.query.filter(City.city == city).first()
 
+### ---------------- CRUD FUNCTIONS FOR DESTINATION --------------- ###
+def create_destination(city_id, itin_id):
+    """Create and return a new itinerary."""
+
+    destination = Destination(
+        city_id=city_id,
+        itin_id=itin_id
+        )
+    
+    return destination
+
 ### ---------------- CRUD FUNCTIONS FOR ITINERARY --------------- ###
 
-def create_itinerary(user, title ):
+def create_itinerary(user_id, title):
     """Create and return a new itinerary."""
 
     itinerary = Itinerary(
-        user=user,
+        user_id=user_id,
         title=title
         )
     
     return itinerary
 
+def get_itin_by_id(id):
+    """Get itinerary by id."""
 
+    return Itinerary.query.get(id)
 
 def get_itins_by_user(user_id):
     """Get itineraries given a user_id."""
 
     return Itinerary.query.filter_by(user_id=user_id).all()
+
+def delete_itin_by_id(id):
+    """Delete an itinerary by id"""
+    Itinerary.query.get(id).delete()
+    db.session.commit()
 
 
 # update_itin() <-- can update city, dest, activities, and flights
@@ -96,7 +112,32 @@ def create_activity(name, type, city_id):
 
     return activity
 
+def get_activity_by_id(id):
+    """Get activity by id."""
+
+    return Activity.query.get(id).first()
+
+def get_activities_by_activities_ids(ids):
+    """Get a list of activities from a list of sched act ids"""
+
+    return Activity.query.filter(Activity.id.in_(ids)).all()
+
+### ---------------- CRUD FUNCTIONS FOR SCHEDULED ACTIVITY --------------- ###
  
+def create_sched_activity(act_id,itin_id):
+    """Create an activity"""
+
+    sched_act = ScheduledActivity(
+        act_id=act_id,
+        itin_id=itin_id
+    )
+
+    return sched_act
+
+# def get_sched_activity_by_itin_id(itin_id):
+#     """Get a list of scheduled activity by itinerary id"""
+
+#     return 
 
 ### ---------------- CRUD FUNCTIONS FOR FLIGHTS --------------- ###
 #create_flight

@@ -28,7 +28,7 @@ def homepage():
 
     user_id = session.get('user_email')
     if user_id:
-        return redirect('/login')
+        return redirect('/main')
 
     return render_template("login.html")
 
@@ -96,12 +96,6 @@ def logout_user():
 
 
 ### ---------------- ROUTES FOR USER PROFILE PAGE --------------- ###
-# @app.route("/user_profile")
-# def display_profile():
-#     """Displays the user profile"""
-#     user = crud.get_user_by_email(email) # this is broken, not pulling the user 
-
-#     return render_template("user_profile.html", user=user)
 
 @app.route("/user_profile")
 def display_profile():
@@ -118,8 +112,19 @@ def display_profile():
     return render_template("user_profile.html", user=user)
 
 ### ---------------- ROUTES FOR CITY/ACTIVITY PAGE --------------- ###
+# @app.route("/city_activities")
+# def display_city_activities():
+#     """Displays the city with options to view
+#     restaurants and local attractions"""
+
+#     if not session.get('user_email'):
+#         return redirect("/")
+
+#     return render_template("city_activities.html")
+
+
 @app.route("/city_activities/<int:city_id>")
-def display_city_activities(city_id):
+def display_city_activities_by_id(city_id):
     """Displays the city with options to view
     restaurants and local attractions"""
 
@@ -128,30 +133,32 @@ def display_city_activities(city_id):
 
     # gets the city object by id. when you get the object you can call city.city in jinja template
     city = crud.get_city_by_id(city_id)
+    # get list of itineraries by their titles and id and pass it to template
+    email = session.get('user_email')
+    user = crud.get_user_by_email(email)
+    user_id = user.user_id
 
-    return render_template("city_activities.html", city=city)
+    itinerary_list = crud.get_itins_by_user(user_id)
+
+    return render_template("city_activities.html", city=city, itinerary_list=itinerary_list)
 
 
 @app.route("/api/restaurants")
 def get_restaurants():
     """displays local restaurants"""
 
-    city_id = request.args.get('city_id')
-    print(city_id)
-
     if not session.get('user_email'):
         return redirect("/")
     
+    city_id = request.args.get('city_id')
 
     city = crud.get_city_by_id(city_id)
-    print(city)
 
     url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 
     payload = {
-        # 'location' : "-33.8670522,151.1957362",
         'location' : f"{city.latitude},{city.longitude}",
-        'radius':1500,
+        'radius':50000,
         'type':"restaurant",
         "key": API_KEY
         }
@@ -168,19 +175,24 @@ def get_restaurants():
 def get_attractions():
     """displays local attractions"""
 
+    city_id = request.args.get('city_id')
+    print(city_id)
+
     if not session.get('user_email'):
         return redirect("/")
+    
 
-    city = crud.get_city_by_name("New York")
-    # city = crud.get_city_by_id(city_id)
+    city = crud.get_city_by_id(city_id)
+    print(city)
+
     location = f"{city.latitude},{city.longitude}"
 
     url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 
     payload = {
-        'location': f"{city.latitude},{city.longitude}",
-        'radius': 2500, # distance in meters
-        'type': ["tourist_attraction", "night_club", "shopping_mall"],
+        'location': location,
+        'radius': 50000, # distance in meters
+        'types':[ "museum", "tourist_attraction", "art_gallery", "bar", "shopping_mall", "park" ],
         'key': API_KEY
         }
     headers = {}
@@ -193,19 +205,133 @@ def get_attractions():
     
 
 ### ---------------- ROUTES FOR ITINERARY PAGE --------------- ###
-@app.route("/itineraries")
-def display_itineraries():
-    """Displays all itineraries created by the user"""
+@app.route("/new_itinerary", methods=["POST"])
+def create_itinerary():
+    """Display itinerary made by user"""
 
     # if the user is in session, display only the user's itineraries
-
     if session.get('user_email'):
         email = session['user_email']
         user = crud.get_user_by_email(email)
     else:
         return redirect("/")
 
-    return render_template("itineraries.html")
+    city_id = request.form.get("city_id")
+    
+    city = crud.get_city_by_id(city_id) # city is the City object
+    rest_list = request.form.getlist("rest-choice")
+    attr_list = request.form.getlist("attr-choice")
+
+    user_id = user.user_id
+    title = request.form.get("title")
+    new_itinerary = crud.create_itinerary(user_id, title)
+
+    db.session.add(new_itinerary)
+    db.session.commit()
+
+    itin_id = new_itinerary.id
+
+    dest = crud.create_destination(city_id, itin_id)
+    db.session.add(dest)
+    db.session.commit()
+
+
+    for item in rest_list:
+        new_activity = crud.create_activity(item, "restaurant", city_id)
+        db.session.add(new_activity)
+        db.session.commit()
+        act_id = new_activity.id
+        sched_act = crud.create_sched_activity(act_id, itin_id)
+        db.session.add(sched_act)
+        db.session.commit()
+
+    for item in attr_list:
+        new_act = crud.create_activity(item, "attraction", city_id)
+        db.session.add(new_act)
+        db.session.commit()
+        act_id = new_act.id
+        sched_act = crud.create_sched_activity(act_id, itin_id)
+        db.session.add(sched_act)
+        db.session.commit()
+
+
+
+
+    return render_template("new_itinerary.html", 
+                            city=city,
+                            rest_list=rest_list,
+                            attr_list=attr_list,
+                            new_itinerary=new_itinerary,
+                            title=title
+                            )
+
+
+
+@app.route("/update_itinerary", methods=["POST"])
+def update_itinerary():
+    """Update existing itinerary with other activities or flights"""
+    # update itineraries and call a crud function
+    # then db.session.add(oasidfhd)
+    # then db.session.commit()
+    return redirect("/itineraries")
+
+
+
+@app.route("/itinerary/<int:id>")
+def display_itin_by_id(id):
+    """Display itinerary by id"""
+    
+    itinerary = crud.get_itin_by_id(id)
+    # get activity by itin_id, then pass activity to template
+    # activities = crud.get_activities_by_sched_act_ids
+    activities_ids = []
+    
+    for sched_act in itinerary.sched_acts:
+        activities_ids.append(sched_act.act_id)
+
+    activities = crud.get_activities_by_activities_ids(activities_ids)
+
+    return render_template("itinerary.html", itinerary=itinerary, activities=activities)
+
+
+@app.route("/itinerary/<int:id>", methods = ["DELETE"])
+def delete_itin_by_id(id):
+    """Delete an itinerary by id"""
+    crud.delete_itin_by_id(id)
+    flash("Itinerary deleted")
+
+    return redirect("/itineraries")
+
+
+
+
+@app.route("/itineraries")
+def display_itineraries():
+    """Displays all itineraries created by the user"""
+
+    # if the user is in session, display only the user's itineraries
+    if session.get('user_email'):
+        email = session['user_email']
+        user = crud.get_user_by_email(email)
+    else:
+        return redirect("/")
+
+    user_id = user.user_id
+
+    # returns a list of itinerary objects
+    # query all itins for current user, then pass that list of itineraries to jinja template
+    # then using the relationships to get the other info you need
+
+    all_itineraries = crud.get_itins_by_user(user_id)
+
+    sched_activities_list = []
+    for itinerary in all_itineraries:
+        sched_activities_list.append(itinerary.sched_acts)
+    
+
+    return render_template("itineraries.html", 
+                            all_itineraries=all_itineraries,
+                            sched_activities_list=sched_activities_list)
 
 
 if __name__ == "__main__":

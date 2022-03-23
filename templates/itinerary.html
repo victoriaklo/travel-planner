@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+;
+{% block title %} View Itinerary{% endblock %}
+
+
+{% block body %}
+<p> this is to view ONE itinerary from the itineraries page</p>
+{{itinerary}}
+{{itinerary.sched_acts}}
+{{itinerary.cities}}
+{{activities}}
+
+{% for activity in activities%}
+
+<p>{{activity.name}}</p>
+<p>{{activity.type}}</p>
+
+{%endfor%}
+
+
+<p> figure out how to add city, restaurants, attractions</p>
+
+<p> maybe a button that let's user add other items to their itinerary and routes back to the globe</p>
+
+{% endblock %}

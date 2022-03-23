@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}User Profile{% endblock %}
+
+{% block body %}
+  <h1>New Itinerary</h1>
+
+
+  <p>[title], [start_date], [end_date], [city],  [activities], etc.
+
+    create an html table with columns assigned to itinerary model.py columns, then use jinja tp iterate through the list of restaurants and attractions and add it to the list.
+  </p>
+  <br>
+  <br>
+  <h6>restaurants:</h6>
+  <p>{{rest_list}}</p>
+  <h6>activities:</h6>
+  <p>{{attr_list}}</p>
+  <h6>new itinerary:</h6>
+  <p>{{new_itinerary}}</p>
+  <p>{{title}}</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Itinerary Title</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Destination</th>
+        <th>Restaurants</th>
+        <th>Activities</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody id="itinerary-body">
+      <tr>
+        <td>Japan Trip! YAY!</td>
+        <td>05/20/22</td>
+        <td>10/20/22</td>
+        <th>Tokyo</th>
+        <td>[insert the list of restaurants here somehow] each restaurant as an individual element</td>
+        <td>same thing for activities</td>
+        <td>This is going to be the best trip ever!</td>
+      </tr>
+
+
+
+    </tbody>
+</table>
+
+
+{% endblock %}
