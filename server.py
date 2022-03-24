@@ -21,7 +21,6 @@ API_KEY = os.environ['GOOGLEMAPS_KEY']
 
 ### ---------------- ROUTES FOR HOME/LOGIN --------------- ###
 
-
 @app.route("/")
 def homepage():
     """View homepage."""
@@ -112,16 +111,6 @@ def display_profile():
     return render_template("user_profile.html", user=user)
 
 ### ---------------- ROUTES FOR CITY/ACTIVITY PAGE --------------- ###
-# @app.route("/city_activities")
-# def display_city_activities():
-#     """Displays the city with options to view
-#     restaurants and local attractions"""
-
-#     if not session.get('user_email'):
-#         return redirect("/")
-
-#     return render_template("city_activities.html")
-
 
 @app.route("/city_activities/<int:city_id>")
 def display_city_activities_by_id(city_id):
@@ -131,7 +120,7 @@ def display_city_activities_by_id(city_id):
     if not session.get('user_email'):
         return redirect("/")
 
-    # gets the city object by id. when you get the object you can call city.city in jinja template
+    # gets the city object by id
     city = crud.get_city_by_id(city_id)
     # get list of itineraries by their titles and id and pass it to template
     email = session.get('user_email')
@@ -237,25 +226,45 @@ def create_itinerary():
 
 
     for item in rest_list:
-        new_activity = crud.create_activity(item, "restaurant", city_id)
-        db.session.add(new_activity)
-        db.session.commit()
-        act_id = new_activity.id
-        sched_act = crud.create_sched_activity(act_id, itin_id)
-        db.session.add(sched_act)
-        db.session.commit()
+        check_activity = crud.get_activity_by_name(item)
 
+        if check_activity is None:
+            new_activity = crud.create_activity(item, "restaurant", city_id)
+            db.session.add(new_activity)
+            db.session.commit()
+            act_id = new_activity.id
+            sched_act = crud.create_sched_activity(act_id, itin_id)
+            db.session.add(sched_act)
+            db.session.commit()
+
+        else:
+            ## do NOT add it to the db, just create a sched_act
+            act_id = check_activity.id
+            sched_act = crud.create_sched_activity(act_id, itin_id)
+            db.session.add(sched_act)
+            db.session.commit()
+    
     for item in attr_list:
-        new_act = crud.create_activity(item, "attraction", city_id)
-        db.session.add(new_act)
-        db.session.commit()
-        act_id = new_act.id
-        sched_act = crud.create_sched_activity(act_id, itin_id)
-        db.session.add(sched_act)
-        db.session.commit()
+        check_activity = crud.get_activity_by_name(item)
+
+        if check_activity is None:
+            new_activity = crud.create_activity(item, "attraction", city_id)
+            db.session.add(new_activity)
+            db.session.commit()
+            act_id = new_activity.id
+            sched_act = crud.create_sched_activity(act_id, itin_id)
+            db.session.add(sched_act)
+            db.session.commit()
+
+        else:
+            ## do NOT add it to the db, just create a sched_act
+            act_id = check_activity.id
+            sched_act = crud.create_sched_activity(act_id, itin_id)
+            db.session.add(sched_act)
+            db.session.commit()
 
 
-
+    # get activity, check if activity exists, do not add, else add
 
     return render_template("new_itinerary.html", 
                             city=city,
@@ -267,12 +276,67 @@ def create_itinerary():
 
 
 
+
 @app.route("/update_itinerary", methods=["POST"])
 def update_itinerary():
     """Update existing itinerary with other activities or flights"""
-    # update itineraries and call a crud function
-    # then db.session.add(oasidfhd)
-    # then db.session.commit()
+
+    # get itin_id - get from the form
+    itin_id = request.form.get("update-itinerary")
+
+    #get the list of selected restaurants and attraction from form
+    rest_list = request.form.getlist("rest-choice")
+    attr_list = request.form.getlist("attr-choice")
+    city_id = request.form.get("city_id")
+    
+
+   
+    # for item in rest_list check if in activity db
+    for item in rest_list:
+        check_activity = crud.get_activity_by_name(item)
+
+        # if its not ib db, create activity and scheduled activity
+        if check_activity is None:
+            new_activity = crud.create_activity(item, "restaurant", city_id)
+            db.session.add(new_activity)
+            db.session.commit()
+            act_id = new_activity.id
+            sched_act = crud.create_sched_activity(act_id, itin_id)
+            db.session.add(sched_act)
+            db.session.commit()
+
+        else:
+            ## do NOT add it to the db, just create a sched_act
+            act_id = check_activity.id
+            sched_act = crud.create_sched_activity(act_id, itin_id)
+            db.session.add(sched_act)
+            db.session.commit()
+       
+
+
+    for item in attr_list:
+        check_activity = crud.get_activity_by_name(item)
+        if check_activity is None:
+            new_activity = crud.create_activity(item, "attraction", city_id)
+            db.session.add(new_activity)
+            db.session.commit()
+            act_id = new_activity.id
+            sched_act = crud.create_sched_activity(act_id, itin_id)
+            db.session.add(sched_act)
+            db.session.commit()
+
+        else:
+            ## do NOT add it to the db, just create a sched_act
+            act_id = check_activity.id
+            sched_act = crud.create_sched_activity(act_id, itin_id)
+            db.session.add(sched_act)
+            db.session.commit()
+
+
+    # what if multiple names in multiple cities?
+    
+    
+   
     return redirect("/itineraries")
 
 
@@ -283,9 +347,8 @@ def display_itin_by_id(id):
     
     itinerary = crud.get_itin_by_id(id)
     # get activity by itin_id, then pass activity to template
-    # activities = crud.get_activities_by_sched_act_ids
     activities_ids = []
-    
+
     for sched_act in itinerary.sched_acts:
         activities_ids.append(sched_act.act_id)
 

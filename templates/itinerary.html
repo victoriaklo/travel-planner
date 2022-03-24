@@ -4,22 +4,27 @@
 
 
 {% block body %}
-<p> this is to view ONE itinerary from the itineraries page</p>
+<br>
+<h2>{{itinerary.title}}</h2>
+<hr>
 {{itinerary}}
-{{itinerary.sched_acts}}
+
+<!-- {{itinerary.sched_acts}}
 {{itinerary.cities}}
-{{activities}}
+{{activities}} -->
 
 {% for activity in activities%}
 
-<p>{{activity.name}}</p>
-<p>{{activity.type}}</p>
+<p>{{activity.name}}, ({{activity.type}})</p>
 
 {%endfor%}
 
+<br>
 
-<p> figure out how to add city, restaurants, attractions</p>
+<p>figure out how to display these in a nice way...</p>
 
 <p> maybe a button that let's user add other items to their itinerary and routes back to the globe</p>
+
+
 
 {% endblock %}

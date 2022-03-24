@@ -5,14 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-# # # https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html#many-to-many
-# destinations = db.Table('destinations', 
-# db.Column('itin_id', db.Integer, db.ForeignKey('itineraries.id'), primary_key =True),
-# db.Column('city_id', db.Integer, db.ForeignKey('cities.id'), primary_key =True))
-
-# # how do you get the destinations table to link to city and itinerary tables in the database? 
-
-
 
 class User(db.Model):
     """A user"""
@@ -59,9 +51,6 @@ class City(db.Model):
     def __repr__(self):
         return f"<City id={self.id} city={self.city} country={self.country}>"
 
-# test_city = City(city="sf", country="USA", latitude=1.00, longitude=-1.00)
-# db.session.add(test_city)
-# db.session.commit()
 
 
 class Itinerary(db.Model):

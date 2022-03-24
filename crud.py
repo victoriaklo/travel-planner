@@ -117,8 +117,13 @@ def get_activity_by_id(id):
 
     return Activity.query.get(id).first()
 
+def get_activity_by_name(name):
+    """Get activity by id."""
+
+    return Activity.query.filter(Activity.name==name).first()
+
 def get_activities_by_activities_ids(ids):
-    """Get a list of activities from a list of sched act ids"""
+    """Get a list of activities by ids"""
 
     return Activity.query.filter(Activity.id.in_(ids)).all()
 

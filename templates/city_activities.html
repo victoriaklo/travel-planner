@@ -55,7 +55,7 @@
           
             <option value="title">--Choose an itinerary you want to update--</option>
             {% for itinerary in itinerary_list %}
-            <option value="{{itinerary.id}}">{{itinerary.title}}</option>
+            <option name="{{itinerary.id}}" value="{{itinerary.id}}">{{itinerary.title}}</option>
             {% endfor%}
         </select>
       <button id="update-itinerary-btn" type="submit" formaction="/update_itinerary">Add to Existing Itinerary</button>
