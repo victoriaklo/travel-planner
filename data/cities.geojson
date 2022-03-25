@@ -11,6 +11,10 @@
           "imageCaption": "Mount Everest from Kalapatthar",
           "imageCopyright": "Image by Pavel Novack under CC BY-SA2.5",
           "imageCopyrightUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+          "source": "Wikipedia Mount Everest article",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Mount_Everest",
+          "sourceCopyright": "CC BY-SA 3.0",
+          "sourceCopyrightUrl": "https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License"
         },
         "geometry": {
           "type": "Point",
@@ -31,6 +35,10 @@
           "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/36/Bathyscaphe_Trieste.jpg",
           "imageCopyright": "Bathyscaphe Trieste image under Public Domain",
           "imageCopyrightUrl": "https://en.wikipedia.org/wiki/Public_domain",
+          "source": "Wikipedia Mount Everest article",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Mount_Everest",
+          "sourceCopyright": "CC BY-SA 3.0",
+          "sourceCopyrightUrl": "https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License"
         },
         "geometry": {
           "type": "Point",
@@ -50,7 +58,11 @@
           "imageCaption": "Ojos del Salado volcano looming on the horizon",
           "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Ojos_del_Salado_looming_big_on_the_horizon.jpg",
           "imageCopyright": "Image by Jespinos under CC BY-SA 2.0",
-          "imageCopyrightUrl": "https://en.wikipedia.org/wiki/Ojos_del_Salado#/media/File:Ojos_del_Salado_looming_big_on_the_horizon.jpg"
+          "imageCopyrightUrl": "https://en.wikipedia.org/wiki/Ojos_del_Salado#/media/File:Ojos_del_Salado_looming_big_on_the_horizon.jpg",
+          "source": "Wikipedia Mount Everest article",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Mount_Everest",
+          "sourceCopyright": "CC BY-SA 3.0",
+          "sourceCopyrightUrl": "https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License"
         },
         "geometry": {
           "type": "Point",
@@ -70,7 +82,11 @@
           "imageCaption": "View of La Rinconada",
           "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/dc/La_Rinconada_Peru.jpg",
           "imageCopyright": "Image by Hildegard Willer under CC BY-SA 4.0",
-          "imageCopyrightUrl": "https://en.wikipedia.org/wiki/La_Rinconada,_Peru#/media/File:La_Rinconada_Peru.jpg"
+          "imageCopyrightUrl": "https://en.wikipedia.org/wiki/La_Rinconada,_Peru#/media/File:La_Rinconada_Peru.jpg",
+          "source": "Wikipedia Mount Everest article",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Mount_Everest",
+          "sourceCopyright": "CC BY-SA 3.0",
+          "sourceCopyrightUrl": "https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License"
         },
         "geometry": {
           "type": "Point",
@@ -90,7 +106,11 @@
           "imageCaption": "A view of the Baku bay",
           "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/33/A_view_of_the_Baku_bay%2C_Azerbaijan.jpg",
           "imageCopyright": "Image by Alix Saz under CC BY-SA 4.0",
-          "imageCopyrightUrl": "https://en.wikipedia.org/wiki/Baku_Boulevard#/media/File:A_view_of_the_Baku_bay,_Azerbaijan.jpg"
+          "imageCopyrightUrl": "https://en.wikipedia.org/wiki/Baku_Boulevard#/media/File:A_view_of_the_Baku_bay,_Azerbaijan.jpg",
+          "source": "Wikipedia Mount Everest article",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Mount_Everest",
+          "sourceCopyright": "CC BY-SA 3.0",
+          "sourceCopyrightUrl": "https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License"
         },
         "geometry": {
           "type": "Point",
@@ -110,7 +130,11 @@
           "imageCaption": "Test",
           "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Jezioro_Bajka%C5%82_2.jpg",
           "imageCopyright": "Image by W0zny under CC BY-SA 3.0",
-          "imageCopyrightUrl": "https://en.wikipedia.org/wiki/Lake_Baikal#/media/File:Jezioro_Bajkał_2.jpg"
+          "imageCopyrightUrl": "https://en.wikipedia.org/wiki/Lake_Baikal#/media/File:Jezioro_Bajkał_2.jpg",
+          "source": "Wikipedia Mount Everest article",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Mount_Everest",
+          "sourceCopyright": "CC BY-SA 3.0",
+          "sourceCopyrightUrl": "https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License"
         },
         "geometry": {
           "type": "Point",
@@ -130,7 +154,11 @@
           "imageCaption": "",
           "imageUrl": "https://www.atlasandboots.com/wp-content/uploads/2016/04/Poles-of-inaccessibility-eurasian-1.jpg",
           "imageCopyright": "Image by Colegota under CC BY-SA 3.0",
-          "imageCopyrightUrl": "https://www.atlasandboots.com/poles-of-inaccessibility-middle-nowhere/"
+          "imageCopyrightUrl": "https://www.atlasandboots.com/poles-of-inaccessibility-middle-nowhere/",
+          "source": "Wikipedia Mount Everest article",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Mount_Everest",
+          "sourceCopyright": "CC BY-SA 3.0",
+          "sourceCopyrightUrl": "https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License"
         },
         "geometry": {
           "type": "Point",
@@ -150,7 +178,11 @@
           "imageCaption": "Ducie Atoll, closest landmass to Point Nemo",
           "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Ducie02_AKK.jpg",
           "imageCopyright": "Image by Angela K. Kepler under Public Domain",
-          "imageCopyrightUrl": "https://en.wikipedia.org/wiki/Ducie_Island#/media/File:Ducie02_AKK.jpg"
+          "imageCopyrightUrl": "https://en.wikipedia.org/wiki/Ducie_Island#/media/File:Ducie02_AKK.jpg",
+          "source": "Wikipedia Mount Everest article",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Mount_Everest",
+          "sourceCopyright": "CC BY-SA 3.0",
+          "sourceCopyrightUrl": "https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License"
         },
         "geometry": {
           "type": "Point",

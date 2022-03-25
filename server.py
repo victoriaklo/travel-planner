@@ -173,6 +173,8 @@ def get_attractions():
 
     city = crud.get_city_by_id(city_id)
     print(city)
+    # get the placeID
+    # store it in the activityTable
 
     location = f"{city.latitude},{city.longitude}"
 
@@ -224,41 +226,25 @@ def create_itinerary():
     db.session.add(dest)
     db.session.commit()
 
+    activities_dict = {
+    "restaurant": rest_list,
+    "attraction": attr_list
+    }
 
-    for item in rest_list:
-        check_activity = crud.get_activity_by_name(item)
 
-        if check_activity is None:
-            new_activity = crud.create_activity(item, "restaurant", city_id)
-            db.session.add(new_activity)
-            db.session.commit()
-            act_id = new_activity.id
-            sched_act = crud.create_sched_activity(act_id, itin_id)
-            db.session.add(sched_act)
-            db.session.commit()
+    for key, value in activities_dict.items():
+        for item in value:
+            check_activity = crud.get_activity_by_name(item)
 
-        else:
-            ## do NOT add it to the db, just create a sched_act
-            act_id = check_activity.id
-            sched_act = crud.create_sched_activity(act_id, itin_id)
-            db.session.add(sched_act)
-            db.session.commit()
-    
-    for item in attr_list:
-        check_activity = crud.get_activity_by_name(item)
+            if check_activity is None:
+                new_activity = crud.create_activity(item, key, city_id)
+                db.session.add(new_activity)
+                db.session.commit()
+                act_id = new_activity.id
+           
+            else:
+                act_id = check_activity.id
 
-        if check_activity is None:
-            new_activity = crud.create_activity(item, "attraction", city_id)
-            db.session.add(new_activity)
-            db.session.commit()
-            act_id = new_activity.id
-            sched_act = crud.create_sched_activity(act_id, itin_id)
-            db.session.add(sched_act)
-            db.session.commit()
-
-        else:
-            ## do NOT add it to the db, just create a sched_act
-            act_id = check_activity.id
             sched_act = crud.create_sched_activity(act_id, itin_id)
             db.session.add(sched_act)
             db.session.commit()
@@ -281,59 +267,38 @@ def create_itinerary():
 def update_itinerary():
     """Update existing itinerary with other activities or flights"""
 
-    # get itin_id - get from the form
     itin_id = request.form.get("update-itinerary")
-
-    #get the list of selected restaurants and attraction from form
     rest_list = request.form.getlist("rest-choice")
     attr_list = request.form.getlist("attr-choice")
     city_id = request.form.get("city_id")
-    
-
-   
-    # for item in rest_list check if in activity db
-    for item in rest_list:
-        check_activity = crud.get_activity_by_name(item)
-
-        # if its not ib db, create activity and scheduled activity
-        if check_activity is None:
-            new_activity = crud.create_activity(item, "restaurant", city_id)
-            db.session.add(new_activity)
-            db.session.commit()
-            act_id = new_activity.id
-            sched_act = crud.create_sched_activity(act_id, itin_id)
-            db.session.add(sched_act)
-            db.session.commit()
-
-        else:
-            ## do NOT add it to the db, just create a sched_act
-            act_id = check_activity.id
-            sched_act = crud.create_sched_activity(act_id, itin_id)
-            db.session.add(sched_act)
-            db.session.commit()
-       
-
-
-    for item in attr_list:
-        check_activity = crud.get_activity_by_name(item)
-        if check_activity is None:
-            new_activity = crud.create_activity(item, "attraction", city_id)
-            db.session.add(new_activity)
-            db.session.commit()
-            act_id = new_activity.id
-            sched_act = crud.create_sched_activity(act_id, itin_id)
-            db.session.add(sched_act)
-            db.session.commit()
-
-        else:
-            ## do NOT add it to the db, just create a sched_act
-            act_id = check_activity.id
-            sched_act = crud.create_sched_activity(act_id, itin_id)
-            db.session.add(sched_act)
-            db.session.commit()
-
 
     # what if multiple names in multiple cities?
+    # create a crud function to get activity
+        # crud.get_by_city_id(city_id).get_activity_by_name(item)
+        # result of this will be the activities to check against
+
+    activities_dict = {
+        "restaurant": rest_list,
+        "attraction": attr_list
+        }
+
+
+    for key, value in activities_dict.items():
+        for item in value:
+            check_activity = crud.get_activity_by_name(item)
+
+            if check_activity is None:
+                new_activity = crud.create_activity(item, key, city_id)
+                db.session.add(new_activity)
+                db.session.commit()
+                act_id = new_activity.id
+            
+            else:
+                act_id = check_activity.id
+                
+            sched_act = crud.create_sched_activity(act_id, itin_id)
+            db.session.add(sched_act)
+            db.session.commit()
     
     
    
@@ -354,7 +319,13 @@ def display_itin_by_id(id):
 
     activities = crud.get_activities_by_activities_ids(activities_ids)
 
-    return render_template("itinerary.html", itinerary=itinerary, activities=activities)
+    city_id_list = []
+    for activity in activities:
+        city_id_list.append(activity.city_id)
+    
+
+
+    return render_template("itinerary.html", itinerary=itinerary, activities=activities, city_id_list=city_id_list)
 
 
 @app.route("/itinerary/<int:id>", methods = ["DELETE"])

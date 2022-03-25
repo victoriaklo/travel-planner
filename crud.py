@@ -122,6 +122,10 @@ def get_activity_by_name(name):
 
     return Activity.query.filter(Activity.name==name).first()
 
+# crud function filter all activities by city then by name
+# filter by cityID. build up a chain of filters to get the activity
+# return all
+
 def get_activities_by_activities_ids(ids):
     """Get a list of activities by ids"""
 
@@ -139,10 +143,6 @@ def create_sched_activity(act_id,itin_id):
 
     return sched_act
 
-# def get_sched_activity_by_itin_id(itin_id):
-#     """Get a list of scheduled activity by itinerary id"""
-
-#     return 
 
 ### ---------------- CRUD FUNCTIONS FOR FLIGHTS --------------- ###
 #create_flight
