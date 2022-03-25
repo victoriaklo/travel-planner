@@ -300,9 +300,8 @@ def update_itinerary():
             db.session.add(sched_act)
             db.session.commit()
     
-    
    
-    return redirect("/itineraries")
+    return redirect(f"/itinerary/{itin_id}")
 
 
 
@@ -319,13 +318,20 @@ def display_itin_by_id(id):
 
     activities = crud.get_activities_by_activities_ids(activities_ids)
 
-    city_id_list = []
+    act_group_by_city = {}
     for activity in activities:
-        city_id_list.append(activity.city_id)
-    
+        if activity.city_id in act_group_by_city:
+            # append activity at that key
+            act_group_by_city[activity.city_id].append(activity)
+        else:
+            act_group_by_city[activity.city_id] = [activity]
 
 
-    return render_template("itinerary.html", itinerary=itinerary, activities=activities, city_id_list=city_id_list)
+    return render_template("itinerary.html", 
+                            itinerary=itinerary, 
+                            activities=activities, 
+                            act_group_by_city=act_group_by_city
+                            )
 
 
 @app.route("/itinerary/<int:id>", methods = ["DELETE"])

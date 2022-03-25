@@ -46,12 +46,12 @@ for n in range(5):
     model.db.session.add(user)
 
     # create 5 itineraries per user
-    for _ in range(5):
-        random_city = choice(cities_in_db)
-        title = f"test_title{n}"
+    # for _ in range(5):
+    #     random_city = choice(cities_in_db)
+    #     title = f"test_title{n}"
 
-        itinerary = crud.create_itinerary(user, title)
-        model.db.session.add(itinerary)
+    #     itinerary = crud.create_itinerary(user, title)
+    #     model.db.session.add(itinerary)
 
 model.db.session.commit()
 
