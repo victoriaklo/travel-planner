@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.secret_key = "key"
 app.jinja_env.undefined = StrictUndefined
 
+
 # This configuration option makes the Flask interactive debugger
 # more useful (you should remove this line in production)
 app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
@@ -19,7 +20,7 @@ app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = True
 
 API_KEY = os.environ['GOOGLEMAPS_KEY']
 
-### ---------------- ROUTES FOR HOME/LOGIN --------------- ###
+### ---------------- ROUTES FOR LOGIN/REGISTER --------------- ###
 
 @app.route("/")
 def homepage():
@@ -71,16 +72,6 @@ def process_login():
         return redirect("/main")
 
 
-@app.route("/main")
-def render_main_page():
-    """Renders main page"""
-
-    if not session.get('user_email'):
-        return redirect("/")
-
-    return render_template("main.html")
-
-
 @app.route("/logout", methods=["GET", "POST"])
 def logout_user():
     """Logout user from session."""
@@ -92,6 +83,14 @@ def logout_user():
 
 
 ### ---------------- ROUTES FOR MAIN/GLOBE PAGE --------------- ###
+@app.route("/main")
+def render_main_page():
+    """Renders main page"""
+
+    if not session.get('user_email'):
+        return redirect("/")
+
+    return render_template("main.html")
 
 
 ### ---------------- ROUTES FOR USER PROFILE PAGE --------------- ###
@@ -183,7 +182,7 @@ def get_attractions():
     payload = {
         'location': location,
         'radius': 50000, # distance in meters
-        'types':[ "museum", "tourist_attraction", "art_gallery", "bar", "shopping_mall", "park" ],
+        'types':[ "museum", "tourist_attraction", "art_gallery", "bar", "shopping_mall", "park", "point_of_interest" ],
         'key': API_KEY
         }
     headers = {}
@@ -195,7 +194,7 @@ def get_attractions():
     return jsonify(response.text)
     
 
-### ---------------- ROUTES FOR ITINERARY PAGE --------------- ###
+### ---------------- ROUTES FOR ITINERARIES --------------- ###
 @app.route("/new_itinerary", methods=["POST"])
 def create_itinerary():
     """Display itinerary made by user"""
@@ -261,8 +260,6 @@ def create_itinerary():
                             )
 
 
-
-
 @app.route("/update_itinerary", methods=["POST"])
 def update_itinerary():
     """Update existing itinerary with other activities or flights"""
@@ -304,6 +301,25 @@ def update_itinerary():
     return redirect(f"/itinerary/{itin_id}")
 
 
+@app.route("/itinerary/<int:id>/edit", methods=["GET", "POST"])
+def edit_itin_by_id(id):
+    """Edit itinerary by id"""
+
+    if request.method == 'GET':
+        #get the all cities and scheduled activities from itinerary
+        #display it in a form 
+        print("hello")
+        return render_template("/")
+    else:
+        # do something else
+        print("hello")
+
+    itinerary = crud.get_itin_by_id(id)
+    # get activity by itin_id, then pass activity to template
+    activities_ids = []
+
+    return redirect(f"/itinerary/{id}")
+
 
 @app.route("/itinerary/<int:id>")
 def display_itin_by_id(id):
@@ -341,7 +357,6 @@ def delete_itin_by_id(id):
     flash("Itinerary deleted")
 
     return redirect("/itineraries")
-
 
 
 

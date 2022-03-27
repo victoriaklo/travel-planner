@@ -1,28 +1,49 @@
 {% extends 'base.html' %}
-;
+
 {% block title %} View Itinerary{% endblock %}
 
 
 {% block body %}
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button id="edit-itin-btn" class="edit-itinerary" type="button"> Edit Button</button>
+  </div>
 <br>
 <h2>{{itinerary.title}}</h2>
 <hr>
-{{itinerary}}
 
 
 <p>{{act_group_by_city}}</p>
 
-{% for activity in activities%}
-
-<p>{{activity.name}}, ({{activity.type}})</p>
-
-{%endfor%}
-
 <br>
 
-<p>figure out how to display these in a nice way...</p>
 
-<p> maybe a button that let's user add other items to their itinerary and routes back to the globe</p>
+{% for key, value in act_group_by_city.items() %}
+<br>
+<div class="card" style="width: 36rem;">
+    <div class="card-body">
+      <h5 class="card-title">{{ key|e }}</h5>
+      <p class="card-text">[Add optional notes for your trip].</p>
+    </div>
+    {% for items in value %}
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">{{items.type}}: {{items.name}} </li>
+    </ul>
+    {% endfor %}
+</div>
+
+{% endfor %}
+
+
+<!-- <dl>
+    {% for key, value in act_group_by_city.items() %}
+        <dt>{{ key|e }}</dt>
+        <dd hidden>{{ value|e }}</dd>
+        {% for items in value %}
+        <dd>{{items.name}}, {{items.type}}</dd>
+        {% endfor %}
+    {% endfor %}
+</dl> -->
+
 
 
 

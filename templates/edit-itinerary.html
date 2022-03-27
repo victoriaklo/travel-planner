@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %} Edit Itinerary{% endblock %}
+
+{% block head %}
+<script type="text/javascript">
+  const city_id = {{city.id}};
+</script>
+
+{% endblock %}
+
+
+{% block body %}
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button id="save-itin-btn" class="save-itinerary" type="submit"> Save Button</button>
+</div>
+
+<div>
+    inside this div, i want to get the all information from the itinerary and make it a form
+    then when this is form is submitted
+    <form action="/itinerary/{{itin_id}}/edit" id="edit-itin-form" method="post">
+
+    </form>
+</div>
+
+
+
+{% endblock %}
