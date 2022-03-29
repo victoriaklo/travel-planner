@@ -7,7 +7,8 @@ attractionBtn.addEventListener('click', () => {
   const url = `/api/attractions?${queryString}`;
 
   fetch(url)
-  .then(response => response.json()) // takes the response from api and converts to JS object,
+  .then(result => result.json())
+    // response.json()) // takes the response from api and converts to JS object,
   // creating another promise (then) to do something else with that data
   .then(data => { // take this data and iterate over it and take what's important and add to html
     // name, rating, photos
