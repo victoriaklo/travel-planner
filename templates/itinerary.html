@@ -9,6 +9,14 @@
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
     <button id="edit-itin-btn" type="button"><a href="/itinerary/{{itin_id}}/edit">Edit</a></button>
   </div>
+
+<br>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <form action="/itinerary/{{itin_id}}" method="post">
+    <button id="delete-itin-btn" type="submit">DELETE FOREVER</button>
+  </form>
+  
+</div>
 <br>
 <h2>{{itinerary.title}}</h2>
 

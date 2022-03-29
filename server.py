@@ -381,7 +381,7 @@ def display_itin_by_id(id):
                             )
 
 
-@app.route("/itinerary/<int:id>", methods = ["DELETE"])
+@app.route("/itinerary/<int:id>", methods = ["POST"])
 def delete_itin_by_id(id):
     """Delete an itinerary by id"""
     crud.delete_itin_by_id(id)

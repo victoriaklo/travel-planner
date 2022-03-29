@@ -92,7 +92,11 @@ def get_itins_by_user(user_id):
 
 def delete_itin_by_id(id):
     """Delete an itinerary by id"""
-    Itinerary.query.get(id).delete()
+    itin_object = Itinerary.query.get(id)
+    sched_act_list = itin_object.sched_acts
+    for item in sched_act_list:
+        db.session.delete(item)
+    db.session.delete(itin_object)
     db.session.commit()
 
 
