@@ -28,6 +28,7 @@ restButton.addEventListener('click', () => {
               <label for="${result.name}">${result.name} (Rating: ${result.rating} stars)</label>
             </div>
         </div>`
+
     };
 
     }
