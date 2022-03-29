@@ -1,27 +1,61 @@
 {% extends 'base.html' %}
 
-{% block title %} Edit Itinerary{% endblock %}
-
-{% block head %}
-<script type="text/javascript">
-  const city_id = {{city.id}};
-</script>
-
-{% endblock %}
+{% block title %} View Itinerary{% endblock %}
 
 
 {% block body %}
+{% set itin_id = itinerary.id %}
+
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <button id="save-itin-btn" class="save-itinerary" type="submit"> Save Button</button>
-</div>
+    <button id="edit-itin-btn" type="button" hidden>Edit</button>
+    <button id="save-edits-btn" type="submit">Save</button>
+  </div>
+<br>
+<h2>{{itinerary.title}}</h2>
 
-<div>
-    inside this div, i want to get the all information from the itinerary and make it a form
-    then when this is form is submitted
-    <form action="/itinerary/{{itin_id}}/edit" id="edit-itin-form" method="post">
+<hr>
 
-    </form>
+
+<p>{{act_group_by_city}}</p>
+
+<br>
+<form action="/itinerary/{{itin_id}}/edit" id="edit-itin-form" method="post">
+  {% for key, value in act_group_by_city.items() %}
+<br>
+<div class="card" style="width: 36rem;">
+    <div class="card-body">
+      <h5 class="card-title">{{ key|e }}</h5>
+      <p class="card-text">[Add optional text here].</p>
+    </div>
+    {% for items in value %}
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">{{items.type}}: {{items.name}} 
+        <label for="{{items.name}} date">date:</label>
+
+        <input type="date" name="{{item.id}}"
+              value="2022-01-22"
+              min="2022-01-01" max="2050-12-31">
+      </li>
+      {% endfor %}
+      <li id="city-flights" class="list-group-item">Flight info here</li>
+      <!-- <label for="name">Flight data:</label>
+
+      <input type="text" id="name" name="name" required
+       minlength="4" maxlength="100" size="10"> -->
+      <li id ="city-notes" class="list-group-item">[Don't forget to add notes here]
+      <label for="name">Add notes for your trip:</label>
+
+      <input type="text" id="name" name="name" required
+       minlength="4" maxlength="100" size="10"></li>
+    </ul>
 </div>
+{% endfor %}
+<button id="save-edits-btn" type="submit">Save</button>
+
+</form>
+
+
+
 
 
 

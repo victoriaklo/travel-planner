@@ -4,11 +4,14 @@
 
 
 {% block body %}
+{% set itin_id = itinerary.id %}
+
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <button id="edit-itin-btn" class="edit-itinerary" type="button"> Edit Button</button>
+    <button id="edit-itin-btn" type="button"><a href="/itinerary/{{itin_id}}/edit">Edit</a></button>
   </div>
 <br>
 <h2>{{itinerary.title}}</h2>
+
 <hr>
 
 
@@ -22,27 +25,19 @@
 <div class="card" style="width: 36rem;">
     <div class="card-body">
       <h5 class="card-title">{{ key|e }}</h5>
-      <p class="card-text">[Add optional notes for your trip].</p>
+      <p class="card-text">[Add optional text here].</p>
     </div>
     {% for items in value %}
     <ul class="list-group list-group-flush">
       <li class="list-group-item">{{items.type}}: {{items.name}} </li>
+      {% endfor %}
+      <li id="city-flights" class="list-group-item">Flight info here</li>
+      <li id ="city-notes" class="list-group-item">[Don't forget to add notes here]</li>
     </ul>
-    {% endfor %}
 </div>
 
 {% endfor %}
 
-
-<!-- <dl>
-    {% for key, value in act_group_by_city.items() %}
-        <dt>{{ key|e }}</dt>
-        <dd hidden>{{ value|e }}</dd>
-        {% for items in value %}
-        <dd>{{items.name}}, {{items.type}}</dd>
-        {% endfor %}
-    {% endfor %}
-</dl> -->
 
 
 

@@ -249,8 +249,6 @@ def create_itinerary():
             db.session.commit()
 
 
-    # get activity, check if activity exists, do not add, else add
-
     return render_template("new_itinerary.html", 
                             city=city,
                             rest_list=rest_list,
@@ -301,24 +299,53 @@ def update_itinerary():
     return redirect(f"/itinerary/{itin_id}")
 
 
-@app.route("/itinerary/<int:id>/edit", methods=["GET", "POST"])
+@app.route("/itinerary/<int:id>/edit", methods=["GET","POST"])
 def edit_itin_by_id(id):
     """Edit itinerary by id"""
 
-    if request.method == 'GET':
-        #get the all cities and scheduled activities from itinerary
-        #display it in a form 
-        print("hello")
-        return render_template("/")
-    else:
-        # do something else
-        print("hello")
-
     itinerary = crud.get_itin_by_id(id)
-    # get activity by itin_id, then pass activity to template
-    activities_ids = []
+    
+    if request.method == 'GET':
+        #get the all cities and scheduled activities from itinerary BY itin_id
+        # then display it in a form
+        
+        # get activity by itin_id, then pass activity to template
+        activities_ids = []
 
-    return redirect(f"/itinerary/{id}")
+        for sched_act in itinerary.sched_acts:
+            activities_ids.append(sched_act.act_id)
+
+        activities = crud.get_activities_by_activities_ids(activities_ids)
+
+        act_group_by_city = {}
+
+        for activity in activities:
+            if activity.city_id in act_group_by_city:
+                # append activity at that key
+                act_group_by_city[activity.city_id].append(activity)
+            else:
+                act_group_by_city[activity.city_id] = [activity]
+
+        return render_template("edit-itinerary.html", 
+                                itinerary=itinerary,
+                                activities=activities, 
+                                act_group_by_city=act_group_by_city
+                                )
+    else:
+        # if it's a post request, it is taking the data from the form
+        # save the edits and add it to the session, then commit
+        form_data = request.form
+
+        print("\n" * 5)
+        print(form_data)
+        print("\n" * 5)
+        
+        # db.session.add()
+        # db.session.commit
+        # print("hello")
+        return redirect(f"/itinerary/{id}")
+
+
 
 
 @app.route("/itinerary/<int:id>")
@@ -341,6 +368,10 @@ def display_itin_by_id(id):
             act_group_by_city[activity.city_id].append(activity)
         else:
             act_group_by_city[activity.city_id] = [activity]
+    
+    # scheduled_activities will have datetime
+    #itinerary will have notes
+    # add a field for flights
 
 
     return render_template("itinerary.html", 
@@ -387,6 +418,7 @@ def display_itineraries():
     return render_template("itineraries.html", 
                             all_itineraries=all_itineraries,
                             sched_activities_list=sched_activities_list)
+
 
 
 if __name__ == "__main__":
