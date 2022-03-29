@@ -20,8 +20,9 @@ restButton.addEventListener('click', () => {
     for (const result of data.results) {
 
         document.querySelector("#restaurants-data").innerHTML += `
-        <div class="card mb-3">
-          <img class="card-img-top" src="${result.photo_url}" alt="Card image cap">
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="${result.photo_url}" alt="Card image cap"width="300" 
+          height="200">
             <div class="card-body">
               <h5 class="card-title">${result.name}</h5>
               <input type="checkbox" id="${result.name}" name="rest-choice" value="${result.name}">

@@ -23,12 +23,12 @@ attractionBtn.addEventListener('click', () => {
 
 
         document.querySelector('#attractions-data').innerHTML += `
-        <div class="card mb-3">
-          <img class="card-img-top" src="${result.photo_url}" alt="Card image cap" width="400" 
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="${result.photo_url}" alt="Card image cap" width="300" 
           height="200">
             <div class="card-body">
               <h5 class="card-title">${result.name}</h5>
-              <input type="checkbox" id="${result.name}" name="rest-choice" value="${result.name}">
+              <input type="checkbox" id="${result.name}" name="attr-choice" value="${result.name}">
               <label for="${result.name}">${result.name} (${result.rating} rating)</label>
               <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. ${result.rating} rating </p>
             </div>

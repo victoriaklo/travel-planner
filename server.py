@@ -175,8 +175,6 @@ def get_restaurants():
                 new_dict['photo_url'] = photo_url
             important_data.append(new_dict)
     
-    
-    # return jsonify(response.text)
     return jsonify(results = important_data)
 
 
@@ -209,7 +207,9 @@ def get_attractions():
         }
     headers = {}
 
-    response = requests.get(url, params=payload)
+    response = requests.get(url, params=payload).json()
+
+    important_data = []
 
     for item in response["results"]:
         if item["business_status"] == "OPERATIONAL":
@@ -217,11 +217,12 @@ def get_attractions():
             new_dict['name'] = item.get("name")
             new_dict['rating'] = item.get("rating")
             new_dict['place_id'] = item.get("place_id")
-            photo_ref = item["photos"][0]["photo_reference"]
-            photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={photo_ref}&key={API_KEY}"
-            new_dict['photo_url'] = photo_url
+            if 'photos' in item:
+                photo_ref = item['photos'][0]['photo_reference']
+                photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={photo_ref}&key={API_KEY}"
+                new_dict['photo_url'] = photo_url
             important_data.append(new_dict)
-
+    
     return jsonify(results = important_data)
     
 
