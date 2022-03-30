@@ -5,6 +5,7 @@ from model import connect_to_db, db
 import crud
 import requests
 import os
+from datetime import datetime
 
 from jinja2 import StrictUndefined
 
@@ -367,26 +368,27 @@ def edit_itin_by_id(id):
         notes = form_data['notes']
         itinerary.notes = notes
         db.session.commit()
-
-        act_id_dates_only = form_data.pop('notes')
+        form_data.pop('notes')
+        act_id_dates_only = form_data
         print(act_id_dates_only)
-
-        # for every k,v in act_id_dates_only:
-        # change the key to sched_act_obj? 
-        # get sched_act object, and add in the date
-        # sched_act.datetime = value
-        # finally, db.session.commit()
 
         sched_acts_obj_list = itinerary.sched_acts
         print("\n" * 5)
         print(sched_acts_obj_list)
         print("\n" * 5)
 
-        date_format = '%Y/%m/%d'
         for sched_act_obj in sched_acts_obj_list:
-            if str(sched_act_obj.act_id) in act_id_dates_only:
-                sched_act_obj.datetime = datetime.datetime.strptime(act_id_dates_only[act_id], format)
-                db.session.commit()
+            act_id = str(sched_act_obj.act_id)
+            print(act_id)
+            print("\n" * 5)
+            if act_id in act_id_dates_only:
+                value = act_id_dates_only.get(act_id)
+                print(value)
+                print("\n" * 5)
+                sched_act_obj.datetime = datetime.strptime(value, '%Y-%m-%d')
+                print(sched_act_obj.datetime)
+                print("\n" * 5)
+                # db.session.commit()
 
         return redirect(f"/itinerary/{id}")
 
