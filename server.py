@@ -162,9 +162,6 @@ def get_restaurants():
 
     for item in response["results"]:
         if item["business_status"] == "OPERATIONAL":
-            print(item)
-            print("\n"*5)
-            print(type(item))
             new_dict = {}
             new_dict['name'] = item.get("name")
             new_dict['rating'] = item.get("rating")
@@ -366,15 +363,31 @@ def edit_itin_by_id(id):
     else:
         # if it's a post request, it is taking the data from the form
         # save the edits and add it to the session, then commit
-        form_data = request.form
+        form_data = dict(request.form)
+        notes = form_data['notes']
+        itinerary.notes = notes
+        db.session.commit()
 
+        act_id_dates_only = form_data.pop('notes')
+        print(act_id_dates_only)
+
+        # for every k,v in act_id_dates_only:
+        # change the key to sched_act_obj? 
+        # get sched_act object, and add in the date
+        # sched_act.datetime = value
+        # finally, db.session.commit()
+
+        sched_acts_obj_list = itinerary.sched_acts
         print("\n" * 5)
-        print(form_data)
+        print(sched_acts_obj_list)
         print("\n" * 5)
-        
-        # db.session.add()
-        # db.session.commit
-        # print("hello")
+
+        date_format = '%Y/%m/%d'
+        for sched_act_obj in sched_acts_obj_list:
+            if str(sched_act_obj.act_id) in act_id_dates_only:
+                sched_act_obj.datetime = datetime.datetime.strptime(act_id_dates_only[act_id], format)
+                db.session.commit()
+
         return redirect(f"/itinerary/{id}")
 
 

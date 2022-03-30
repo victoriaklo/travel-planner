@@ -100,9 +100,6 @@ def delete_itin_by_id(id):
     db.session.commit()
 
 
-# update_itin() <-- can update city, dest, activities, and flights
-
-
  
 ### ---------------- CRUD FUNCTIONS FOR ACTIVITY --------------- ###
 def create_activity(name, type, city_id):

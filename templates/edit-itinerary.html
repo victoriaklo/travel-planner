@@ -22,19 +22,21 @@
 <form action="/itinerary/{{itin_id}}/edit" id="edit-itin-form" method="post">
   {% for key, value in act_group_by_city.items() %}
 <br>
-<div class="card" style="width: 36rem;">
+<div class="card" style="width: 50rem;">
     <div class="card-body">
       <h5 class="card-title">{{ key|e }}</h5>
-      <p class="card-text">[Add optional text here].</p>
     </div>
     {% for items in value %}
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">{{items.type}}: {{items.name}} 
-        <label for="{{items.name}} date">date:</label>
+      <li class="list-group-item">{{items.type}}: {{items.name}}
+        <span>
+          <label for="{{items.name}} date"> Add date:</label>
 
-        <input type="date" name="{{item.id}}"
-              value="2022-01-22"
-              min="2022-01-01" max="2050-12-31">
+          <input type="date" name="{{items.id}}"
+                value="2022-04-01"
+                min="2022-04-01" max="2050-12-31">
+        </span> 
+
       </li>
       {% endfor %}
       <li id="city-flights" class="list-group-item">Flight info here</li>
@@ -42,18 +44,21 @@
 
       <input type="text" id="name" name="name" required
        minlength="4" maxlength="100" size="10"> -->
-      <li id ="city-notes" class="list-group-item">[Don't forget to add notes here]
-      <label for="name">Add notes for your trip:</label>
 
-      <input type="text" id="name" name="name" required
-       minlength="4" maxlength="100" size="10"></li>
-    </ul>
-</div>
 {% endfor %}
+      <li id ="city-notes" class="city-notes">
+      <label for="notes">Add notes for your trip:</label>
+
+      <input type="text" id="edit-notes" name="notes"
+       minlength="1" maxlength="100" size="75"></li>
+    </ul>
+  </div>
+<br>
 <button id="save-edits-btn" type="submit">Save</button>
 
 </form>
-
+<br>
+<br>
 
 
 
