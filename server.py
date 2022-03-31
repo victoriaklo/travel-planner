@@ -6,6 +6,7 @@ import crud
 import requests
 import os
 from datetime import datetime
+from passlib.hash import argon2
 
 from jinja2 import StrictUndefined
 
@@ -43,11 +44,13 @@ def register_user():
     email = request.form.get("email")
     password = request.form.get("password")
 
+    hash_password = crud.hash_password(password)
+
     user = crud.get_user_by_email(email)
     if user:
         flash("Cannot create an account with that email. Try again.")
     else:
-        user = crud.create_user(first_name, last_name, email, password)
+        user = crud.create_user(first_name, last_name, email, hash_password)
         db.session.add(user)
         db.session.commit()
         flash("Account created! Please log in.")
@@ -64,13 +67,15 @@ def process_login():
     password = request.form.get("password")
 
     user = crud.get_user_by_email(email)
-    if not user or user.password != password:
-        flash("The email or password you entered was incorrect.")
-        return redirect("/")
-    else:
-        # Log in user by storing the user's email in session
+    
+    #if passwords match, send user to profile
+    if argon2.verify(password, user.password):
         session["user_email"] = user.email
-        return redirect("/main")
+        return redirect ("/user_profile")
+    else:
+        flash("Sorry, passwords do not match!")
+        return redirect('/')
+
 
 
 @app.route("/logout", methods=["GET", "POST"])
@@ -156,9 +161,6 @@ def get_restaurants():
     response = requests.get(url, params=payload).json()
     print(jsonify(response))
 
-    # only take out the items i need from the response object
-    # format the photo reference in a way i can use it in javascript
-    # name, photos, place_id, rating
     important_data = []
 
     for item in response["results"]:

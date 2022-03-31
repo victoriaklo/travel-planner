@@ -1,6 +1,7 @@
 """CRUD operations."""
 
 from model import db, User, City, Itinerary, Destination, Activity, ScheduledActivity, connect_to_db
+from passlib.hash import argon2
 
 ### ---------------- CRUD FUNCTIONS FOR USER --------------- ###
 
@@ -24,6 +25,11 @@ def get_user_by_email(email):
     """
 
     return User.query.filter(User.email == email).first()
+
+def hash_password(password):
+    """Converts password to hash"""
+
+    return argon2.hash(password)
 
 
 ### ---------------- CRUD FUNCTIONS FOR CITY --------------- ###
