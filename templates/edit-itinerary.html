@@ -8,53 +8,74 @@
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
     <button id="edit-itin-btn" type="button" hidden>Edit</button>
-    <button id="save-edits-btn" type="submit">Save</button>
+    <!-- <button id="save-edits-btn" type="submit">Save</button> -->
   </div>
 <br>
 <h2>{{itinerary.title}}</h2>
-
-<hr>
-
-
-<p>{{act_group_by_city}}</p>
 
 <br>
 <form action="/itinerary/{{itin_id}}/edit" id="edit-itin-form" method="post">
   {% for key, value in act_group_by_city.items() %}
 <br>
-<div class="card" style="width: 50rem;">
+<div class="card" style="width: 64rem;">
     <div class="card-body">
       <h5 class="card-title">{{ key|e }}</h5>
     </div>
     {% for items in value %}
+    <div>
+      <input type="checkbox" id="activity-test" name="activity">
+      <label for="activity">
+        <li class="list-group-item">{{items.type}}: {{items.name}}
+        </li>
+      </label>
+      <span>
+        <label for="{{items.name}} date"> Add date:</label>
+
+        <input type="date" name="{{items.id}}"
+              value="2022-04-01"
+              min="2022-04-01" max="2050-12-31">
+      </span> 
+    </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">{{items.type}}: {{items.name}}
-        <span>
-          <label for="{{items.name}} date"> Add date:</label>
 
-          <input type="date" name="{{items.id}}"
-                value="2022-04-01"
-                min="2022-04-01" max="2050-12-31">
-        </span> 
-
-      </li>
       {% endfor %}
-      <li id="city-flights" class="list-group-item">Flight info here</li>
-      <!-- <label for="name">Flight data:</label>
+      <br>
+       <div class="input-group mb-3">
+        <input type="checkbox" id="activity-test" name="flight">
+        <span class="input-group-text">Departing Airport</span>
+        <input type="text" class="form-control" placeholder="SFO" aria-label="depart_airport">
+        <span class="input-group-text">Arrival Date</span>
+        <input type="date" name="arrival-date"
+              value="2022-04-01"
+              min="2022-04-01" max="2050-12-31">
+        <span class="input-group-text">Arrival Airport</span>
+        <input type="text" class="form-control" placeholder="CDG" aria-label="arrival_airport">
+        <span class="input-group-text">Arrival Date</span>
+        <input type="date" name="arrival-date"
+              value="2022-04-01"
+              min="2022-04-01" max="2050-12-31">
+      </div>
 
-      <input type="text" id="name" name="name" required
-       minlength="4" maxlength="100" size="10"> -->
 
 {% endfor %}
+      <div>
+        <input type="checkbox" id="notes" name="notes">
+        <label for="notes">
+      </div>
       <li id ="city-notes" class="city-notes">
-      <label for="notes">Add notes for your trip:</label>
-
-      <input type="text" id="edit-notes" name="notes"
-       minlength="1" maxlength="100" size="75"></li>
+       <div class="input-group">
+        <span class="input-group-text">Notes:</span>
+        <textarea class="form-control" aria-label="notes"></textarea>
+      </div>
+      </li>
     </ul>
   </div>
 <br>
-<button id="save-edits-btn" type="submit">Save</button>
+<span>
+  <button id="delete-edits-btn" type="submit">DELETE selected items</button>
+  <p>or</p>
+  <button id="save-edits-btn" type="submit">Save</button>
+</span>
 
 </form>
 <br>

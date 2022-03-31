@@ -336,9 +336,7 @@ def edit_itin_by_id(id):
     itinerary = crud.get_itin_by_id(id)
     
     if request.method == 'GET':
-        #get the all cities and scheduled activities from itinerary BY itin_id
-        # then display it in a form
-        
+        #get the all cities and scheduled activities from itinerary BY itin_id then display it in a form
         # get activity by itin_id, then pass activity to template
         activities_ids = []
 
@@ -373,22 +371,14 @@ def edit_itin_by_id(id):
         print(act_id_dates_only)
 
         sched_acts_obj_list = itinerary.sched_acts
-        print("\n" * 5)
-        print(sched_acts_obj_list)
-        print("\n" * 5)
 
         for sched_act_obj in sched_acts_obj_list:
             act_id = str(sched_act_obj.act_id)
-            print(act_id)
-            print("\n" * 5)
+
             if act_id in act_id_dates_only:
                 value = act_id_dates_only.get(act_id)
-                print(value)
-                print("\n" * 5)
                 sched_act_obj.datetime = datetime.strptime(value, '%Y-%m-%d')
-                print(sched_act_obj.datetime)
-                print("\n" * 5)
-                # db.session.commit()
+                db.session.commit()
 
         return redirect(f"/itinerary/{id}")
 
@@ -416,8 +406,6 @@ def display_itin_by_id(id):
         else:
             act_group_by_city[activity.city_id] = [activity]
     
-    # scheduled_activities will have datetime
-    #itinerary will have notes
     # add a field for flights
 
 

@@ -22,9 +22,6 @@
 
 <hr>
 
-
-<p>{{act_group_by_city}}</p>
-
 <br>
 
 
@@ -37,7 +34,7 @@
     </div>
     {% for items in value %}
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">{{items.type}}: {{items.name}} </li>
+      <li class="list-group-item"> {{items.type}}: {{items.name}} <span>{{items.sched_acts}}</span></li>
       {% endfor %}
       <li id="city-flights" class="list-group-item">Flight info here</li>
       <li id ="city-notes" class="list-group-item">[Don't forget to add notes here]</li>
