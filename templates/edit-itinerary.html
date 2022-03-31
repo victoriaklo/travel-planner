@@ -15,6 +15,7 @@
 
 <br>
 <form action="/itinerary/{{itin_id}}/edit" id="edit-itin-form" method="post">
+  <p id="itin_id" name="itin_id" hidden>{{itinerary.id}}</p>
   {% for key, value in act_group_by_city.items() %}
 <br>
 <div class="card" style="width: 64rem;">
@@ -32,7 +33,7 @@
         <label for="{{items.name}} date"> Add date:</label>
 
         <input type="date" name="{{items.id}}"
-              value="2022-04-01"
+              placeholder="2022-04-01"
               min="2022-04-01" max="2050-12-31">
       </span> 
     </div>
@@ -41,40 +42,39 @@
       {% endfor %}
       <br>
        <div class="input-group mb-3">
-        <input type="checkbox" id="activity-test" name="flight">
+        <input type="checkbox" id="flight" name="flight">
         <span class="input-group-text">Departing Airport</span>
         <input type="text" class="form-control" placeholder="SFO" aria-label="depart_airport">
         <span class="input-group-text">Arrival Date</span>
         <input type="date" name="arrival-date"
-              value="2022-04-01"
+              placeholder="2022-04-01"
               min="2022-04-01" max="2050-12-31">
         <span class="input-group-text">Arrival Airport</span>
         <input type="text" class="form-control" placeholder="CDG" aria-label="arrival_airport">
         <span class="input-group-text">Arrival Date</span>
         <input type="date" name="arrival-date"
-              value="2022-04-01"
+              placeholder="2022-04-01"
               min="2022-04-01" max="2050-12-31">
       </div>
 
 
 {% endfor %}
       <div>
-        <input type="checkbox" id="notes" name="notes">
         <label for="notes">
       </div>
       <li id ="city-notes" class="city-notes">
        <div class="input-group">
         <span class="input-group-text">Notes:</span>
-        <textarea class="form-control" aria-label="notes"></textarea>
+        <textarea class="form-control" name="notes" aria-label="notes"></textarea>
       </div>
       </li>
     </ul>
   </div>
 <br>
 <span>
-  <button id="delete-edits-btn" type="submit">DELETE selected items</button>
+  <button id="delete-edits-btn" type="submit" formaction="/delete_sched_acts">DELETE selected items</button>
   <p>or</p>
-  <button id="save-edits-btn" type="submit">Save</button>
+  <button id="save-edits-btn" type="submit">Save Updates</button>
 </span>
 
 </form>

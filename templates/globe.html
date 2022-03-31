@@ -1,13 +1,14 @@
+@@ -1,12 +1,12 @@
+<!DOCTYPE html>
 <html>
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>ArcGIS globe of extremes (3D)</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1" />
+  <title>The globe of extremes</title>
 
+  <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/themes/light/main.css" />
   <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
-  <link rel="stylesheet" href="/static/css/globe.css" />
-
+  <link rel="stylesheet" href="./style.css" />
 
   <script>
     const locationPath = location.pathname.replace(/\/[^\/]+$/, "");
@@ -20,28 +21,25 @@
     };
   </script>
 
+  <script src="https://js.arcgis.com/4.17/"></script>
   <script src="https://js.arcgis.com/4.22/"></script>
   <script>
     require([
-     "esri/config",
       "esri/Map",
       "esri/views/SceneView",
       "esri/layers/TileLayer",
       "esri/layers/GeoJSONLayer",
       "esri/Basemap",
-
+      "utils/ExaggeratedElevationLayer",
       "esri/Graphic",
       "esri/geometry/Point",
       "esri/geometry/Mesh",
-
       "esri/core/watchUtils"
-    ], function (esriConfig, Map, SceneView, TileLayer, GeoJSONLayer, Basemap, Graphic, Point, Mesh, watchUtils) {
-
+    ], function (esriConfig, Map, SceneView, TileLayer, GeoJSONLayer, Basemap, ExaggeratedElevationLayer, Graphic, Point, Mesh, watchUtils) {
       esriConfig.apiKey = "AAPK098487e1e6df4952bafd27693b662e0cqPKE9zeJhnGkKFZG6GnvYeE92w1Lj27JQemlYPxHbxJdnPoZEyDEjtS_YW9rSGkE";
-
+      
       const R = 6358137; // approximate radius of the Earth in m
       const offset = 300000; // offset from the ground used for the clouds
-      
       const basemap = new Basemap({
         baseLayers: [
           new TileLayer({
@@ -49,7 +47,7 @@
             copyright: "Bathymetry, topography and satellite imagery from <a href=\"https://visibleearth.nasa.gov/view_cat.php?categoryID=1484\" target=\"_blank\">NASA Visible Earth</a> | <a href=\"http://www.aag.org/global_ecosystems\" target=\"_blank\">World Ecological Land Units, AAG</a> | Oceans, glaciers and water bodies from <a href=\"https://www.naturalearthdata.com/\" target=\"_blank\">Natural Earth</a>"
           })
         ]
-      });  
+      });
 
       const map = new Map({
         basemap: basemap
@@ -97,13 +95,14 @@
           haloOpacity: 0.5
         }
       });
-
       view.ui.remove("navigation-toggle");
-
+      map.ground.layers = [new ExaggeratedElevationLayer({
+        exaggerationBathymetry: 60,
+        exaggerationTopography: 40
+      })];
       const origin = new Point({
         x: 0, y: -90, z: -(2 * R)
       });
-
       const oceanSurfaceMesh = Mesh.createSphere(
         origin, {
         size: {
@@ -119,7 +118,6 @@
           doubleSided: false
         }
       });
-
       const oceanSurface = new Graphic({
         geometry: oceanSurfaceMesh,
         symbol: {
@@ -129,9 +127,7 @@
           }]
         }
       });
-
       view.graphics.add(oceanSurface);
-
       const cloudsSphere = Mesh.createSphere(new Point({
         x: 0, y: -90, z: -(2 * R + offset)
       }), {
@@ -142,9 +138,7 @@
         },
         densificationFactor: 4
       });
-
       cloudsSphere.components[0].shading = "flat";
-
       const clouds = new Graphic({
         geometry: cloudsSphere,
         symbol: {
@@ -152,9 +146,7 @@
           symbolLayers: [{ type: "fill" }]
         }
       });
-
       view.graphics.add(clouds);
-
       const extremesLayer = new GeoJSONLayer({
         url: "cities.geojson",
         elevationInfo: {
@@ -208,6 +200,9 @@
 
       map.layers.add(extremesLayer);
 
+
+
+      view.ui.add("about", "bottom-left");
       function rotate() {
         if (!view.interacting) {
           const camera = view.camera.clone();
@@ -216,14 +211,11 @@
           requestAnimationFrame(rotate);
         }
       }
-
-
     });
   </script>
 </head>
-
 <body>
-  <div id="viewDiv"></div>
+  <div id="viewDiv">
+  </div>
 </body>
-
 </html>

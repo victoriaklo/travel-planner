@@ -96,7 +96,7 @@ def render_main_page():
     if not session.get('user_email'):
         return redirect("/")
 
-    return render_template("main.html")
+    return render_template("globe.html")
 
 
 ### ---------------- ROUTES FOR USER PROFILE PAGE --------------- ###
@@ -384,7 +384,40 @@ def edit_itin_by_id(id):
 
         return redirect(f"/itinerary/{id}")
 
+@app.route("/delete_sched_acts", methods=["POST"])
+def delete_scheduled_activities():
+    """Deletes scheduled activities by itinerary id"""
 
+    itinerary = request.form.get("itin_id")
+    print(itinerary)
+
+    form_data = dict(request.form)
+    # get itinerary
+    # get all sched acts from form
+    # then delete sched_activities then commit
+    notes = form_data['notes']
+    form_data.pop('notes')
+
+    print("\n" * 5)
+    print(form_data)
+    print("\n" * 5)
+
+    # sched_acts_obj_list = itinerary.sched_acts
+    # print("\n" * 5)
+    # print(sched_acts_obj_list)
+    # print("\n" * 5)
+
+
+    # for sched_act_obj in sched_acts_obj_list:
+    #     act_id = str(sched_act_obj.act_id)
+
+    #     if act_id in act_id_dates_only:
+    #         value = act_id_dates_only.get(act_id)
+    #         # db.session.delete(id)
+    #         # db.session.commit()
+    #         flash("----all items permanently deleted-----")
+
+    return redirect(f"/itinerary/{id}")
 
 
 @app.route("/itinerary/<int:id>")

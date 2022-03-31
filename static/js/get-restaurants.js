@@ -35,6 +35,3 @@ restButton.addEventListener('click', () => {
     }
   )
 });
-
-
-
