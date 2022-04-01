@@ -26,13 +26,12 @@
   {% for date, sched_acts_for_date in sched_acts_by_date.items() %}
     <div display="flex">
       <div>
-        <h1>{{date}}</h1>
-
+        <strong>Date: {{date}}</strong>
         <ol>
           {% for sched_act in sched_acts_for_date %}
           <div display="flex">
             <div>
-              {{sched_act.act.type}} {{sched_act.act.name}} {{sched_act.datetime}}
+              {{sched_act.datetime}} - {{sched_act.act.city.city}} {{sched_act.act.type}}: {{sched_act.act.name}}
             </div>
           </div>
   {% endfor %}
@@ -44,18 +43,18 @@
   </div>
 
 
-<div>
+<!-- <div>
 {% for sched_act in itinerary.sched_acts %}
   <div display="flex">
     <div>
-      {{sched_act.act.type}} {{sched_act.act.name}} {{sched_act.datetime}}
+      {{sched_act.datetime}}: ({{sched_act.act.type}}) {{sched_act.act.name}}
       
     </div>
   </div>
   {% endfor %}
 </div>
 
-
+ -->
 
 
 {% endblock %}

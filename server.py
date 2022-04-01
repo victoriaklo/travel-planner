@@ -349,27 +349,18 @@ def edit_itin_by_id(id):
     if request.method == 'GET':
         #get the all cities and scheduled activities from itinerary BY itin_id then display it in a form
         # get activity by itin_id, then pass activity to template
-        activities_ids = []
 
-        for sched_act in itinerary.sched_acts:
-            activities_ids.append(sched_act.act_id)
+        # https://docs.python.org/3/library/itertools.html#itertools.groupby
+        sched_acts_grouped_by_city = {}
 
-        activities = crud.get_activities_by_activities_ids(activities_ids)
-
-        act_group_by_city = {}
-
-        for activity in activities:
-            if activity.city_id in act_group_by_city:
-                # append activity at that key
-                act_group_by_city[activity.city_id].append(activity)
-            else:
-                act_group_by_city[activity.city_id] = [activity]
+        for city, sched_acts in groupby(sorted(itinerary.sched_acts, key=lambda sched_act: sched_act.act.city_id), lambda sched_act: sched_act.act.city.city): 
+            sched_acts_grouped_by_city[city] = list(sched_acts)
 
         return render_template("edit-itinerary.html", 
-                                itinerary=itinerary,
-                                activities=activities, 
-                                act_group_by_city=act_group_by_city
+                                itinerary=itinerary, 
+                                sched_acts_grouped_by_city=sched_acts_grouped_by_city
                                 )
+
     else:
         # if it's a post request, it is taking the data from the form
         # save the edits and add it to the session, then commit
@@ -381,6 +372,7 @@ def edit_itin_by_id(id):
         itinerary.notes = notes
         db.session.commit()
         form_data.pop('notes')
+
         act_id_dates_only = form_data
         print(act_id_dates_only)
 
@@ -392,7 +384,7 @@ def edit_itin_by_id(id):
             if act_id in act_id_dates_only:
                 value = act_id_dates_only.get(act_id)
                 if value:
-                    sched_act_obj.datetime = datetime.strptime(value, '%Y-%m-%d')
+                    sched_act_obj.datetime = datetime.strptime(value, '%Y-%m-%d-%H-%M')
                     db.session.commit()
 
         return redirect(f"/itinerary/{id}")
@@ -436,43 +428,18 @@ def display_itin_by_id(id):
     """Display itinerary by id"""
     
     itinerary = crud.get_itin_by_id(id)
-    print("\n" * 5)
-    print(itinerary)
-    print("\n" * 5)
+    # sched_act_list = itinerary.sched_acts
 
-    sched_act_list = itinerary.sched_acts
-    print("\n" * 5)
-    print(sched_act_list)
-    print("\n" * 5)
-    
+    # https://docs.python.org/3/library/itertools.html#itertools.groupby
+    sched_acts_by_date = {}
 
-
-    # get activity by itin_id, then pass activity to template
-    activities_ids = []
-
-    for sched_act in itinerary.sched_acts:
-        activities_ids.append(sched_act.act_id)
-
-    activities = crud.get_activities_by_activities_ids(activities_ids)
-
-    act_group_by_city = {}
-    for activity in activities:
-        # print(activity.sched_acts)
-    
-        if activity.city_id in act_group_by_city:
-            # append activity at that key
-            act_group_by_city[activity.city_id].append(activity)
-        else:
-            act_group_by_city[activity.city_id] = [activity]
-
+    for key, sched_acts_grouped_by_date in groupby(sorted(itinerary.sched_acts, key=lambda sched_act: sched_act.datetime.date() if sched_act.datetime else datetime.min.date()), lambda sched_act: sched_act.datetime.date() if sched_act.datetime else datetime.min.date()):
+        sched_acts_by_date[key] = list(sched_acts_grouped_by_date)
     
     # add a field for flights
-    print(sched_acts_by_date)
 
     return render_template("itinerary.html", 
                             itinerary=itinerary, 
-                            activities=activities, 
-                            act_group_by_city=act_group_by_city,
                             sched_acts_by_date=sched_acts_by_date
                             )
 

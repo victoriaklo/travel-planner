@@ -16,9 +16,9 @@
 <br>
 <form action="/itinerary/{{itin_id}}/edit" id="edit-itin-form" method="post">
   <p id="itin_id" name="itin_id" hidden>{{itinerary.id}}</p>
-  {% for key, value in act_group_by_city.items() %}
+  {% for key, value in sched_acts_grouped_by_city.items() %}
 <br>
-<div class="card" style="width: 64rem;">
+<div class="card" style="width: 72rem;">
     <div class="card-body">
       <h5 class="card-title">{{ key|e }}</h5>
     </div>
@@ -27,15 +27,17 @@
     <div>
       <input type="checkbox" id="{{items.id}}" name="activities" value="{{items.id}}">
       <label for="{{items.id}}">
-        <li class="list-group-item">{{items.type}}: {{items.name}}
+        <li class="list-group-item">{{items.act.type}}: {{items.act.name}}
         </li>
       </label>
       <span>
-        <label for="{{items.name}} date"> Add date:</label>
-        <input type="date" name="{{items.id}}"
-              placeholder="2022-04-01"
-              min="2022-04-01" max="2050-12-31">
+        <label for="{{items.act.name}} date">Date and Time:</label>
+
+        <input type="datetime-local" id="{{items.id}} datetime"
+                name="date-time" placeholder="2022-04-16T00:30"
+                min="2022-04-01T00:00" max="2050-06-14T00:00">
       </span> 
+
     </div>
     
 
@@ -44,17 +46,17 @@
        <div class="input-group mb-3">
         <input type="checkbox" id="flight" name="flight">
         <span class="input-group-text">Departing Airport</span>
-        <input type="text" class="form-control" placeholder="SFO" aria-label="depart_airport">
-        <span class="input-group-text">Arrival Date</span>
-        <input type="date" name="arrival-date"
-              placeholder="2022-04-01"
-              min="2022-04-01" max="2050-12-31">
+        <input type="text" class="form-control" placeholder="SFO" maxlength="3" aria-label="depart_airport">
+        <span class="input-group-text">Depart Date</span>
+        <input type="datetime-local" aria-label="depart_date"
+                name="date-time" placeholder="2022-04-16T00:30"
+                min="2022-04-01T00:00" max="2050-06-14T00:00">
         <span class="input-group-text">Arrival Airport</span>
-        <input type="text" class="form-control" placeholder="CDG" aria-label="arrival_airport">
+        <input type="text" class="form-control" placeholder="CDG" maxlength="3" aria-label="arrival_airport">
         <span class="input-group-text">Arrival Date</span>
-        <input type="date" name="arrival-date"
-              placeholder="2022-04-01"
-              min="2022-04-01" max="2050-12-31">
+        <input type="datetime-local" aria-label="arrival_date"
+                name="date-time" placeholder="2022-04-16T00:30"
+                min="2022-04-01T00:00" max="2050-06-14T00:00">
       </div>
 
 
