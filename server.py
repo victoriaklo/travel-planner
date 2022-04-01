@@ -45,12 +45,13 @@ def register_user():
     password = request.form.get("password")
 
     hash_password = crud.hash_password(password)
+    del password
 
     user = crud.get_user_by_email(email)
     if user:
         flash("Cannot create an account with that email. Try again.")
     else:
-        user = crud.create_user(first_name, last_name, email, hash_password)
+        user = crud.create_user(first_name=first_name, last_name=last_name, email=email, password=hash_password)
         db.session.add(user)
         db.session.commit()
         flash("Account created! Please log in.")
@@ -365,7 +366,10 @@ def edit_itin_by_id(id):
         # if it's a post request, it is taking the data from the form
         # save the edits and add it to the session, then commit
         form_data = dict(request.form)
-        notes = form_data['notes']
+        print("\n" * 5)
+        print(form_data)
+        print("\n" * 5)
+        notes = form_data.get('notes')
         itinerary.notes = notes
         db.session.commit()
         form_data.pop('notes')
@@ -379,45 +383,44 @@ def edit_itin_by_id(id):
 
             if act_id in act_id_dates_only:
                 value = act_id_dates_only.get(act_id)
-                sched_act_obj.datetime = datetime.strptime(value, '%Y-%m-%d')
-                db.session.commit()
+                if value:
+                    sched_act_obj.datetime = datetime.strptime(value, '%Y-%m-%d')
+                    db.session.commit()
 
         return redirect(f"/itinerary/{id}")
 
-@app.route("/delete_sched_acts", methods=["POST"])
-def delete_scheduled_activities():
+@app.route("/itinerary/<int:itin_id>/delete", methods=["POST"])
+def delete_scheduled_activities(itin_id):
     """Deletes scheduled activities by itinerary id"""
 
-    itinerary = request.form.get("itin_id")
+    itinerary = crud.get_itin_by_id(itin_id)
     print(itinerary)
+    
+    act_id_list = request.form.getlist("activities") #list of act_ids
 
-    form_data = dict(request.form)
+    notes = request.form.get("notes")
+
+
     # get itinerary
     # get all sched acts from form
     # then delete sched_activities then commit
-    notes = form_data['notes']
-    form_data.pop('notes')
+    # notes = form_data['notes']
+    # form_data.pop('notes')
 
+    sched_acts_obj_list = itinerary.sched_acts
     print("\n" * 5)
-    print(form_data)
+    print(sched_acts_obj_list)
     print("\n" * 5)
 
-    # sched_acts_obj_list = itinerary.sched_acts
-    # print("\n" * 5)
-    # print(sched_acts_obj_list)
-    # print("\n" * 5)
+    for sched_act_obj in sched_acts_obj_list:
+        act_id = str(sched_act_obj.act_id)
 
+        if act_id in act_id_list:
+            db.session.delete(sched_act_obj)
+            db.session.commit()
+            flash("----- items permanently deleted -----")
 
-    # for sched_act_obj in sched_acts_obj_list:
-    #     act_id = str(sched_act_obj.act_id)
-
-    #     if act_id in act_id_dates_only:
-    #         value = act_id_dates_only.get(act_id)
-    #         # db.session.delete(id)
-    #         # db.session.commit()
-    #         flash("----all items permanently deleted-----")
-
-    return redirect(f"/itinerary/{id}")
+    return redirect(f"/itinerary/{itin_id}")
 
 
 @app.route("/itinerary/<int:id>")

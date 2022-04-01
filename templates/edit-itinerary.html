@@ -22,25 +22,25 @@
     <div class="card-body">
       <h5 class="card-title">{{ key|e }}</h5>
     </div>
+    <ul class="list-group list-group-flush">
     {% for items in value %}
     <div>
-      <input type="checkbox" id="activity-test" name="activity">
-      <label for="activity">
+      <input type="checkbox" id="{{items.id}}" name="activities" value="{{items.id}}">
+      <label for="{{items.id}}">
         <li class="list-group-item">{{items.type}}: {{items.name}}
         </li>
       </label>
       <span>
         <label for="{{items.name}} date"> Add date:</label>
-
         <input type="date" name="{{items.id}}"
               placeholder="2022-04-01"
               min="2022-04-01" max="2050-12-31">
       </span> 
     </div>
-    <ul class="list-group list-group-flush">
+    
 
       {% endfor %}
-      <br>
+
        <div class="input-group mb-3">
         <input type="checkbox" id="flight" name="flight">
         <span class="input-group-text">Departing Airport</span>
@@ -59,9 +59,7 @@
 
 
 {% endfor %}
-      <div>
-        <label for="notes">
-      </div>
+
       <li id ="city-notes" class="city-notes">
        <div class="input-group">
         <span class="input-group-text">Notes:</span>
@@ -72,7 +70,7 @@
   </div>
 <br>
 <span>
-  <button id="delete-edits-btn" type="submit" formaction="/delete_sched_acts">DELETE selected items</button>
+  <button id="delete-edits-btn" type="submit" formaction="/itinerary/{{itin_id}}/delete">DELETE selected items</button>
   <p>or</p>
   <button id="save-edits-btn" type="submit">Save Updates</button>
 </span>
