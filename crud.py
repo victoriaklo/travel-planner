@@ -1,6 +1,6 @@
 """CRUD operations."""
 
-from model import db, User, City, Itinerary, Destination, Activity, ScheduledActivity, connect_to_db
+from model import db, User, City, Itinerary, Destination, Activity, ScheduledActivity, Flight, connect_to_db
 from passlib.hash import argon2
 
 ### ---------------- CRUD FUNCTIONS FOR USER --------------- ###
@@ -158,7 +158,18 @@ def delete_sched_acts_by_id(ids):
 
 
 ### ---------------- CRUD FUNCTIONS FOR FLIGHTS --------------- ###
-#create_flight
+def create_flight(depart_airport, arrival_airport, depart_time, arrival_time, itin_id):
+    """Create and return a new itinerary."""
+    
+    flight = Flight(
+        depart_airport=depart_airport, 
+        arrival_airport=arrival_airport, 
+        depart_time=depart_time, 
+        arrival_time=arrival_time, 
+        itin_id=itin_id
+    )
+
+    return flight
 
 
 

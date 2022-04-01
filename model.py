@@ -69,7 +69,7 @@ class Itinerary(db.Model):
 
     user = db.relationship("User", backref="itins") # one-to-many itineraries
     cities = db.relationship("City", secondary="destinations", backref="itins") #many-to-many
-    # flights = db.relationship("Flight", backref="itin") #many-to-one itinerary
+    flights = db.relationship("Flight", backref="itin") #many-to-one itinerary
 
     #free attribute: 'sched_acts' = a list of scheduled activity objects
 
@@ -141,23 +141,23 @@ class ScheduledActivity(db.Model):
 
 
 
-# class Flight(db.Model):
-#     """A flight"""
+class Flight(db.Model):
+    """A flight"""
 
-#     __tablename__ = "flights"
+    __tablename__ = "flights"
 
-#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     depart_airport = db.Column(db.String)
-#     arrival_airport = db.Column(db.String)
-#     depart_time = db.Column(db.DateTime)
-#     arrival_time = db.Column(db.DateTime)
-#     itin_id = db.Column(db.Integer, db.ForeignKey("itineraries.id")) 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    depart_airport = db.Column(db.String)
+    arrival_airport = db.Column(db.String)
+    depart_time = db.Column(db.DateTime)
+    arrival_time = db.Column(db.DateTime)
+    itin_id = db.Column(db.Integer, db.ForeignKey("itineraries.id"), nullable=False) 
 #     depart_city_id = db.Column(db.Integer, db.ForeignKey("cities.id")) #one-to-one 
 #     arrival_city_id = db.Column(db.Integer, db.ForeignKey("cities.id")) #one-to-one 
     
 #     #relationships:
 
-#     #free attribute '.itin' = = a list of Itinerary objects
+#     #free attribute '.itin' = a list of Itinerary objects
 
 #     depart_city_id = db.relationship(
 #                 "Destination",
@@ -173,8 +173,8 @@ class ScheduledActivity(db.Model):
 
 
 
-#     def __repr__(self):
-#         return f"<Flight id={self.id} itin_id={self.itin_id} depart_city_id={self.depart_city_id} arrival_city_id={self.arrival_city_id}>"
+    def __repr__(self):
+        return f"<Flight id={self.id} itin_id={self.itin_id} depart_airport={self.depart_airport} arrival_airport={self.arrival_airport}>"
 
 #test_flight = Flight(depart_airport="sfo", arrival_airport="cdg", itin_id=1, depart_city_id=1, arrival_city_id=1)
 

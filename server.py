@@ -7,6 +7,7 @@ import requests
 import os
 from datetime import datetime
 from passlib.hash import argon2
+from itertools import groupby
 
 from jinja2 import StrictUndefined
 
@@ -96,6 +97,13 @@ def render_main_page():
 
     if not session.get('user_email'):
         return redirect("/")
+
+    return render_template("main.html")
+
+@app.route("/globe")
+def render_globe():
+    """View Interactive Globe."""
+
 
     return render_template("globe.html")
 
@@ -203,7 +211,7 @@ def get_attractions():
     payload = {
         'location': location,
         'radius': 50000, # distance in meters
-        'types':[ "museum", "tourist_attraction", "art_gallery", "bar", "shopping_mall", "park", "point_of_interest" ],
+        'types':["amusement_park", "aquarium", "art_gallery","bar", "book_store", "bowling_alley","campground","museum", "tourist_attraction", "library", "shopping_mall", "park", "point_of_interest"],
         'key': API_KEY
         }
     headers = {}
@@ -428,6 +436,17 @@ def display_itin_by_id(id):
     """Display itinerary by id"""
     
     itinerary = crud.get_itin_by_id(id)
+    print("\n" * 5)
+    print(itinerary)
+    print("\n" * 5)
+
+    sched_act_list = itinerary.sched_acts
+    print("\n" * 5)
+    print(sched_act_list)
+    print("\n" * 5)
+    
+
+
     # get activity by itin_id, then pass activity to template
     activities_ids = []
 
@@ -438,19 +457,23 @@ def display_itin_by_id(id):
 
     act_group_by_city = {}
     for activity in activities:
+        # print(activity.sched_acts)
+    
         if activity.city_id in act_group_by_city:
             # append activity at that key
             act_group_by_city[activity.city_id].append(activity)
         else:
             act_group_by_city[activity.city_id] = [activity]
+
     
     # add a field for flights
-
+    print(sched_acts_by_date)
 
     return render_template("itinerary.html", 
                             itinerary=itinerary, 
                             activities=activities, 
-                            act_group_by_city=act_group_by_city
+                            act_group_by_city=act_group_by_city,
+                            sched_acts_by_date=sched_acts_by_date
                             )
 
 
@@ -476,10 +499,6 @@ def display_itineraries():
         return redirect("/")
 
     user_id = user.user_id
-
-    # returns a list of itinerary objects
-    # query all itins for current user, then pass that list of itineraries to jinja template
-    # then using the relationships to get the other info you need
 
     all_itineraries = crud.get_itins_by_user(user_id)
 
