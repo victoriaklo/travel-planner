@@ -376,13 +376,10 @@ def edit_itin_by_id(id):
 
         # if notes were added from the form, add to the session
         notes = form_data.get('notes')
-
-
-        itinerary.notes = notes
-        db.session.commit()
-        form_data.pop('notes') 
-
-        flight_data = request.form.getlist("flight-data")
+        if notes:
+            itinerary.notes = notes
+            db.session.commit()
+            form_data.pop('notes') 
 
 
         sched_acts_obj_list = itinerary.sched_acts
@@ -441,10 +438,14 @@ def display_itin_by_id(id):
     # print("\n" * 5)
     
     # add a field for flights
+    flights = crud.get_flights_by_itin_id(id)
+
+    # create a dictionary, keys are the dates, and then add activites/flights to value list 
 
     return render_template("itinerary.html", 
                             itinerary=itinerary, 
-                            sched_acts_by_date=sched_acts_by_date
+                            sched_acts_by_date=sched_acts_by_date,
+                            flights=flights
                             )
 
 
@@ -482,7 +483,30 @@ def display_itineraries():
                             all_itineraries=all_itineraries,
                             sched_activities_list=sched_activities_list)
 
+### ----------- ROUTES FOR FLIGHT ------- ###
+@app.route("/itinerary/<int:itin_id>/flights", methods=["GET", "POST"])
+def find_flights(itin_id):
+    """Find flights for itinerary"""
+    id = itin_id
+    if request.method == "GET":
+        return render_template("flights.html", itin_id=id)
+    else:
+        depart_airport = request.form.get("depart-airport")
+        depart_datetime = request.form.get("depart-datetime")
+        arrival_airport = request.form.get("arrival-airport")
+        arrival_datetime = request.form.get("arrival-datetime")
 
+        depart_datetime = datetime.strptime(depart_datetime, '%Y-%m-%dT%H:%M')
+        arrival_datetime = datetime.strptime(arrival_datetime, '%Y-%m-%dT%H:%M')
+
+        flight = crud.create_flight(depart_airport, depart_datetime, arrival_airport, arrival_datetime, itin_id)
+        db.session.add(flight)
+        db.session.commit()
+        print("\n" * 5)
+        print(flight)
+        print("\n" * 5)
+        return redirect(f"/itinerary/{itin_id}")
+    
 
 if __name__ == "__main__":
     connect_to_db(app)

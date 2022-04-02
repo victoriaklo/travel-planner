@@ -160,19 +160,23 @@ def delete_sched_acts_by_id(ids):
 
 
 ### ---------------- CRUD FUNCTIONS FOR FLIGHTS --------------- ###
-def create_flight(depart_airport, arrival_airport, depart_time, arrival_time, itin_id):
+def create_flight(depart_airport, depart_time, arrival_airport, arrival_time, itin_id):
     """Create and return a new itinerary."""
 
     flight = Flight(
         depart_airport=depart_airport, 
-        arrival_airport=arrival_airport, 
-        depart_time=depart_time, 
+        depart_time=depart_time,
+        arrival_airport=arrival_airport,  
         arrival_time=arrival_time, 
         itin_id=itin_id
     )
 
     return flight
 
+def get_flights_by_itin_id(id):
+    """Display the flights by itinerary id"""
+
+    return Flight.query.filter(Flight.itin_id==id).all()
 
 
 if __name__ == "__main__":
