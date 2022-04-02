@@ -125,7 +125,6 @@ class ScheduledActivity(db.Model):
     act_id = db.Column(db.Integer, db.ForeignKey("activities.id"), nullable=False)
     itin_id = db.Column(db.Integer, db.ForeignKey("itineraries.id"), nullable=False)
     datetime = db.Column(db.DateTime) # format -> datetime(YYYY, MM, DD, HH, MM, SS, MS)
-    # https://docs.python.org/3/library/datetime.html#datetime-objects
 
     #relationships:
     act = db.relationship("Activity", backref="sched_acts")
@@ -133,7 +132,7 @@ class ScheduledActivity(db.Model):
 
 
     def __repr__(self):
-        return f"<ScheduledActivity id={self.id} act_id={self.act_id} itin_id={self.itin_id}>"
+        return f"<ScheduledActivity id={self.id} act_id={self.act_id} itin_id={self.itin_id} datetime={self.datetime}>"
 
 #test_sched = ScheduledActivity(act_id=1, itin_id=1, datetime=datetime(2019, 6, 5, 8, 10, 10, 10))
 # db.session.add(test_sched)

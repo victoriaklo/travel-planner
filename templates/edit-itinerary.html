@@ -25,7 +25,7 @@
     <ul class="list-group list-group-flush">
     {% for items in value %}
     <div>
-      <input type="checkbox" id="{{items.id}}" name="activities" value="{{items.id}}">
+      <input type="checkbox" id="{{items.id}}" name="sched-acts-data" value="{{items.id}}">
       <label for="{{items.id}}">
         <li class="list-group-item">{{items.act.type}}: {{items.act.name}}
         </li>
@@ -34,7 +34,7 @@
         <label for="{{items.act.name}} date">Date and Time:</label>
 
         <input type="datetime-local" id="{{items.id}} datetime"
-                name="date-time" placeholder="2022-04-16T00:30"
+                name="sched-acts-data" placeholder="2022-04-16T00:30"
                 min="2022-04-01T00:00" max="2050-06-14T00:00">
       </span> 
 
@@ -44,18 +44,18 @@
       {% endfor %}
 
        <div class="input-group mb-3">
-        <input type="checkbox" id="flight" name="flight">
+        <input type="checkbox" id="depart-flight" name="flight">
         <span class="input-group-text">Departing Airport</span>
-        <input type="text" class="form-control" placeholder="SFO" maxlength="3" aria-label="depart_airport">
+        <input type="text" name="flight-data" class="form-control" placeholder="SFO" maxlength="3" aria-label="depart_airport">
         <span class="input-group-text">Depart Date</span>
         <input type="datetime-local" aria-label="depart_date"
-                name="date-time" placeholder="2022-04-16T00:30"
+                name="flight-data" placeholder="2022-04-16T00:30"
                 min="2022-04-01T00:00" max="2050-06-14T00:00">
         <span class="input-group-text">Arrival Airport</span>
-        <input type="text" class="form-control" placeholder="CDG" maxlength="3" aria-label="arrival_airport">
+        <input type="text" name="flight-data" class="form-control" placeholder="CDG" maxlength="3" aria-label="arrival_airport">
         <span class="input-group-text">Arrival Date</span>
         <input type="datetime-local" aria-label="arrival_date"
-                name="date-time" placeholder="2022-04-16T00:30"
+                name="flight-data" placeholder="2022-04-16T00:30"
                 min="2022-04-01T00:00" max="2050-06-14T00:00">
       </div>
 

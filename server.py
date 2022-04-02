@@ -368,13 +368,21 @@ def edit_itin_by_id(id):
         print("\n" * 5)
         print(form_data)
         print("\n" * 5)
+
+        # if notes were added from the form, add to the session
         notes = form_data.get('notes')
+
+
         itinerary.notes = notes
         db.session.commit()
-        form_data.pop('notes')
+        form_data.pop('notes') 
 
-        act_id_dates_only = form_data
-        print(act_id_dates_only)
+        flight_data = request.form.getlist("flight-data")
+        sched_acts_data = request.form.getlist("sched-acts-data")
+        # print("\n" * 5)
+        # print(sched_acts_data)
+        # print("\n" * 5)
+
 
         sched_acts_obj_list = itinerary.sched_acts
 
@@ -412,6 +420,7 @@ def delete_scheduled_activities(itin_id):
     print(sched_acts_obj_list)
     print("\n" * 5)
 
+# if selected, we are deleting 
     for sched_act_obj in sched_acts_obj_list:
         act_id = str(sched_act_obj.act_id)
 
@@ -435,6 +444,10 @@ def display_itin_by_id(id):
 
     for key, sched_acts_grouped_by_date in groupby(sorted(itinerary.sched_acts, key=lambda sched_act: sched_act.datetime.date() if sched_act.datetime else datetime.min.date()), lambda sched_act: sched_act.datetime.date() if sched_act.datetime else datetime.min.date()):
         sched_acts_by_date[key] = list(sched_acts_grouped_by_date)
+    
+    # print("\n" * 5)
+    # print(sched_acts_by_date)
+    # print("\n" * 5)
     
     # add a field for flights
 
