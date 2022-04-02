@@ -153,14 +153,16 @@ def create_sched_activity(act_id,itin_id):
 def delete_sched_acts_by_id(ids):
     """Takes a list and deletes scheduled activities by ids"""
     for id in ids:
-        db.session.delete(id)
-        db.session.commit()
+        sched_act = ScheduledActivity.query.get(id)
+        db.session.delete(sched_act)
+    
+    db.session.commit()
 
 
 ### ---------------- CRUD FUNCTIONS FOR FLIGHTS --------------- ###
 def create_flight(depart_airport, arrival_airport, depart_time, arrival_time, itin_id):
     """Create and return a new itinerary."""
-    
+
     flight = Flight(
         depart_airport=depart_airport, 
         arrival_airport=arrival_airport, 

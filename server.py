@@ -217,6 +217,11 @@ def get_attractions():
     headers = {}
 
     response = requests.get(url, params=payload).json()
+    print("\n" * 5)
+    print(url)
+    print(payload)
+    print(response)
+    print("\n" * 5)
 
     important_data = []
 
@@ -378,21 +383,16 @@ def edit_itin_by_id(id):
         form_data.pop('notes') 
 
         flight_data = request.form.getlist("flight-data")
-        sched_acts_data = request.form.getlist("sched-acts-data")
-        # print("\n" * 5)
-        # print(sched_acts_data)
-        # print("\n" * 5)
 
 
         sched_acts_obj_list = itinerary.sched_acts
 
         for sched_act_obj in sched_acts_obj_list:
-            act_id = str(sched_act_obj.act_id)
 
-            if act_id in act_id_dates_only:
-                value = act_id_dates_only.get(act_id)
+            if str(sched_act_obj.id) in form_data:
+                value = form_data[str(sched_act_obj.id)]
                 if value:
-                    sched_act_obj.datetime = datetime.strptime(value, '%Y-%m-%d-%H-%M')
+                    sched_act_obj.datetime = datetime.strptime(value, '%Y-%m-%dT%H:%M')
                     db.session.commit()
 
         return redirect(f"/itinerary/{id}")
@@ -404,10 +404,10 @@ def delete_scheduled_activities(itin_id):
     itinerary = crud.get_itin_by_id(itin_id)
     print(itinerary)
     
-    act_id_list = request.form.getlist("activities") #list of act_ids
-
-    notes = request.form.get("notes")
-
+    sched_acts_list = request.form.getlist("sched-acts-data") #list of act_ids
+    print("\n" * 5)
+    print(sched_acts_list)
+    print("\n" * 5)
 
     # get itinerary
     # get all sched acts from form
@@ -415,19 +415,10 @@ def delete_scheduled_activities(itin_id):
     # notes = form_data['notes']
     # form_data.pop('notes')
 
-    sched_acts_obj_list = itinerary.sched_acts
-    print("\n" * 5)
-    print(sched_acts_obj_list)
-    print("\n" * 5)
-
-# if selected, we are deleting 
-    for sched_act_obj in sched_acts_obj_list:
-        act_id = str(sched_act_obj.act_id)
-
-        if act_id in act_id_list:
-            db.session.delete(sched_act_obj)
-            db.session.commit()
-            flash("----- items permanently deleted -----")
+    list_of_ids = list(map(lambda n: int(n), sched_acts_list))
+        
+    crud.delete_sched_acts_by_id(list_of_ids)
+    flash("----- items permanently deleted -----")
 
     return redirect(f"/itinerary/{itin_id}")
 
