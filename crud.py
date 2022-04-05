@@ -2,6 +2,7 @@
 
 from model import db, User, City, Itinerary, Destination, Activity, ScheduledActivity, Flight, connect_to_db
 from passlib.hash import argon2
+import re
 
 ### ---------------- CRUD FUNCTIONS FOR USER --------------- ###
 
@@ -25,6 +26,7 @@ def get_user_by_email(email):
     """
 
     return User.query.filter(User.email == email).first()
+
 
 def hash_password(password):
     """Converts password to hash"""

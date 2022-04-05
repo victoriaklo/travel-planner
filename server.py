@@ -8,6 +8,7 @@ import os
 from datetime import datetime
 from passlib.hash import argon2
 from itertools import groupby
+import re
 
 from jinja2 import StrictUndefined
 
@@ -48,14 +49,18 @@ def register_user():
     hash_password = crud.hash_password(password)
     del password
 
-    user = crud.get_user_by_email(email)
-    if user:
-        flash("Cannot create an account with that email. Try again.")
+    pattern = r"\b[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z0-9]{2,}\b"
+    if not (re.fullmatch(pattern, email)):
+        flash("Please enter a valid email address")
     else:
-        user = crud.create_user(first_name=first_name, last_name=last_name, email=email, password=hash_password)
-        db.session.add(user)
-        db.session.commit()
-        flash("Account created! Please log in.")
+        user = crud.get_user_by_email(email)
+        if user:
+            flash("Cannot create an account with that email. Try again.")
+        else:
+            user = crud.create_user(first_name=first_name, last_name=last_name, email=email, password=hash_password)
+            db.session.add(user)
+            db.session.commit()
+            flash("Account created! Please log in.")
 
     return redirect("/")
 
@@ -105,7 +110,7 @@ def render_globe():
     """View Interactive Globe."""
 
 
-    return render_template("globe.html")
+    return render_template("globe_csv.html")
 
 
 ### ---------------- ROUTES FOR USER PROFILE PAGE --------------- ###
@@ -210,12 +215,12 @@ def get_attractions():
 
     payload = {
         'location': location,
-        'radius': 50000, # distance in meters
-        'types':["amusement_park", "aquarium", "art_gallery","bar", "book_store", "bowling_alley","campground","museum", "tourist_attraction", "library", "shopping_mall", "park", "point_of_interest"],
+        'radius': 50000, # distance in meters ["point_of_interest", "tourist_attraction", "establishment"] 
+        'types':["point_of_interest", "tourist_attraction", "landmark", "museum" "natural_feature", "night_club", "establishment"],
         'key': API_KEY
         }
     headers = {}
-
+# ["amusement_park", "aquarium", "art_gallery","bar", "book_store", "museum", "tourist_attraction", "library", "shopping_mall", "park", "point_of_interest"]
     response = requests.get(url, params=payload).json()
     print("\n" * 5)
     print(url)
@@ -425,19 +430,16 @@ def display_itin_by_id(id):
     """Display itinerary by id"""
     
     itinerary = crud.get_itin_by_id(id)
-    # sched_act_list = itinerary.sched_acts
 
     # https://docs.python.org/3/library/itertools.html#itertools.groupby
     sched_acts_by_date = {}
 
     for key, sched_acts_grouped_by_date in groupby(sorted(itinerary.sched_acts, key=lambda sched_act: sched_act.datetime.date() if sched_act.datetime else datetime.min.date()), lambda sched_act: sched_act.datetime.date() if sched_act.datetime else datetime.min.date()):
         sched_acts_by_date[key] = list(sched_acts_grouped_by_date)
-    
     # print("\n" * 5)
     # print(sched_acts_by_date)
     # print("\n" * 5)
     
-    # add a field for flights
     flights = crud.get_flights_by_itin_id(id)
 
     # create a dictionary, keys are the dates, and then add activites/flights to value list 
@@ -502,9 +504,7 @@ def find_flights(itin_id):
         flight = crud.create_flight(depart_airport, depart_datetime, arrival_airport, arrival_datetime, itin_id)
         db.session.add(flight)
         db.session.commit()
-        print("\n" * 5)
-        print(flight)
-        print("\n" * 5)
+
         return redirect(f"/itinerary/{itin_id}")
     
 
