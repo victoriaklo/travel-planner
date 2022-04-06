@@ -32,7 +32,7 @@ def homepage():
 
     user_id = session.get('user_email')
     if user_id:
-        return redirect('/main')
+        return redirect('/globe')
 
     return render_template("login.html")
 
@@ -109,6 +109,8 @@ def render_main_page():
 def render_globe():
     """View Interactive Globe."""
 
+    if not session.get('user_email'):
+        return redirect("/")
 
     return render_template("globe_csv.html")
 
@@ -222,11 +224,6 @@ def get_attractions():
     headers = {}
 # ["amusement_park", "aquarium", "art_gallery","bar", "book_store", "museum", "tourist_attraction", "library", "shopping_mall", "park", "point_of_interest"]
     response = requests.get(url, params=payload).json()
-    print("\n" * 5)
-    print(url)
-    print(payload)
-    print(response)
-    print("\n" * 5)
 
     important_data = []
 
@@ -375,9 +372,7 @@ def edit_itin_by_id(id):
         # if it's a post request, it is taking the data from the form
         # save the edits and add it to the session, then commit
         form_data = dict(request.form)
-        print("\n" * 5)
-        print(form_data)
-        print("\n" * 5)
+
 
         # if notes were added from the form, add to the session
         notes = form_data.get('notes')
@@ -436,9 +431,7 @@ def display_itin_by_id(id):
 
     for key, sched_acts_grouped_by_date in groupby(sorted(itinerary.sched_acts, key=lambda sched_act: sched_act.datetime.date() if sched_act.datetime else datetime.min.date()), lambda sched_act: sched_act.datetime.date() if sched_act.datetime else datetime.min.date()):
         sched_acts_by_date[key] = list(sched_acts_grouped_by_date)
-    # print("\n" * 5)
-    # print(sched_acts_by_date)
-    # print("\n" * 5)
+
     
     flights = crud.get_flights_by_itin_id(id)
 
@@ -489,9 +482,9 @@ def display_itineraries():
 @app.route("/itinerary/<int:itin_id>/flights", methods=["GET", "POST"])
 def find_flights(itin_id):
     """Find flights for itinerary"""
-    id = itin_id
+
     if request.method == "GET":
-        return render_template("flights.html", itin_id=id)
+        return render_template("flights.html", itin_id=itin_id)
     else:
         depart_airport = request.form.get("depart-airport")
         depart_datetime = request.form.get("depart-datetime")

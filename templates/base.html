@@ -19,21 +19,31 @@
   <body>
 
     {% block navbar %}
-    <div id="navbar" name="navbar">
-      <div>
-        <a href="/main">Go back to globe</a>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" >Navbar (brand here)</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/user_profile">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/itineraries">Itineraries</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/globe">Globe</a>
+            </li>
+          </ul>
+          <span class="navbar-text">
+            <a href="/logout">Log Out</a>
+          </span>
+        </div>
       </div>
-      <div>
-        <a href="/itineraries">Go to Itinerary Page</a>
-      </div>
-      <div>
-        <a href="/user_profile">Go to my profile</a>
-      </div>
-      <div>
-        <a href="/logout">Log Out</a>
-      </div>
-    
-    </div>
+    </nav>
     
     {% endblock %}
 
