@@ -92,7 +92,7 @@
 
 
       const extremesLayer = new GeoJSONLayer({
-        url: "/data/cities.geojson",
+        url: "/static/cities.geojson",
         elevationInfo: {
           mode: "absolute-height"
         },
@@ -123,9 +123,6 @@
             </div>
             <div class="popupImageCaption">{imageCaption}</div>
             <div class="popupDescription">
-              <p class="info">
-                <span class="esri-icon-favorites"></span> {type}
-              </p>
               <p class="info">
                 <span class="esri-icon-map-pin"></span> {location}
               </p>
