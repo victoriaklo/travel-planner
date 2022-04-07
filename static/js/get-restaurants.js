@@ -19,6 +19,9 @@ restButton.addEventListener('click', () => {
     
     for (const result of data.results) {
 
+      if (result.photo_url === undefined) {
+        result.photo_url = "/static/img/placeholder.png";
+      }
         document.querySelector("#restaurants-data").innerHTML += `
         <div class="card" style="width: 18rem;">
           <img class="card-img-top" src="${result.photo_url}" alt="Card image cap"width="300" 

@@ -21,7 +21,9 @@ attractionBtn.addEventListener('click', () => {
     // for of will return the value, not the index
     for (const result of data.results) {
 
-
+      if (result.photo_url === undefined) {
+        result.photo_url = "/static/img/placeholder.png";
+      }
         document.querySelector('#attractions-data').innerHTML += `
 
           <div class="card" style="width: 18rem;">
