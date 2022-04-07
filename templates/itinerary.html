@@ -7,21 +7,24 @@
 {% set itin_id = itinerary.id %}
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <button id="edit-itin-btn" type="button"><a href="/itinerary/{{itin_id}}/edit">Edit</a></button>
-  </div>
-  <br>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <button id="flight-btn" type="button"><a href="/itinerary/{{itin_id}}/flights">Add Flight Here</a></button>
-  </div>
+  <button id="edit-itin-btn" type="button"><a href="/itinerary/{{itin_id}}/edit">Edit</a></button>
+</div>
+<br>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <button id="flight-btn" type="button"><a href="/itinerary/{{itin_id}}/flights">Add Flight Here</a></button>
+</div>
+<br>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <button id="email-itin-btn" type="button"><a href="/itinerary/{{itin_id}}/email">Email Itinerary to yourself</a></button>
+</div>
 <br>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
   <form action="/itinerary/{{itin_id}}" method="post">
     <button id="delete-itin-btn" type="submit">DELETE FOREVER</button>
   </form>
-  
 </div>
 <br>
-<h2>{{itinerary.title}}</h2>
+<h2>Itinerary for your trip: {{itinerary.title}}</h2>
 
 <hr>
 
@@ -29,7 +32,7 @@
   {% for date, sched_acts_for_date in sched_acts_by_date.items() %}
     <div display="flex">
       <div>
-        <strong>Date: {{date}}</strong>
+          <strong>Date: {{date}}</strong>
         <ol>
           {% for sched_act in sched_acts_for_date %}
           <div display="flex">
@@ -44,6 +47,9 @@
     </div>
     {% endfor %}
   </div>
+  <br>
+  <br>
+
 
 
 <h2>Your booked flights:</h2>

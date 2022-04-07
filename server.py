@@ -9,6 +9,8 @@ from datetime import datetime
 from passlib.hash import argon2
 from itertools import groupby
 import re
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 from jinja2 import StrictUndefined
 
@@ -50,6 +52,7 @@ def register_user():
     del password
 
     pattern = r"\b[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z0-9]{2,}\b"
+
     if not (re.fullmatch(pattern, email)):
         flash("Please enter a valid email address")
     else:
@@ -65,7 +68,6 @@ def register_user():
     return redirect("/")
 
 
-
 @app.route("/login", methods=["POST"])
 def process_login():
     """Process user login."""
@@ -73,16 +75,22 @@ def process_login():
     email = request.form.get("email")
     password = request.form.get("password")
 
-    user = crud.get_user_by_email(email)
-    
-    #if passwords match, send user to profile
-    if argon2.verify(password, user.password):
-        session["user_email"] = user.email
-        return redirect ("/user_profile")
-    else:
-        flash("Sorry, passwords do not match!")
-        return redirect('/')
+    pattern = r"\b[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z0-9]{2,}\b"
+    if not (re.fullmatch(pattern, email)):
+        flash("Please enter a valid email address")
+        return redirect("/")
 
+    user = crud.get_user_by_email(email)
+    if user:
+        #if passwords match, send user to profile
+        if argon2.verify(password, user.password):
+            session["user_email"] = user.email
+            return redirect ("/user_profile")
+        else:
+            flash("Sorry, passwords do not match!")
+            return redirect('/')
+    else:
+        flash("Please enter a valid email and password")
 
 
 @app.route("/logout", methods=["GET", "POST"])
@@ -222,7 +230,7 @@ def get_attractions():
         'key': API_KEY
         }
     headers = {}
-# ["amusement_park", "aquarium", "art_gallery","bar", "book_store", "museum", "tourist_attraction", "library", "shopping_mall", "park", "point_of_interest"]
+ # ["amusement_park", "aquarium", "art_gallery","bar", "book_store", "museum", "tourist_attraction", "library", "shopping_mall", "park", "point_of_interest"]
     response = requests.get(url, params=payload).json()
 
     important_data = []
@@ -453,7 +461,6 @@ def delete_itin_by_id(id):
     return redirect("/itineraries")
 
 
-
 @app.route("/itineraries")
 def display_itineraries():
     """Displays all itineraries created by the user"""
@@ -477,6 +484,43 @@ def display_itineraries():
     return render_template("itineraries.html", 
                             all_itineraries=all_itineraries,
                             sched_activities_list=sched_activities_list)
+
+
+@app.route("/itinerary/<int:id>/email")
+def email_itinerary(id):
+    """Email the itinerary to the user"""
+
+    itinerary = crud.get_itin_by_id(id)
+
+    email = session["user_email"]
+    
+    itin_data = display_itin_by_id(id)
+    print("\n"*5)
+    print(itin_data)
+    print("\n"*5)
+
+
+    # call crud function to send email
+    email_itinerary_by_id("victoriakarenlo@gmail.com", itin_data)
+
+    return redirect(f"/itinerary/{id}")
+
+def email_itinerary_by_id(email, data):
+    """Takes in itinerary id, and sends email of itinerary"""
+
+    message = Mail(
+    from_email='victoriakarenlo@gmail.com',
+    to_emails=email,
+    subject='Itinerary for your Trip',
+    plain_text_content='and easy to do anywhere, even with Python',
+    html_content=f'<strong>{data}</strong>')
+
+    print(os.environ.get('SENDGRID_API_KEY'))
+    sg = SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
+    response = sg.send(message)
+    print(response.status_code)
+    print(response.body)
+    print(response.headers)
 
 ### ----------- ROUTES FOR FLIGHT ------- ###
 @app.route("/itinerary/<int:itin_id>/flights", methods=["GET", "POST"])

@@ -31,7 +31,6 @@ attractionBtn.addEventListener('click', () => {
                 <h5 class="card-title">${result.name}</h5>
                 <input type="checkbox" id="${result.name}" name="attr-choice" value="${result.name}">
                 <label for="${result.name}">${result.name} (${result.rating} rating)</label>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. ${result.rating} rating </p>
               </div>
             </div>`
           
