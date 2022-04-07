@@ -440,14 +440,20 @@ def display_itin_by_id(id):
     for key, sched_acts_grouped_by_date in groupby(sorted(itinerary.sched_acts, key=lambda sched_act: sched_act.datetime.date() if sched_act.datetime else datetime.min.date()), lambda sched_act: sched_act.datetime.date() if sched_act.datetime else datetime.min.date()):
         sched_acts_by_date[key] = list(sched_acts_grouped_by_date)
 
-    
+    new_dict = {}
+    for key, value in sched_acts_by_date.items():
+        if key == datetime.min.date():
+            new_dict[""] = value
+        else:
+            new_dict[key] = value
+
     flights = crud.get_flights_by_itin_id(id)
 
     # create a dictionary, keys are the dates, and then add activites/flights to value list 
 
     return render_template("itinerary.html", 
                             itinerary=itinerary, 
-                            sched_acts_by_date=sched_acts_by_date,
+                            sched_acts_by_date=new_dict,
                             flights=flights
                             )
 
@@ -498,12 +504,12 @@ def email_itinerary(id):
 
     start_index = itin_data.index('<div id="itin-body">')
     end_index = itin_data.index("<!-- end of itin div -->")
-    new_data = itin_data[start_index: end_index]
+    itin_body = itin_data[start_index: end_index]
 
 
 
     # call crud function to send email
-    email_itinerary_by_id("victoriakarenlo@gmail.com", new_data)
+    email_itinerary_by_id("victoriakarenlo@gmail.com", itin_body)
     flash("email has been sent")
 
     return redirect(f"/itinerary/{id}")
@@ -515,8 +521,7 @@ def email_itinerary_by_id(email, data):
     from_email='victoriakarenlo@gmail.com',
     to_emails=email,
     subject='Itinerary for your Trip',
-    plain_text_content='and easy to do anywhere, even with Python',
-    html_content=f'<strong>{data}</strong>')
+    html_content=f'{data}')
 
     print(os.environ.get('SENDGRID_API_KEY'))
     sg = SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))

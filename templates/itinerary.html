@@ -34,7 +34,7 @@
     {% for date, sched_acts_for_date in sched_acts_by_date.items() %}
       <div display="flex">
         <div>
-            <strong>Date: {{date}}</strong>
+            <strong>Date: {{'Date Needed' if date == '' else date }}</strong>
           <ol>
             {% for sched_act in sched_acts_for_date %}
             <div display="flex">
