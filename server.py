@@ -85,7 +85,7 @@ def process_login():
         #if passwords match, send user to profile
         if argon2.verify(password, user.password):
             session["user_email"] = user.email
-            return redirect ("/user_profile")
+            return redirect ("/globe")
         else:
             flash("Sorry, passwords do not match!")
             return redirect('/')
@@ -104,14 +104,6 @@ def logout_user():
 
 
 ### ---------------- ROUTES FOR MAIN/GLOBE PAGE --------------- ###
-@app.route("/main")
-def render_main_page():
-    """Renders main page"""
-
-    if not session.get('user_email'):
-        return redirect("/")
-
-    return render_template("main.html")
 
 @app.route("/globe")
 def render_globe():
@@ -437,15 +429,10 @@ def display_itin_by_id(id):
     # https://docs.python.org/3/library/itertools.html#itertools.groupby
     sched_acts_by_date = {}
 
-    for key, sched_acts_grouped_by_date in groupby(sorted(itinerary.sched_acts, key=lambda sched_act: sched_act.datetime.date() if sched_act.datetime else datetime.min.date()), lambda sched_act: sched_act.datetime.date() if sched_act.datetime else datetime.min.date()):
+    for key, sched_acts_grouped_by_date in groupby(sorted(itinerary.sched_acts, key=lambda sched_act: str(sched_act.datetime.date()) if sched_act.datetime else ""), lambda sched_act: sched_act.datetime.date() if sched_act.datetime else ""):
         sched_acts_by_date[key] = list(sched_acts_grouped_by_date)
 
-    new_dict = {}
-    for key, value in sched_acts_by_date.items():
-        if key == datetime.min.date():
-            new_dict[""] = value
-        else:
-            new_dict[key] = value
+
 
     flights = crud.get_flights_by_itin_id(id)
 
@@ -453,7 +440,7 @@ def display_itin_by_id(id):
 
     return render_template("itinerary.html", 
                             itinerary=itinerary, 
-                            sched_acts_by_date=new_dict,
+                            sched_acts_by_date=sched_acts_by_date,
                             flights=flights
                             )
 
