@@ -495,13 +495,16 @@ def email_itinerary(id):
     email = session["user_email"]
     
     itin_data = display_itin_by_id(id)
-    print("\n"*5)
-    print(itin_data)
-    print("\n"*5)
+
+    start_index = itin_data.index('<div id="itin-body">')
+    end_index = itin_data.index("<!-- end of itin div -->")
+    new_data = itin_data[start_index: end_index]
+
 
 
     # call crud function to send email
-    email_itinerary_by_id("victoriakarenlo@gmail.com", itin_data)
+    email_itinerary_by_id("victoriakarenlo@gmail.com", new_data)
+    flash("email has been sent")
 
     return redirect(f"/itinerary/{id}")
 

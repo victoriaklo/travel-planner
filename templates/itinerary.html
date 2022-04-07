@@ -23,55 +23,46 @@
     <button id="delete-itin-btn" type="submit">DELETE FOREVER</button>
   </form>
 </div>
+
 <br>
-<h2>Itinerary for your trip: {{itinerary.title}}</h2>
+<div id="itin-body">
+  <h2>Itinerary for your trip: {{itinerary.title}}</h2>
 
-<hr>
+  <hr>
 
-<div>
-  {% for date, sched_acts_for_date in sched_acts_by_date.items() %}
-    <div display="flex">
-      <div>
-          <strong>Date: {{date}}</strong>
-        <ol>
-          {% for sched_act in sched_acts_for_date %}
-          <div display="flex">
-            <div>
-              {{sched_act.datetime}} - {{sched_act.act.city.city}} {{sched_act.act.type}}: {{sched_act.act.name}}
+  <div>
+    {% for date, sched_acts_for_date in sched_acts_by_date.items() %}
+      <div display="flex">
+        <div>
+            <strong>Date: {{date}}</strong>
+          <ol>
+            {% for sched_act in sched_acts_for_date %}
+            <div display="flex">
+              <div>
+                {{sched_act.datetime}} - {{sched_act.act.city.city}} {{sched_act.act.type}}: {{sched_act.act.name}}
+              </div>
             </div>
-          </div>
-  {% endfor %}
-        </ol>
-        
-      </div>
-    </div>
     {% endfor %}
-  </div>
-  <br>
-  <br>
-
-
-
-<h2>Your booked flights:</h2>
-<hr>
-{% for flight in flights %}
-<div>
-  <strong>Depart</strong> {{flight.depart_airport}}:{{flight.depart_time}} <strong>Arrive</strong> {{flight.arrival_airport}}: {{flight.arrival_time}}
-</div>
-{% endfor%}
-
-<!-- <div>
-{% for sched_act in itinerary.sched_acts %}
-  <div display="flex">
-    <div>
-      {{sched_act.datetime}}: ({{sched_act.act.type}}) {{sched_act.act.name}}
-      
+          </ol>
+          
+        </div>
+      </div>
+      {% endfor %}
     </div>
-  </div>
-  {% endfor %}
-</div>
+    <br>
+    <br>
 
- -->
+
+
+  <h2>Your booked flights:</h2>
+  <hr>
+  {% for flight in flights %}
+  <div>
+    <strong>Depart</strong> {{flight.depart_airport}}:{{flight.depart_time}} <strong>Arrive</strong> {{flight.arrival_airport}}: {{flight.arrival_time}}
+  </div>
+  {% endfor%}
+</div> 
+<!-- end of itin div -->
 
 
 {% endblock %}
