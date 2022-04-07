@@ -4,8 +4,7 @@ from model import db, User, City, Itinerary, Destination, Activity, ScheduledAct
 from passlib.hash import argon2
 import re
 import os
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+
 
 ### ---------------- CRUD FUNCTIONS FOR USER --------------- ###
 
@@ -35,13 +34,6 @@ def hash_password(password):
     """Converts password to hash"""
 
     return argon2.hash(password)
-
-# def validate_email(email):
-#     """Validates registration and login email"""
-    
-#     pattern = r"\b[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z0-9]{2,}\b"
-
-#     return (re.fullmatch(pattern, email))
 
 
 

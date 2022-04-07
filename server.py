@@ -433,10 +433,7 @@ def display_itin_by_id(id):
         sched_acts_by_date[key] = list(sched_acts_grouped_by_date)
 
 
-
-    flights = crud.get_flights_by_itin_id(id)
-
-    # create a dictionary, keys are the dates, and then add activites/flights to value list 
+    flights = crud.get_flights_by_itin_id(id) 
 
     return render_template("itinerary.html", 
                             itinerary=itinerary, 
@@ -505,9 +502,9 @@ def email_itinerary_by_id(email, data):
     """Takes in itinerary id, and sends email of itinerary"""
 
     message = Mail(
-    from_email='victoriakarenlo@gmail.com',
+    from_email='travelandplanet.co@gmail.com',
     to_emails=email,
-    subject='Itinerary for your Trip',
+    subject='Upcoming Trip: Here\'s Your Itinerary',
     html_content=f'{data}')
 
     print(os.environ.get('SENDGRID_API_KEY'))
