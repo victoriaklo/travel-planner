@@ -20,7 +20,7 @@ restButton.addEventListener('click', () => {
     for (const result of data.results) {
 
       if (result.photo_url === undefined) {
-        result.photo_url = "/static/img/placeholder.png";
+        result.photo_url = "/static/img/travel_and_planet.png";
       }
         document.querySelector("#restaurants-data").innerHTML += `
         <div class="card" style="width: 18rem;">

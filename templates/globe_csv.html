@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>Interactive Globe</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/4.22/"></script>
@@ -35,8 +36,7 @@
         "esri/layers/TileLayer",
         "esri/Basemap"
       ], function (esriConfig,Map, CSVLayer, SceneView, TileLayer, Basemap) {
-        // If CSV files are not on the same domain as your website, a CORS enabled server
-        // or a proxy is required.
+        // If CSV files are not on the same domain as your website, a CORS enabled server or a proxy is required.
         esriConfig.apiKey = "AAPKdd8f779062f94c55963b952ceccafe35B8vpAe5Gjw3wD6ylKsvWZUpaAuB09RbsCmXgcFmqwuq63wpZkklpwoWQQGLxapO6";
         const url = 
             "/static/data.csv";
@@ -45,12 +45,11 @@
 
         const template = {
           overwriteActions: true,
-          buttonEnabled: true,
+          buttonEnabled: false,
           title: "{place}",
-          content: `Plan your trip by checking out things to do in {place}. 
+          content: `Plan your trip by checking out things to do in {place}. <br>
 
-            <a class="btn btn-primary" href="${home}/{id}">Click here</a> to get started!`
-
+            <a class="btn btn-outline-primary" href="${home}/{id}">Click here</a> to find restaurants and activities!`
         };
 
         const csvLayer = new CSVLayer({
@@ -136,29 +135,62 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" >Navbar (brand here)</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/user_profile">Profile</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/itineraries">Itineraries</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/globe">Globe</a>
-              </li>
-            </ul>
-            <span class="navbar-text">
-              <a href="/logout">Log Out</a>
-            </span>
+      <div class="container-fluid">
+        <a class="navbar-brand" >Travel & Planet Co.  </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/user_profile">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/itineraries">Itineraries</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/globe">Globe</a>
+            </li>
+            <li class="nav-item">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Get Started
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Getting Started:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Ready for your next trip? Let's travel and plan it. 
+                  <ol>
+                    <li>Our interactive globe is a fun way for you to find your latest travel destination. Once you find where you want to go, click on on the target marker to see where you've selected.</li>
+                    <li>Once you've selected your first city, click on the button in the pop-up window to find local restaurants and places to visit.</li>
+                    <li>Select places you want to go and build an itinerary for your next trip.</li>
+                  </o>
+                </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
           </div>
         </div>
-      </nav>
+            </li>
+          </ul>
+          <span class="navbar-text">
+            <a href="/logout">Log Out</a>
+          </span>
+        </div>
+      </div>
+    </nav>
+  
     <div id="viewDiv"></div>
+
   </body>
 </html>

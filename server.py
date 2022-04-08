@@ -493,7 +493,7 @@ def email_itinerary(id):
 
 
     # call crud function to send email
-    email_itinerary_by_id("victoriakarenlo@gmail.com", itin_body)
+    email_itinerary_by_id(email, itin_body)
     flash("email has been sent")
 
     return redirect(f"/itinerary/{id}")
