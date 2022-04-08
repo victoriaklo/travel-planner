@@ -24,6 +24,9 @@
       .esri-feature-content span {
         display: none;
       }
+      .esri-popup__button {
+        display: none;
+      }
     </style>
 
 
@@ -46,6 +49,7 @@
         const template = {
           overwriteActions: true,
           buttonEnabled: false,
+          defaultPopupTemplateEnabled: false,
           title: "{place}",
           content: `Plan your trip by checking out things to do in {place}. <br>
 
@@ -57,6 +61,7 @@
           copyright: "USGS Earthquakes",
           popupTemplate: template
         });
+
 
         csvLayer.renderer = {
           type: "simple", // autocasts as new SimpleRenderer()
