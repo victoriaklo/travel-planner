@@ -1,0 +1,18 @@
+html,
+body,
+#viewDiv {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  background-color: aliceblue;
+}
+.esri-legend {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.esri-feature-content span {
+  display: none;
+}
+.esri-popup__button {
+  display: none;
+}
