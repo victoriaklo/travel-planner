@@ -25,9 +25,6 @@ class User(db.Model):
     def __repr__(self):
         return f"<User user_id={self.user_id} first_name ={self.first_name} email={self.email}>"
 
-# test_user = User(first_name='V', last_name='lo', email='hi@hi.com', password='hello')
-# db.session.add(test_user)
-
 
 class City(db.Model):
     """A city"""
@@ -66,7 +63,6 @@ class Itinerary(db.Model):
     notes = db.Column(db.Text)
 
     #relationships:
-
     user = db.relationship("User", backref="itins") # one-to-many itineraries
     cities = db.relationship("City", secondary="destinations", backref="itins") #many-to-many
     flights = db.relationship("Flight", backref="itin") #many-to-one itinerary
@@ -134,10 +130,6 @@ class ScheduledActivity(db.Model):
     def __repr__(self):
         return f"<ScheduledActivity id={self.id} act_id={self.act_id} itin_id={self.itin_id} datetime={self.datetime}>"
 
-#test_sched = ScheduledActivity(act_id=1, itin_id=1, datetime=datetime(2019, 6, 5, 8, 10, 10, 10))
-# db.session.add(test_sched)
-# db.session.commit()
-
 
 
 class Flight(db.Model):
@@ -151,31 +143,44 @@ class Flight(db.Model):
     depart_time = db.Column(db.DateTime)
     arrival_time = db.Column(db.DateTime)
     itin_id = db.Column(db.Integer, db.ForeignKey("itineraries.id"), nullable=False) 
-#     depart_city_id = db.Column(db.Integer, db.ForeignKey("cities.id")) #one-to-one 
-#     arrival_city_id = db.Column(db.Integer, db.ForeignKey("cities.id")) #one-to-one 
     
 #     #relationships:
 
 #     #free attribute '.itin' = a list of Itinerary objects
 
-#     depart_city_id = db.relationship(
-#                 "Destination",
-#                 uselist=False, # means one-to-one
-#                 backref="depart_flight",
-#                 foreign_keys="Flight.depart_city_id")
-    
-#     arrival_city_id = db.relationship(
-#                 "Destination",
-#                 uselist=False,
-#                 backref="arrival_flight",
-#                 foreign_keys="Flight.arrival_city_id")
-
-
-
     def __repr__(self):
         return f"<Flight id={self.id} itin_id={self.itin_id} depart_airport={self.depart_airport} arrival_airport={self.arrival_airport}>"
 
 #test_flight = Flight(depart_airport="sfo", arrival_airport="cdg", itin_id=1, depart_city_id=1, arrival_city_id=1)
+
+
+
+def example_data():
+    """Create example data for the test database."""
+
+    v = User(first_name='user7', last_name='test', email='user7@test.com', password='test')
+    db.session.add(v)
+    db.session.commit()
+
+    city = City(city="Paris", country="France", latitude=48.8589466, longitude=2.2769951)
+    db.session.add(city)
+    db.session.commit()
+
+    activity = Activity(name="Effiel Tower", type="attraction", city_id=1)
+    itinerary = Itinerary(user_id=v.id, title="title test", start_date="2022-01-25", notes="notes test")
+    db.session.add_all([activity, itinerary])
+    db.session.commit()
+
+    sched_acts = ScheduledActivity(act_id=1, itin_id=1, datetime=datetime(2019, 6, 5, 8, 10, 10, 10))
+    db.session.add(sched_acts)
+    db.session.commit()
+
+    z = User(first_name='user11', last_name='test', email='user11@test.com', password='test')
+    db.session.add(z)
+    db.session.commit()
+    itinerary2 = Itinerary(user_id=z.id, title="title 11111", start_date="2022-11-11", notes="notes test 11111")
+    db.session.add(z)
+    db.session.commit()
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///trips", echo=True):
@@ -186,7 +191,6 @@ def connect_to_db(flask_app, db_uri="postgresql:///trips", echo=True):
     db.app = flask_app
     db.init_app(flask_app)
     print("Connected to the db!")
-
 
 if __name__ == "__main__":
     from server import app
