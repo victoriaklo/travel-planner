@@ -23,16 +23,16 @@ restButton.addEventListener('click', () => {
         result.photo_url = "/static/img/travel_and_planet.png";
       }
         document.querySelector("#restaurants-data").innerHTML += `
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="${result.photo_url}" alt="Card image cap"width="300" 
-          height="200">
-            <div class="card-body">
-              <h5 class="card-title">${result.name}</h5>
-              <input type="checkbox" id="${result.name}" name="rest-choice" value="${result.name}">
-              <label for="${result.name}">${result.name} (Rating: ${result.rating} stars)</label>
-            </div>
-        </div>`
-
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="${result.photo_url}" alt="Card image cap"width="300" 
+            height="200">
+              <div class="card-body">
+                <h5 class="card-title">${result.name}</h5>
+                <input type="checkbox" id="${result.name}" name="rest-choice" value="${result.name}">
+                <label for="${result.name}">${result.name} (Rating: ${result.rating} stars)</label>
+              </div>
+          </div>
+        `
     };
 
     }

@@ -2,28 +2,32 @@
 {% block title %}Get Flights{% endblock %}
 
 {% block head %}
-
+    <link href="/static/css/login.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
 
+<div id="flights-card" class="card" style="width: 36rem;">
+        <form action="/itinerary/{{itin_id}}/flights" id="add-flight-info" method="post">
 
-<form action="/itinerary/{{itin_id}}/flights" id="add-flight-info" method="post">
+        <div class="input-group mb-3">
+                <span class="input-group-text">Departing Airport</span>
+                <input type="text" name="depart-airport" placeholder="SFO" maxlength="3" aria-label="depart_airport" required>
+                <span class="input-group-text">Depart Date</span>
+                <input type="datetime-local" aria-label="depart_date"
+                        name="depart-datetime" placeholder="2022-04-16T00:30"
+                        min="2022-04-01T00:00" max="2050-06-14T00:00" required>
+                <span class="input-group-text">Arrival Airport</span>
+                <input type="text" name="arrival-airport" placeholder="CDG" maxlength="3" aria-label="arrival_airport" required>
+                <span class="input-group-text">Arrival Date</span>
+                <input type="datetime-local" aria-label="arrival_date"
+                        name="arrival-datetime" placeholder="2022-04-16T00:30"
+                        min="2022-04-01T00:00" max="2050-06-14T00:00" required>
+        </div>
+        <button id="save-flight-btn" type="submit">Add to Itinerary</button>
+        </form>
+</div>
 
-    <div class="input-group mb-3">
-        <span class="input-group-text">Departing Airport</span>
-        <input type="text" name="depart-airport" placeholder="SFO" maxlength="3" aria-label="depart_airport" required>
-        <span class="input-group-text">Depart Date</span>
-        <input type="datetime-local" aria-label="depart_date"
-                name="depart-datetime" placeholder="2022-04-16T00:30"
-                min="2022-04-01T00:00" max="2050-06-14T00:00" required>
-        <span class="input-group-text">Arrival Airport</span>
-        <input type="text" name="arrival-airport" placeholder="CDG" maxlength="3" aria-label="arrival_airport" required>
-        <span class="input-group-text">Arrival Date</span>
-        <input type="datetime-local" aria-label="arrival_date"
-                name="arrival-datetime" placeholder="2022-04-16T00:30"
-                min="2022-04-01T00:00" max="2050-06-14T00:00" required>
-      </div>
-      <button id="save-flight-btn" type="submit">Add to Itinerary</button>
-</form>
+
+
 {% endblock %}

@@ -1,0 +1,20 @@
+body {
+    background: url("/static/img/login_page.jpg") no-repeat center center;
+    background-size: cover;
+    background-color: #5A73E6;
+}
+
+div.container-sm {
+    border: solid black;
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#flights-card {
+    height: 200px;
+    display: block center;
+    margin-left: auto;
+    margin-right: auto;
+
+}

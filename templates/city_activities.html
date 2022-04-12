@@ -2,6 +2,7 @@
 {% block title %}City and Activities{% endblock %}
 
 {% block head %}
+<link href="/static/css/city_activities.css" rel="stylesheet">
 <script type="text/javascript">
   const city_id = {{city.id}};
 </script>
@@ -15,16 +16,23 @@
 <div>
 
   <form action="/new_itinerary" id="activities-form" method="post">
-      <input type="hidden" name="city_id" value="{{city.id}}">
-      <button id="restaurants-btn" class="restaurants" type="button"> check out restaurants: </button>
-      <h3>Resturants:</h3>
-      <div id="restaurants-data" class="restaurants"></div>
-      <br>
-      <button id="attractions-btn" class="attractions" type="button"> check out attractions: </button>
-      <h3>Attractions:</h3>
-      <div id="attractions-data" class="attractions"></div>
-      <br>
-      <br>
+
+    <div class="float-container">
+
+      <div class="float-child">
+        <input type="hidden" name="city_id" value="{{city.id}}">
+        <button id="restaurants-btn" class="restaurants" type="button"> check out restaurants: </button>
+        <h3>Resturants:</h3>
+        <div id="restaurants-data" class="restaurants"></div>
+      </div>
+      
+      <div class="float-child">
+        <button id="attractions-btn" class="attractions" type="button"> check out attractions: </button>
+        <h3>Attractions:</h3>
+        <div id="attractions-data" class="attractions"></div>
+      </div>
+      
+    </div>
       <!-- add this later: https://getbootstrap.com/docs/5.0/components/carousel/ -->
 
       <h2>Add items to your Itinerary...</h2>
@@ -63,9 +71,12 @@
 </div>
 <br>
 
+
  <!-- when you write your own js file, you need to add them at the bottom of html  -->
 <script src="/static/js/get-attractions.js"></script>
 <script src="/static/js/get-restaurants.js"></script>
 <script src="/static/js/update-itinerary.js"></script>
 
 {% endblock %}
+
+
