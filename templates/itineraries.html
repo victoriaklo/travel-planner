@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}User Profile{% endblock %}
 
+{% block head %}
+    <link href="/static/css/itinerary.css" rel="stylesheet">
+{% endblock %}
 
 {% block body %}
   <h1>Itineraries</h1>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
   {% for itinerary in all_itineraries %}
-  <div class="card" style="width: 18rem;">
+  <div id="itin-page-cards" class="card" style="width: 18rem;">
     <!-- <img src="..." class="card-img-top" alt="..."> -->
     <div class="card-body">
       <h5 class="card-title">{{itinerary.title}}</h5>

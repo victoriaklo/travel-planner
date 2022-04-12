@@ -2,11 +2,73 @@
 
 {% block title %} View Itinerary{% endblock %}
 
+{% block navbar %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" >Travel & Planet Co.  </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/user_profile">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/itineraries">Itineraries</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/globe">Globe</a>
+        </li>
+        <li class="nav-item">
+  
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Get Started
+      </button>
+      <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Getting Started:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Ready for your next trip? Let's plan it. 
+                  <ol>
+                    <li>Our interactive globe is a fun way for you to find your latest travel destination. Once you find where you want to go, click on on the target marker to see where you've selected.</li>
+                    <br>
+                    <li>Once you've selected your first city, click on the button in the pop-up window to find local restaurants and places to visit. Select places you want to go and build an itinerary for your next trip.</li>
+                    <br>
+                    <li>Add dates and times for your selected activities, add flight information, and email your finished itinerary to yourself when you're done. Then, it's time to enjoy your next trip!</li>
+                  </ol>
+                </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+            </li>
+          </ul>
+        </div>
+      
+      <span class="navbar-text">
+        <a href="/logout">Log Out</a>
+      </span>
+    </div>
+  </div>
+</nav>
+
+{% endblock %}
 
 {% block body %}
 {% set itin_id = itinerary.id %}
 
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+<!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
   <button id="edit-itin-btn" type="button"><a href="/itinerary/{{itin_id}}/edit">Edit</a></button>
 </div>
 <br>
@@ -20,14 +82,30 @@
 <br>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
   <form action="/itinerary/{{itin_id}}" method="post">
-    <button id="delete-itin-btn" type="submit">DELETE FOREVER</button>
+    <button id="delete-itin-btn" class="btn btn-primary" type="submit">DELETE FOREVER</button>
+  </form>
+</div> -->
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <div class="dropdown">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+      Edit
+    </a>
+  
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <li><a class="dropdown-item" href="/itinerary/{{itin_id}}/edit">Add/Edit/Delete Items</a></li>
+      <li><a class="dropdown-item" href="/itinerary/{{itin_id}}/flights">Add Flight Info</a></li>
+      <li><a class="dropdown-item" href="/itinerary/{{itin_id}}/email">Email Itinerary</a></li>
+    </ul>
+  </div>
+  <form action="/itinerary/{{itin_id}}" method="post">
+    <button id="delete-itin-btn" class="btn btn-danger" type="submit">Permanently Delete </button>
   </form>
 </div>
 
 <br>
 <div id="itin-body">
   <h2>Itinerary for your trip: {{itinerary.title}}</h2>
-
   <hr>
 
   <div>

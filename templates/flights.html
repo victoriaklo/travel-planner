@@ -7,7 +7,7 @@
 
 {% block body %}
 
-<div id="flights-card" class="card" style="width: 36rem;">
+<div id="flights-container" class="container" style="width: 36rem;">
         <form action="/itinerary/{{itin_id}}/flights" id="add-flight-info" method="post">
 
         <div class="input-group mb-3">
@@ -24,7 +24,9 @@
                         name="arrival-datetime" placeholder="2022-04-16T00:30"
                         min="2022-04-01T00:00" max="2050-06-14T00:00" required>
         </div>
-        <button id="save-flight-btn" type="submit">Add to Itinerary</button>
+        <div class="mx-auto" style="width: 200px;">
+                <button id="save-flight-btn" type="submit">Add to Itinerary</button>
+        </div>
         </form>
 </div>
 

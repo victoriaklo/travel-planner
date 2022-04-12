@@ -1,9 +1,13 @@
+/* login and flight background */
 body {
     background: url("/static/img/login_page.jpg") no-repeat center center;
     background-size: cover;
-    background-color: #5A73E6;
+    background-color: #F0F8FF;
+    font: 400 1rem/1.75rem "Open Sans", sans-serif;
+    color:black
 }
 
+/* login-registration containers */
 div.container-sm {
     border: solid black;
     width: 350px;
@@ -11,10 +15,13 @@ div.container-sm {
     margin-right: auto;
 }
 
-#flights-card {
+
+#flights-container {
     height: 200px;
     display: block center;
     margin-left: auto;
     margin-right: auto;
 
 }
+
+
