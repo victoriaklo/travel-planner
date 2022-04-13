@@ -6,6 +6,7 @@ body,
   height: 100%;
   width: 100%;
   background-color: aliceblue;
+  font: 400 1rem/1.75rem "Open Sans", sans-serif;
 }
 .esri-legend {
   background-color: rgba(255, 255, 255, 0.8);

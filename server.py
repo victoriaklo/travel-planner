@@ -309,6 +309,9 @@ def create_itinerary():
 @app.route("/update_itinerary", methods=["POST"])
 def update_itinerary():
     """Update existing itinerary with other activities or flights"""
+    # if the user is in session, display only the user's itineraries
+    if not session.get('user_email'):
+        return redirect("/")
 
     itin_id = request.form.get("update-itinerary")
     rest_list = request.form.getlist("rest-choice")
@@ -350,6 +353,9 @@ def update_itinerary():
 @app.route("/itinerary/<int:id>/edit", methods=["GET","POST"])
 def edit_itin_by_id(id):
     """Edit itinerary by id"""
+    # if the user is in session, display only the user's itineraries
+    if not session.get('user_email'):
+        return redirect("/")
 
     itinerary = crud.get_itin_by_id(id)
     
@@ -397,20 +403,13 @@ def edit_itin_by_id(id):
 @app.route("/itinerary/<int:itin_id>/delete", methods=["POST"])
 def delete_scheduled_activities(itin_id):
     """Deletes scheduled activities by itinerary id"""
+    # if the user is in session, display only the user's itineraries
+    if not session.get('user_email'):
+        return redirect("/")
 
     itinerary = crud.get_itin_by_id(itin_id)
-    print(itinerary)
     
     sched_acts_list = request.form.getlist("sched-acts-data") #list of act_ids
-    print("\n" * 5)
-    print(sched_acts_list)
-    print("\n" * 5)
-
-    # get itinerary
-    # get all sched acts from form
-    # then delete sched_activities then commit
-    # notes = form_data['notes']
-    # form_data.pop('notes')
 
     list_of_ids = list(map(lambda n: int(n), sched_acts_list))
         
@@ -423,6 +422,9 @@ def delete_scheduled_activities(itin_id):
 @app.route("/itinerary/<int:id>")
 def display_itin_by_id(id):
     """Display itinerary by id"""
+
+    if not session.get('user_email'):
+        return redirect("/")
     
     itinerary = crud.get_itin_by_id(id)
 
@@ -445,6 +447,10 @@ def display_itin_by_id(id):
 @app.route("/itinerary/<int:id>", methods=["POST"])
 def delete_itin_by_id(id):
     """Delete an itinerary by id"""
+
+    if not session.get('user_email'):
+        return redirect("/")
+
     crud.delete_itin_by_id(id)
     flash("Itinerary deleted")
 
@@ -479,6 +485,9 @@ def display_itineraries():
 @app.route("/itinerary/<int:id>/email")
 def email_itinerary(id):
     """Email the itinerary to the user"""
+
+    if not session.get('user_email'):
+        return redirect("/")
 
     itinerary = crud.get_itin_by_id(id)
 
@@ -518,6 +527,9 @@ def email_itinerary_by_id(email, data):
 @app.route("/itinerary/<int:itin_id>/flights", methods=["GET", "POST"])
 def find_flights(itin_id):
     """Find flights for itinerary"""
+    
+    if not session.get('user_email'):
+        return redirect("/")
 
     if request.method == "GET":
         return render_template("flights.html", itin_id=itin_id)

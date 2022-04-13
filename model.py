@@ -158,7 +158,7 @@ class Flight(db.Model):
 def example_data():
     """Create example data for the test database."""
 
-    v = User(first_name='user7', last_name='test', email='user7@test.com', password='test')
+    v = User(first_name='user7', last_name='test', email='test@test.com', password='test')
     db.session.add(v)
     db.session.commit()
 
@@ -167,7 +167,7 @@ def example_data():
     db.session.commit()
 
     activity = Activity(name="Effiel Tower", type="attraction", city_id=1)
-    itinerary = Itinerary(user_id=v.id, title="title test", start_date="2022-01-25", notes="notes test")
+    itinerary = Itinerary(user_id=v.user_id, title="title test", start_date="2022-01-25", notes="notes test")
     db.session.add_all([activity, itinerary])
     db.session.commit()
 
@@ -178,7 +178,7 @@ def example_data():
     z = User(first_name='user11', last_name='test', email='user11@test.com', password='test')
     db.session.add(z)
     db.session.commit()
-    itinerary2 = Itinerary(user_id=z.id, title="title 11111", start_date="2022-11-11", notes="notes test 11111")
+    itinerary2 = Itinerary(user_id=z.user_id, title="title 11111", start_date="2022-11-11", notes="notes test 11111")
     db.session.add(z)
     db.session.commit()
 

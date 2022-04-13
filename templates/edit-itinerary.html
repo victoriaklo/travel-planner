@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block title %} View Itinerary{% endblock %}
+{% block head %}
+    <link href="/static/css/itinerary.css" rel="stylesheet">
+{% endblock %}
 
 
 {% block body %}
@@ -8,7 +11,6 @@
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
     <button id="edit-itin-btn" type="button" hidden>Edit</button>
-    <!-- <button id="save-edits-btn" type="submit">Save</button> -->
   </div>
 <br>
 <h2>{{itinerary.title}}</h2>
@@ -18,10 +20,10 @@
 <form action="/itinerary/{{itin_id}}/edit" id="edit-itin-form" method="post">
   <p id="itin_id" name="itin_id" hidden>{{itinerary.id}}</p>
   {% for key, value in sched_acts_grouped_by_city.items() %}
-<br>
-<div class="card" style="width: 72rem;">
-    <div class="card-body">
-      <h5 class="card-title">{{ key|e }}</h5>
+  <br>
+  <div class="card" style="width: 72rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{ key|e }}</h5>
 
     </div>
     <ul class="list-group list-group-flush">
@@ -46,30 +48,22 @@
     </div>
     {% endfor %}
 
-
-{% endfor %}
+  {% endfor %}
       <br>
-      <li id ="city-notes" class="city-notes">
+      <div id ="city-notes" class="city-notes">
        <div class="input-group">
         <span class="input-group-text">Notes:</span>
         <textarea class="form-control" name="notes" aria-label="notes"></textarea>
+       </div>
+      </ul>
       </div>
-      </li>
-    </ul>
-  </div>
-<br>
-<span>
-  <button id="delete-edits-btn" type="submit" formaction="/itinerary/{{itin_id}}/delete">DELETE selected items</button>
-  <p>or</p>
-  <button id="save-edits-btn" type="submit">Save Updates</button>
-</span>
-
+    </div>
+  <br>
+  <span>
+    <button id="save-edits-btn" class="btn btn-primary" type="submit">Save Updates</button> or
+    <button id="delete-edits-btn" class="btn btn-danger" type="submit" formaction="/itinerary/{{itin_id}}/delete">Delete Selection</button>
+  </span>
 </form>
-<br>
-<br>
-
-
-
 
 
 {% endblock %}

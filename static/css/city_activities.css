@@ -1,3 +1,11 @@
+body {
+    background-color:#F0F8FF;
+    font: 400 1rem/1.75rem "Open Sans", sans-serif;
+    color:black;
+    margin-left: 12px;
+}
+
+
 .float-container {
     border: 3px solid #fff;
     padding: 20px;
@@ -7,9 +15,14 @@
     width: 50%;
     float: left;
     padding: 20px;
-    border: 2px solid black;
+    border: 0.5px solid black;
 }  
 
 .carousel-inner {
     display: flex;
+}
+
+.add-items-to-itinerary {
+
+    width: 100%;
 }

@@ -4,8 +4,9 @@ body {
     background-size: cover;
     background-color: #F0F8FF;
     font: 400 1rem/1.75rem "Open Sans", sans-serif;
-    color:black
+    color:black;
 }
+
 
 /* login-registration containers */
 div.container-sm {
@@ -13,6 +14,7 @@ div.container-sm {
     width: 350px;
     margin-left: auto;
     margin-right: auto;
+    background-color: #CAD2D9;
 }
 
 
@@ -24,4 +26,6 @@ div.container-sm {
 
 }
 
-
+#flight-info {
+    display: block center;
+}

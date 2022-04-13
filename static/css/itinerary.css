@@ -1,5 +1,8 @@
 body {
+    background: url("/static/img/skies.jpg") no-repeat center center;
+    background-size: cover;
     background-color:#F0F8FF;
     font: 400 1rem/1.75rem "Open Sans", sans-serif;
-    color:black
+    color:black;
 }
+

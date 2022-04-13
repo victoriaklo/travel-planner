@@ -12,15 +12,15 @@ class TravelandPlanetTest(unittest.TestCase):
         self.client = app.test_client()
         app.config['TESTING'] = True
 
-    def test_homepage(self):
+    def test_login_page(self):
         result = self.client.get("/")
         self.assertIn(b"Ready to travel the World? Let's plan it!", result.data)
         self.assertNotIn(b"This shouldn't be here!", result.data)
 
-    def test_user_profile(self):
-        result = self.client.get("/user_profile")
-        self.assertIn(b"Email", result.data)
-        self.assertNotIn(b"This shouldn't be here!", result.data)
+    # def test_user_profile(self):
+    #     result = self.client.get("/user_profile")
+    #     self.assertIn(b"Email", result.data)
+    #     self.assertNotIn(b"This shouldn't be here!", result.data)
 
 
 
@@ -44,7 +44,7 @@ class TravelandPlanetTestDatabase(unittest.TestCase):
     
     def test_login(self):
         result = self.client.post("/login",
-                                    data={"email": "user7@test.com",
+                                    data={"email": "test@test.com",
                                         "password": "test"},
                                     follow_redirects=True)
         self.assertIn(b"Get Started", result.data)
@@ -52,7 +52,7 @@ class TravelandPlanetTestDatabase(unittest.TestCase):
 
     def test_itinerary(self):
         login = self.client.post("/login",
-                                    data={"email": "user7@test.com",
+                                    data={"email": "test@test.com",
                                         "password": "test"},
                                     follow_redirects=True)
         result = self.client.get("/itinerary/1", follow_redirects=True)
@@ -70,7 +70,7 @@ class TravelandPlanetTestDatabase(unittest.TestCase):
     # ensure that users are only seeing their own created itineraries and not another users
     def test_only_users_itineraries(self):
         login = self.client.post("/login",
-                                    data={"email": "user7@test.com",
+                                    data={"email": "test@test.com",
                                         "password": "test"},
                                     follow_redirects=True)
         result = self.client.get("/itineraries", follow_redirects=True)

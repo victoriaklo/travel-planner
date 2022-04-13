@@ -8,8 +8,9 @@
 {% block body %}
   <h1>Itineraries</h1>
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
+<div id="itin-cards" class="row row-cols-1 row-cols-md-4 g-4">
   {% for itinerary in all_itineraries %}
+  <div class="col">
   <div id="itin-page-cards" class="card" style="width: 18rem;">
     <!-- <img src="..." class="card-img-top" alt="..."> -->
     <div class="card-body">
@@ -20,8 +21,10 @@
       <a href="/itinerary/{{itinerary.id}}" class="btn btn-primary">View Itinerary</a>
     </div>
   </div>
+</div>
   {% endfor %}
 </div>
+
 
 
 

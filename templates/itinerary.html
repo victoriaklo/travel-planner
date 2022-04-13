@@ -2,6 +2,10 @@
 
 {% block title %} View Itinerary{% endblock %}
 
+{% block head %}
+    <link href="/static/css/itinerary.css" rel="stylesheet">
+{% endblock %}
+
 {% block navbar %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -68,24 +72,6 @@
 {% block body %}
 {% set itin_id = itinerary.id %}
 
-<!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button id="edit-itin-btn" type="button"><a href="/itinerary/{{itin_id}}/edit">Edit</a></button>
-</div>
-<br>
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button id="flight-btn" type="button"><a href="/itinerary/{{itin_id}}/flights">Add Flight Here</a></button>
-</div>
-<br>
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button id="email-itin-btn" type="button"><a href="/itinerary/{{itin_id}}/email">Email Itinerary to yourself</a></button>
-</div>
-<br>
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <form action="/itinerary/{{itin_id}}" method="post">
-    <button id="delete-itin-btn" class="btn btn-primary" type="submit">DELETE FOREVER</button>
-  </form>
-</div> -->
-
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
     <div class="dropdown">
     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -93,7 +79,7 @@
     </a>
   
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-      <li><a class="dropdown-item" href="/itinerary/{{itin_id}}/edit">Add/Edit/Delete Items</a></li>
+      <li><a class="dropdown-item" href="/itinerary/{{itin_id}}/edit">Edit/Delete Items</a></li>
       <li><a class="dropdown-item" href="/itinerary/{{itin_id}}/flights">Add Flight Info</a></li>
       <li><a class="dropdown-item" href="/itinerary/{{itin_id}}/email">Email Itinerary</a></li>
     </ul>
