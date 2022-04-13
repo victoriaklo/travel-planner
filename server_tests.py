@@ -45,7 +45,7 @@ class TravelandPlanetTestDatabase(unittest.TestCase):
     def test_login(self):
         result = self.client.post("/login",
                                     data={"email": "test@test.com",
-                                        "password": "test"},
+                                        "password": "hello"},
                                     follow_redirects=True)
         self.assertIn(b"Get Started", result.data)
         self.assertNotIn(b"This isn't supposed to be there", result.data)
@@ -53,11 +53,11 @@ class TravelandPlanetTestDatabase(unittest.TestCase):
     def test_itinerary(self):
         login = self.client.post("/login",
                                     data={"email": "test@test.com",
-                                        "password": "test"},
+                                        "password": "hello"},
                                     follow_redirects=True)
         result = self.client.get("/itinerary/1", follow_redirects=True)
         self.assertIn(b"title test", result.data)
-        self.assertIn(b"notes test", result.data)
+        self.assertIn(b"Paris attraction: Effiel Tower", result.data)
         self.assertNotIn(b"Where do you want to visit?", result.data)
 
     
@@ -71,11 +71,11 @@ class TravelandPlanetTestDatabase(unittest.TestCase):
     def test_only_users_itineraries(self):
         login = self.client.post("/login",
                                     data={"email": "test@test.com",
-                                        "password": "test"},
+                                        "password": "hello"},
                                     follow_redirects=True)
         result = self.client.get("/itineraries", follow_redirects=True)
-        self.assertIn(b"Effiel Tower", result.data)
         self.assertIn(b"notes test", result.data)
+        self.assertIn(b"title test", result.data)
         self.assertNotIn(b"title 11111", result.data)
 
 

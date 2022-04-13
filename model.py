@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from passlib.hash import argon2
 
 db = SQLAlchemy()
 
@@ -158,7 +159,7 @@ class Flight(db.Model):
 def example_data():
     """Create example data for the test database."""
 
-    v = User(first_name='user7', last_name='test', email='test@test.com', password='test')
+    v = User(first_name='user7', last_name='test', email='test@test.com', password=argon2.hash('hello'))
     db.session.add(v)
     db.session.commit()
 
@@ -175,7 +176,7 @@ def example_data():
     db.session.add(sched_acts)
     db.session.commit()
 
-    z = User(first_name='user11', last_name='test', email='user11@test.com', password='test')
+    z = User(first_name='user11', last_name='test', email='user11@test.com', password=argon2.hash('hello'))
     db.session.add(z)
     db.session.commit()
     itinerary2 = Itinerary(user_id=z.user_id, title="title 11111", start_date="2022-11-11", notes="notes test 11111")
