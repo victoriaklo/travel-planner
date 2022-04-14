@@ -7,42 +7,55 @@
 
 {% block body %}
 
-<div id="flights-container" class="container-sm" style="width: 26rem;">
-        <form action="/itinerary/{{itin_id}}/flights" id="add-flight-info" method="post">
+<section class="flight-container">
+        <div class="container p-4">
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-sm-auto" style="width: 36rem">
+              <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                <div class="card-body p-4 text-center">
+      
+                  <h3 class="mb-3">Flight Information</h3>
+                  <hr class="my-3">
+                  <form action="/itinerary/{{itin_id}}/flights" id="add-flight-info" method="post">
 
-        <div id="flight-info" class="input-group mb-3">
-                <div>
-                        <span class="input-group-text">Departing Airport</span>
-                        <input type="text" name="depart-airport" placeholder="SFO" maxlength="3" aria-label="depart_airport" required>
+                        <div id="flight-info" class="input-group mb-3">
+                                <div>
+                                        <span class="input-group-text">Departing Airport</span>
+                                        <input type="text" name="depart-airport" placeholder="SFO" maxlength="3" aria-label="depart_airport" required>
+                                </div>
+                
+                                <div>
+                                        <span class="input-group-text">Depart Date</span>
+                                        <input type="datetime-local" aria-label="depart_date"
+                                                name="depart-datetime" placeholder="2022-04-16T00:30"
+                                                min="2022-04-01T00:00" max="2050-06-14T00:00" required>
+                                </div>
+                
+                                <div>
+                                        <span class="input-group-text">Arrival Airport</span>
+                                        <input type="text" name="arrival-airport" placeholder="CDG" maxlength="3" aria-label="arrival_airport" required>
+                                </div>
+                
+                                <div>
+                                        <span class="input-group-text">Arrival Date</span>
+                                        <input type="datetime-local" aria-label="arrival_date"
+                                                name="arrival-datetime" placeholder="2022-04-16T00:30"
+                                                min="2022-04-01T00:00" max="2050-06-14T00:00" required>
+                                </div>
+                
+                        </div>
+                        <div id="add-flight-btn "class="mx-auto">
+                                <button id="save-flight-btn" type="submit" class="btn btn-secondary">Add to Itinerary</button>
+                        </div>
+                        </form>
                 </div>
-
-                <div>
-                        <span class="input-group-text">Depart Date</span>
-                        <input type="datetime-local" aria-label="depart_date"
-                                name="depart-datetime" placeholder="2022-04-16T00:30"
-                                min="2022-04-01T00:00" max="2050-06-14T00:00" required>
+                
                 </div>
-
-                <div>
-                        <span class="input-group-text">Arrival Airport</span>
-                        <input type="text" name="arrival-airport" placeholder="CDG" maxlength="3" aria-label="arrival_airport" required>
-                </div>
-
-                <div>
-                        <span class="input-group-text">Arrival Date</span>
-                        <input type="datetime-local" aria-label="arrival_date"
-                                name="arrival-datetime" placeholder="2022-04-16T00:30"
-                                min="2022-04-01T00:00" max="2050-06-14T00:00" required>
-                </div>
-
+              </div>
+            </div>
+          </div>
         </div>
-        <div id="add-flight-btn "class="mx-auto">
-                <button id="save-flight-btn" type="submit" class="btn btn-secondary">Add to Itinerary</button>
-        </div>
-        </form>
-</div>
-
-
+      </section>
 
 
 {% endblock %}

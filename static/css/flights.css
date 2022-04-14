@@ -22,6 +22,7 @@ body {
 
 #flight-info {
     display: block center;
+    margin-left: 60px;
 }
 
 #add-flight-btn {
