@@ -7,47 +7,47 @@
 
 
   <h1>Ready to travel the World? Let's plan it!</h1>
-  <section>
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-md-auto" style="width: 36rem">
+  <section class="login-container">
+    <div class="container p-4">
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-sm-auto" style="width: 36rem">
           <div class="card shadow-2-strong" style="border-radius: 1rem;">
-            <div class="card-body p-5 text-center">
+            <div class="card-body p-4 text-center">
   
               <h3 class="mb-5">Register</h3>
               <form action="/register" method="POST">
                 <div class="form-outline mb-4">
-                  <input type="text" name="first_name" placeholder="First name" class="form-control form-control-lg" required/>
+                  <input type="text" name="first_name" placeholder="First name" class="form-control form-control-sm" required/>
                 </div>
   
                 <div class="form-outline mb-4">
-                  <input type="text" name="last_name" placeholder="Last name" class="form-control form-control-lg" required/>
+                  <input type="text" name="last_name" placeholder="Last name" class="form-control form-control-sm" required/>
                 </div>
   
                 <div class="form-outline mb-4">
-                  <input type="email" name="email" placeholder="Email" class="form-control form-control-lg" required/>
+                  <input type="email" name="email" placeholder="Email" class="form-control form-control-sm" required/>
                 </div>
   
                 <div class="form-outline mb-4">
-                  <input type="password" name="password" placeholder="Password" class="form-control form-control-lg" required/>
+                  <input type="password" name="password" placeholder="Password" class="form-control form-control-sm" required/>
                 </div>
   
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Create Account</button>
+                <button class="btn btn-primary btn-md btn-block" type="submit">Create Account</button>
             </form>
             
             <hr class="my-4">
   
-            <h3 class="mb-5">Sign in</h3>
+            <h3 class="mb-4">Sign in</h3>
             <form action="/login" method="POST">
               <div class="form-outline mb-4">
-                <input type="email" name="email" placeholder="Email" class="form-control form-control-lg" required/>
+                <input type="email" name="email" placeholder="Email" class="form-control form-control-sm" required/>
               </div>
   
   
               <div class="form-outline mb-4">
-                <input type="password" name="password" placeholder="Password" class="form-control form-control-lg" required/>
+                <input type="password" name="password" placeholder="Password" class="form-control form-control-sm" required/>
               </div>
-              <button class="btn btn-lg btn-block btn-primary" style="background-color: #dd4b39;"
+              <button class="btn btn-md btn-block btn-primary" style="background-color: #dd4b39;"
                 type="submit"> Login</button>
             </form>
             </div>
