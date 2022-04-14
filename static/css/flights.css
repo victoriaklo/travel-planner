@@ -1,0 +1,30 @@
+/* login and flight background */
+body {
+    background: url("/static/img/login_page.jpg") no-repeat center center;
+    background-size: cover;
+    background-color: #F0F8FF;
+    font: 400 1rem/1.75rem "Open Sans", sans-serif;
+    color:black;
+    height: 100vh;
+}
+
+
+#flights-container {
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    top: 35%;
+    left: 35%;
+    margin-left: -0.75; /* margin is -0.5 * dimension */
+    margin-top: -0.25; 
+}
+
+
+#flight-info {
+    display: block center;
+}
+
+#add-flight-btn {
+    display: block center;
+    margin: auto auto;
+}

@@ -18,15 +18,3 @@ div.container-sm {
     background-color: #CAD2D9;
 }
 
-
-#flights-container {
-    height: 200px;
-    display: block center;
-    margin-left: auto;
-    margin-right: auto;
-
-}
-
-#flight-info {
-    display: block center;
-}

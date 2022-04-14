@@ -7,12 +7,10 @@ body {
     font: 400 1rem/1.75rem "Open Sans", sans-serif;
     color:black;
     height: 100vh;
-
-
 }
 
 div.itineraries-body {
-    margin-left: 50px;
+    margin-left: 30px;
 }
 
 div.itinerary-body {
