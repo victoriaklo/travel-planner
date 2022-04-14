@@ -18,5 +18,6 @@ div.itinerary-body {
 }
 
 #view-itin-btn {
-    align-content: center;
+    position: sticky;
+    top: 30%;
 }
