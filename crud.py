@@ -106,6 +106,12 @@ def delete_itin_by_id(id):
     """Delete an itinerary by id"""
     itin_object = Itinerary.query.get(id)
     sched_act_list = itin_object.sched_acts
+    flights = get_flights_by_itin_id(id)
+    for flight in flights:
+        db.session.delete(flight)
+        db.session.commit()
+        
+
     for item in sched_act_list:
         db.session.delete(item)
     db.session.delete(itin_object)

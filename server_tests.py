@@ -17,12 +17,6 @@ class TravelandPlanetTest(unittest.TestCase):
         self.assertIn(b"Ready to travel the World? Let's plan it!", result.data)
         self.assertNotIn(b"This shouldn't be here!", result.data)
 
-    # def test_user_profile(self):
-    #     result = self.client.get("/user_profile")
-    #     self.assertIn(b"Email", result.data)
-    #     self.assertNotIn(b"This shouldn't be here!", result.data)
-
-
 
 class TravelandPlanetTestDatabase(unittest.TestCase):
     """Flask tests that use the database."""

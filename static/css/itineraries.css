@@ -1,0 +1,24 @@
+body {
+    background: url("/static/img/skies.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center; 
+    background-color:#F0F8FF;
+    font: 400 1rem/1.75rem "Open Sans", sans-serif;
+    color:black;
+    height: 100vh;
+
+
+}
+
+div.itineraries-body {
+    margin-left: 50px;
+}
+
+div.itinerary-body {
+    margin: auto;
+}
+
+#view-itin-btn {
+    align-content: center;
+}
