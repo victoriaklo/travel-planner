@@ -1,0 +1,28 @@
+body {
+    font: 400 1rem/1.75rem "Open Sans", sans-serif;
+    color:black;
+}
+
+
+#picture-half {
+    background: url("/static/img/nature.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center; 
+    width: 50%;
+    position: absolute;
+    left: 0px;
+    height: 100%;
+ }
+ #text-half {
+    background-color:#F0F8FF;
+    background-size: cover;
+    width: 50%;
+    position: absolute;
+    right: 0px;
+    height: 100%;
+ }
+
+#itin-body {
+    margin-left: 12px;
+}

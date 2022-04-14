@@ -1,0 +1,17 @@
+/* login and flight background */
+body {
+    background: url("/static/img/beach.jpg") no-repeat center center;
+    background-size: cover;
+    background-color: #F0F8FF;
+    font: 400 1rem/1.75rem "Open Sans", sans-serif;
+    color:black;
+    height: 100vh;
+}
+
+#edit-itin-body {
+    margin-left: 12px;
+}
+
+#save-delete-btns {
+    margin-left: 12px;
+}

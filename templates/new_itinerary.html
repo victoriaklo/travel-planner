@@ -1,24 +1,27 @@
 {% extends 'base.html' %}
-{% block title %}User Profile{% endblock %}
+{% block title %}New Itinerary{% endblock %}
+
+{% block head %}<link href="/static/css/new_itinerary.css" rel="stylesheet">{% endblock %}
 
 {% block body %}
-  <h1>{{title}}</h1>
-  <br>
-  <br>
-  <h2>{{city.city}}</h2>
-  <hr>
-  <h6><strong>restaurants:</strong></h6>
-  {% for rest in rest_list %}
-  <p>{{rest}}</p>
-  {% endfor %}
-  <h6><strong>activities:</strong></h6>
-  {% for attr in attr_list %}
-  <p>{{attr}}</p>
-  {% endfor %}
-
-
-    </tbody>
-</table>
+<div id="text-half" class="itinerary-body">
+  <div id="itin-body">
+    <h1>{{title}}</h1>
+    <br>
+    <br>
+    <h2>{{city.city}}</h2>
+    <hr>
+    <h6><strong>restaurants:</strong></h6>
+    {% for rest in rest_list %}
+    <p>{{rest}}</p>
+    {% endfor %}
+    <h6><strong>activities:</strong></h6>
+    {% for attr in attr_list %}
+    <p>{{attr}}</p>
+    {% endfor %}
+  </div>
+</div>
+<div id="picture-half"></div>
 
 
 {% endblock %}

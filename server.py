@@ -414,7 +414,7 @@ def delete_scheduled_activities(itin_id):
     list_of_ids = list(map(lambda n: int(n), sched_acts_list))
         
     crud.delete_sched_acts_by_id(list_of_ids)
-    flash("----- items permanently deleted -----")
+    flash("----- Items Permanently Deleted -----")
 
     return redirect(f"/itinerary/{itin_id}")
 
@@ -452,7 +452,7 @@ def delete_itin_by_id(id):
         return redirect("/")
 
     crud.delete_itin_by_id(id)
-    flash("Itinerary deleted")
+    flash("----- Itinerary Deleted -----")
 
     return redirect("/itineraries")
 
@@ -527,7 +527,7 @@ def email_itinerary_by_id(email, data):
 @app.route("/itinerary/<int:itin_id>/flights", methods=["GET", "POST"])
 def find_flights(itin_id):
     """Find flights for itinerary"""
-    
+
     if not session.get('user_email'):
         return redirect("/")
 
