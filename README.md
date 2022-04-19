@@ -6,9 +6,9 @@ Travel and Planet is a new and interactive way to plan your next trip. This web 
 # Table of Contents
 * 🤖 [Technologies Used](https://github.com/victoriaklo/travel-planner "Technologies Used")
 * 🗺 [Features](https://github.com/victoriaklo/travel-planner "Features")
-*💡 [Future Improvements](https://github.com/victoriaklo/travel-planner "Future Improvements")
-*🔌 [Set Up](https://github.com/victoriaklo/travel-planner "Set Up")
-*👩🏻‍💻 [About Me](https://github.com/victoriaklo/travel-planner "About Me")
+* 💡 [Future Improvements](https://github.com/victoriaklo/travel-planner "Future Improvements")
+* 🔌 [Set Up](https://github.com/victoriaklo/travel-planner "Set Up")
+* 👩🏻‍💻 [About Me](https://github.com/victoriaklo/travel-planner "About Me")
 
 # Technologies Used
 Backend: Python, Flask, PostgreSQL, SQLAlchemy \
