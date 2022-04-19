@@ -54,12 +54,12 @@ Sign up to obtain keys for the ArcGIS API, Google Places API, and Sendgrid API.
 ArcGIS API key will be added to your HTML template, you can restrict your API from specific clients from the ArcGIS dashboard.
 
 Save your Google API keys in a file called secrets.sh using this format:
+
 `export APP_KEY="YOUR_KEY_GOES_HERE"`
 
 Save your Sendgrid API keys in a file called sendgrid.env using this format:
-```
-export SENDGRID_API_KEY="YOUR_KEY_GOES_HERE"
-```
+
+`export SENDGRID_API_KEY="YOUR_KEY_GOES_HERE"`
  
 Source your keys into your virtual environment:
 ```
@@ -69,21 +69,17 @@ source sendgrid.env
 
  
 Set up the database:
-```
-python3 model.py
-```
+`python3 model.py`
 
 
 Seed the data to the database:
-```
-python3 seed_database.py
-```
+`python3 seed_database.py`
  
 Run the app:
-```
-python3 server.py```
+`python3 server.py`
  
-You can now navigate to ```localhost:5000/``` to access the app
+You can now navigate to `localhost:5000/` to access the app
+
 
 # About Me
 👩🏻‍💻  Hi everyone, I’m Victoria — a software engineer from San Francisco, CA. Following Agile methodologies, I completed this web app in two 2-week sprints as my capstone project for Hackbright Academy's full-stack software engineering program. If you have any questions about my project or would like to connect, feel free to contact me on [LinkedIn](https://www.linkedin.com/in/victoria-lo/).
