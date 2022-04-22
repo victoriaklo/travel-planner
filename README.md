@@ -3,6 +3,8 @@ Ready for your next trip? Plan it with Travel and Planet.
 
 Travel and Planet is a new and interactive way to plan your next trip. This web app will have three core capabilities: pick a destination, select local activities, and build an itinerary. There are 100 popular destinations around the world to choose from. Once a user selects their destination, they will be able to select local restaurants and attractions and build an itinerary. After adding items to their itinerary, users can add dates and times, delete items, and even add flight information. Finally, users can email their itinerary to themselves and enjoy their next vacation.
 
+Check out a live demo [here](https://youtu.be/xh1ncnJmQEg)
+
 # Table of Contents
 * 🤖 [Technologies Used](https://github.com/victoriaklo/travel-planner/blob/main/README.md#technologies-used)
 * 🗺 [Features](https://github.com/victoriaklo/travel-planner/blob/main/README.md#features)
